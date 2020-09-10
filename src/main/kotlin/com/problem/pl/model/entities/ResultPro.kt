@@ -1,4 +1,4 @@
-package com.self.problem.probleminterface.model.entitices
+package com.problem.pl.model.entities
 
 data class ResultPro<T> (var code:Int = -1,
                          var curPage:Int = 1,

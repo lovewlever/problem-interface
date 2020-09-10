@@ -1,9 +1,9 @@
-package com.self.problem.probleminterface.interceptor
+package com.problem.pl.interceptor
 
 import com.google.gson.JsonParser
-import com.self.problem.probleminterface.commons.GsonCommon
-import com.self.problem.probleminterface.commons.JwtCommon
-import com.self.problem.probleminterface.commons.ResultCommon
+import com.problem.pl.commons.GsonCommon
+import com.problem.pl.commons.JwtCommon
+import com.problem.pl.commons.ResultCommon
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 import javax.servlet.http.HttpServletRequest

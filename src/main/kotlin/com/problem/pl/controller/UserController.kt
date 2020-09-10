@@ -1,9 +1,9 @@
-package com.self.problem.probleminterface.controller
+package com.problem.pl.controller
 
-import com.self.problem.probleminterface.commons.RequestMappingCommon
-import com.self.problem.probleminterface.commons.ResultCommon
-import com.self.problem.probleminterface.model.entitices.ResultPro
-import com.self.problem.probleminterface.model.entitices.UserInfo
+import com.problem.pl.commons.RequestMappingCommon
+import com.problem.pl.commons.ResultCommon
+import com.problem.pl.model.entities.ResultPro
+import com.problem.pl.model.entities.UserInfo
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*

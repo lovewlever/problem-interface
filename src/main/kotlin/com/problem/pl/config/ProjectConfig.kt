@@ -1,7 +1,7 @@
-package com.self.problem.probleminterface.config
+package com.problem.pl.config
 
-import com.self.problem.probleminterface.commons.RequestMappingCommon
-import com.self.problem.probleminterface.interceptor.LoginVerificationInterceptor
+import com.problem.pl.commons.RequestMappingCommon
+import com.problem.pl.interceptor.LoginVerificationInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry

@@ -1,4 +1,4 @@
-package com.self.problem.probleminterface.commons
+package com.problem.pl.commons
 
 object RequestMappingCommon {
 

@@ -1,4 +1,4 @@
-package com.self.problem.probleminterface.commons
+package com.problem.pl.commons
 
 import com.google.gson.Gson
 import io.jsonwebtoken.Claims
@@ -133,7 +133,8 @@ object JwtCommon {
             //客户端浏览器信息
             retMap["userAgent"] = claims["userAgent"].toString()
             //刷新JWT
-            retMap["freshToken"] = generateJWT(decryptUserId ?: "", claims["userName"].toString(), claims["userAgent"].toString(), claims["domainName"].toString())
+            retMap["freshToken"] = generateJWT(decryptUserId
+                    ?: "", claims["userName"].toString(), claims["userAgent"].toString(), claims["domainName"].toString())
         } else {
             //logger.warn("[JWTHelper]-JWT解析出claims为空");
         }

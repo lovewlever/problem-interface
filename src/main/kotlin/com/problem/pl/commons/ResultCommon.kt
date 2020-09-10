@@ -1,6 +1,6 @@
-package com.self.problem.probleminterface.commons
+package com.problem.pl.commons
 
-import com.self.problem.probleminterface.model.entitices.ResultPro
+import com.problem.pl.model.entities.ResultPro
 
 object ResultCommon {
 
@@ -9,11 +9,11 @@ object ResultCommon {
     const val RESULT_CODE_TOKEN_NOT_EMPTY = 1092
 
     fun <T> generateResult(code:Int = RESULT_CODE_SUCCESS,
-                            curPage:Int = 1,
-                            tolPage:Int = 1,
-                            msg:String = "SUCCESS",
-                            data: T? = null): ResultPro<T> =
-            getResult(code,curPage,tolPage, msg, data)
+                           curPage:Int = 1,
+                           tolPage:Int = 1,
+                           msg:String = "SUCCESS",
+                           data: T? = null): ResultPro<T> =
+            getResult(code, curPage, tolPage, msg, data)
 
 
     private fun <T> getResult(code:Int = -1,
@@ -21,7 +21,7 @@ object ResultCommon {
                               tolPage:Int = 1,
                               msg:String = "",
                               data: T? = null): ResultPro<T> =
-            ResultPro(code,curPage,tolPage,msg,ArrayList<T>().apply {
+            ResultPro(code, curPage, tolPage, msg, ArrayList<T>().apply {
                 data?.let { add(it) }
             })
 }

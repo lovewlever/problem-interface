@@ -1,4 +1,4 @@
-package com.self.problem.probleminterface.commons
+package com.problem.pl.commons
 
 import java.security.SecureRandom
 import javax.crypto.Cipher
