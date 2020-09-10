@@ -24,7 +24,7 @@ class ProjectConfig: WebMvcConfigurer {
         registry.addInterceptor(LoginVerificationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/${RequestMappingCommon.MAPPING_USER_LOGIN}")
-                .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/${RequestMappingCommon.MAPPING_USER_REGISTER}")
+                .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/${RequestMappingCommon.MAPPING_USER_REGISTER}/**")
         super.addInterceptors(registry)
     }
 }

@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec
 object AESSecretCommon {
     /**秘钥的大小 */
     private const val KEYSIZE = 128
+    const val DATAKEY = "4cbda5fddaf0c8cca09fd187a6bcf178"
 
     /**
      * @Author: Helon

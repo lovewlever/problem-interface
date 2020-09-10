@@ -12,7 +12,8 @@ create table T_USER(
     register_timestamp bigint comment '注册时间',
     register_devices varchar(255) comment '注册设备',
     last_login_timestamp bigint comment '最后登录时间',
-    last_login_devices varchar(255) comment '最后登录设备'
+    last_login_devices varchar(255) comment '最后登录设备',
+    register_devices_user_agent_string varchar(255) comment 'User Agent String'
 );
 
 #项目表

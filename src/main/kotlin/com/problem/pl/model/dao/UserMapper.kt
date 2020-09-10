@@ -5,4 +5,9 @@ import com.problem.pl.model.entities.TUserEntity
 interface UserMapper {
 
     fun loadUserByUId(uid: String): TUserEntity?
+
+    fun isAlreadyRegisteredByAccount(account: String): Boolean
+
+    fun saveRegisterInfo(tUserEntity: TUserEntity): Int
+
 }

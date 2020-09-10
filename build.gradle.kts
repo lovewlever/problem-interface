@@ -27,6 +27,8 @@ dependencies {
     implementation(group= "com.google.code.gson", name= "gson", version= "2.8.6")
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     implementation(group="io.jsonwebtoken", name= "jjwt", version= "0.9.1")
+    implementation(group= "javax.xml.bind", name= "jaxb-api", version= "2.3.1")
+    implementation(group= "eu.bitwalker", name= "UserAgentUtils", version= "1.21")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
