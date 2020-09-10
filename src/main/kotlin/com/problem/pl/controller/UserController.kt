@@ -4,13 +4,18 @@ import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.UserInfo
+import com.problem.pl.model.services.UserService
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
+import javax.annotation.Resource
 
 @RequestMapping(RequestMappingCommon.MAPPING_USER)
 @RestController
 class UserController {
+
+    @Resource(name = "userService")
+    lateinit var userService: UserService
 
     /**
      * 注册
