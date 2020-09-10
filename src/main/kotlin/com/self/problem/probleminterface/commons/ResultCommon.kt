@@ -11,7 +11,7 @@ object ResultCommon {
     fun <T> generateResult(code:Int = RESULT_CODE_SUCCESS,
                             curPage:Int = 1,
                             tolPage:Int = 1,
-                            msg:String = "",
+                            msg:String = "SUCCESS",
                             data: T? = null): ResultPro<T> =
             getResult(code,curPage,tolPage, msg, data)
 

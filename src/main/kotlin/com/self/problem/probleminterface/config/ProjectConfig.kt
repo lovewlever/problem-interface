@@ -23,7 +23,8 @@ class ProjectConfig: WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(LoginVerificationInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/**")
+                .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/${RequestMappingCommon.MAPPING_USER_LOGIN}")
+                .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/${RequestMappingCommon.MAPPING_USER_REGISTER}")
         super.addInterceptors(registry)
     }
 }

@@ -6,7 +6,9 @@ import com.self.problem.probleminterface.model.entitices.ResultPro
 import com.self.problem.probleminterface.model.entitices.UserInfo
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
+@RequestMapping(RequestMappingCommon.MAPPING_USER)
 @RestController
 class UserController {
 
@@ -23,4 +25,8 @@ class UserController {
      */
     @RequestMapping(RequestMappingCommon.MAPPING_USER_LOGIN)
     fun login(): ResultPro<MutableList<UserInfo>> = ResultCommon.generateResult()
+}
+
+fun main() {
+    print(UUID.randomUUID().toString().replace("-",""))
 }
