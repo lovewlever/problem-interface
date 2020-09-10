@@ -19,6 +19,11 @@
         FROM t_user WHERE u_login_account = #{account} OR u_login_phone = #{account} OR u_login_email = #{account}
     </select>
 
+    <select id="loadUserByAccount" resultMap="userResultMap">
+        SELECT *
+        FROM t_user WHERE u_login_account = #{account} OR u_login_phone = #{account} OR u_login_email = #{account}
+    </select>
+
     <insert id="saveRegisterInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
         insert into t_user(id,u_login_account,u_login_phone,u_login_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd,u_nickname)
                     values (#{id},#{uLoginAccount},#{uLoginPhone},#{uLoginEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd},#{uNickname})

@@ -27,19 +27,30 @@ class UserServiceImpl : UserService {
     /**
      * 注册
      */
-    override fun registerVerificationAndSave(account: String,pwd: String,verificationCode: String,userAgentString: String?): ResultPro<TUserEntity> {
-        try {
-            return registerVerification(account, pwd, verificationCode, userAgentString)
+    override fun registerVerificationAndSave(account: String, pwd: String, verificationCode: String, userAgentString: String?): ResultPro<TUserEntity> {
+        return try {
+            registerVerification(account, pwd, verificationCode, userAgentString)
         } catch (e: Exception) {
-            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_REGISTER_FAIL, msg = "${e.message}")
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_REGISTER_FAIL, msg = "${e.message}")
         }
     }
 
+    /**
+     * 登录
+     */
+    override fun login(account: String, pwd: String, verificationCode: String): ResultPro<TUserEntity> {
+        userMapper.loadUserByAccount(account)?.let { tUserEntity: TUserEntity ->
+
+        } ?: return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")
+
+        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")
+    }
+
     @Throws
-    private fun registerVerification(account: String,pwd: String,verificationCode: String,userAgentString: String?): ResultPro<TUserEntity> {
+    private fun registerVerification(account: String, pwd: String, verificationCode: String, userAgentString: String?): ResultPro<TUserEntity> {
         val alreadyRegisteredByAccount = userMapper.isAlreadyRegisteredByAccount(account)
         if (alreadyRegisteredByAccount) { //已经注册的话返回已注册
-            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_ALREADY_REGISTER,msg = "该账号已注册！")
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_ALREADY_REGISTER, msg = "该账号已注册！")
         } else {
             val userAgent = UserAgent.parseUserAgentString(userAgentString)
             val saveRegisterInfo = userMapper.saveRegisterInfo(TUserEntity().apply {
@@ -58,7 +69,7 @@ class UserServiceImpl : UserService {
                         this.uLoginAccount = account
                     }
                 }
-                this.uLoginPwd = AESSecretCommon.encryptToStr(pwd,AESSecretCommon.DATAKEY) ?: pwd
+                this.uLoginPwd = AESSecretCommon.encryptToStr(pwd, AESSecretCommon.DATAKEY) ?: pwd
                 this.uNickname = account
             })
             return if (saveRegisterInfo > 0) {

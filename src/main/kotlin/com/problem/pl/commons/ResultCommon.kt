@@ -8,6 +8,7 @@ object ResultCommon {
     const val RESULT_CODE_NOT_LOGIN = 4089
     const val RESULT_CODE_TOKEN_NOT_EMPTY = 4092
     const val RESULT_CODE_ALREADY_REGISTER = 4084
+    const val RESULT_CODE_NOT_REGISTER = 4085
     const val RESULT_CODE_REGISTER_FAIL = 4083
 
 

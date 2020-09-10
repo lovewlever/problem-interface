@@ -22,20 +22,23 @@ class UserController {
      * 注册
      */
     @RequestMapping(RequestMappingCommon.MAPPING_USER_REGISTER)
-    fun register(@RequestParam(name = "account",required = true) account: String,
-                 @RequestParam(name = "pwd",required = false) pwd: String,
-                 @RequestParam(name = "verificationCode",required = false ,value = "") verificationCode: String,
+    fun register(@RequestParam(name = "account", required = true) account: String,
+                 @RequestParam(name = "pwd", required = false) pwd: String,
+                 @RequestParam(name = "verificationCode", required = false, value = "") verificationCode: String,
                  request: HttpServletRequest): ResultPro<TUserEntity> {
-        return userService.registerVerificationAndSave(account, pwd, verificationCode,request.getHeader("User-Agent"))
+        return userService.registerVerificationAndSave(account, pwd, verificationCode, request.getHeader("User-Agent"))
     }
 
     /**
      * 登录
      */
     @RequestMapping(RequestMappingCommon.MAPPING_USER_LOGIN)
-    fun login(): ResultPro<TUserEntity> = ResultCommon.generateResult()
+    fun login(@RequestParam(name = "account", required = true) account: String,
+              @RequestParam(name = "pwd", required = false) pwd: String,
+              @RequestParam(name = "verificationCode", required = false, value = "") verificationCode: String): ResultPro<TUserEntity> =
+            userService.login(account, pwd, verificationCode)
 }
 
 fun main() {
-    print(UUID.randomUUID().toString().replace("-",""))
+    print(UUID.randomUUID().toString().replace("-", ""))
 }
