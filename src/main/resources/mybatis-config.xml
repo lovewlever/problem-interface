@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!-- 打印SQL语句到控制台 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--配置侵入式延迟加载   默认为false（深度加载）
+          侵入式：默认只会执行主加载SQL，那么当访问主加载对象的详细信息时才会执行关联对象的SQL查询
+          深度延迟：默认只执行主加载SQL，那么当调用到主加载对象中关联对象的信息时才会执行关联对象的SQL查询
+        -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${spring.datasource.driverClassName}"></property>
+                <property name="url" value="${spring.datasource.url}"></property>
+                <property name="username" value="${spring.datasource.username}"></property>
+                <property name="password" value="${spring.datasource.password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+</configuration>
