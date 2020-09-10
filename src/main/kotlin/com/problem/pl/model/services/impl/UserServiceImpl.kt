@@ -39,6 +39,15 @@ class UserServiceImpl : UserService {
      * 登录
      */
     override fun login(account: String, pwd: String, verificationCode: String): ResultPro<TUserEntity> {
+        return try {
+            loginVerification(account, pwd, verificationCode)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_REGISTER_FAIL, msg = "${e.message}")
+        }
+    }
+
+    @Throws
+    private fun loginVerification(account: String, pwd: String, verificationCode: String): ResultPro<TUserEntity> {
         userMapper.loadUserByAccount(account)?.let { tUserEntity: TUserEntity ->
 
         } ?: return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")
