@@ -1,0 +1,39 @@
+#用户表
+create table T_USER(
+    id varchar(255) primary key comment '主键',
+    u_login_account varchar (255) comment '登录账号',
+    u_login_email varchar(255) comment '登录邮箱',
+    u_login_pwd varchar (255) not null comment '登录密码',
+    u_nickname varchar (255)  not null comment '用户昵称',
+    u_level integer default 0 comment '用户等级',
+    u_age int (3) comment '用户年龄',
+    u_gender enum('保密','男','女','女变男','男变女') default '保密' comment '用户性别',
+    register_timestamp long comment '注册时间',
+    register_devices varchar(255) comment '注册设备',
+    last_login_timestamp long comment '最后登录时间',
+    last_login_devices long comment '最后登录设备'
+);
+
+#项目表
+create table T_PROJECT(
+    id integer primary key comment '主键',
+    project_name varchar(255) not null comment '项目名称',
+    project_level integer not null default 0 comment '优先级',
+    project_add_timestamp long not null comment '添加时间',
+    project_complete_schedule double default 0 comment '完成进度',
+    project_add_user_id varchar(255) comment '添加此项目的人',
+    constraint fk_project_add_user_id foreign key(project_add_user_id) references T_USER(id)
+);
+
+#项目问题列表
+create table T_PROJECT_PROBLEM(
+    id integer primary key comment '主键',
+    pc_timestamp long comment '选择修改此问题的时间',
+    pc_complete_timestamp long comment '此问题修改完成的时间',
+    pc_complete_schedule integer default 0 comment '此问题的进度',
+    pc_transfer_flow varchar(255) comment '转让流A->B->C',
+    pc_user_id varchar(255) comment '选择修改此问题的用户',
+    pc_transfer_user_id varchar(255) comment '转让的最终用户',
+    constraint fk_project_choose_user_id foreign key(pc_user_id) references T_USER(id),
+    constraint fk_project_choose_transfer_user_id foreign key(pc_transfer_user_id) references T_USER(id)
+)
