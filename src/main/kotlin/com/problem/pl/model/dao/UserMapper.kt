@@ -6,7 +6,7 @@ interface UserMapper {
 
     fun loadUserByUId(uid: String): TUserEntity?
 
-    fun loadUserByAccount(account: String): TUserEntity?
+    fun loadUserByAccount(account: String): MutableList<TUserEntity>
 
     fun isAlreadyRegisteredByAccount(account: String): Boolean
 

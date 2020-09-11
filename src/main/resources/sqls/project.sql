@@ -1,9 +1,9 @@
 #用户表
 create table T_USER(
     id varchar(255) primary key comment '主键',
-    u_login_account varchar (255) comment '登录账号',
-    u_login_email varchar(255) comment '登录邮箱',
-    u_login_phone varchar(255) comment '用户登录手机号',
+    u_login_account varchar (255) unique comment '登录账号',
+    u_login_email varchar(255) unique comment '登录邮箱',
+    u_login_phone varchar(255) unique comment '用户登录手机号',
     u_login_pwd varchar (255) not null comment '登录密码',
     u_nickname varchar (255)  not null comment '用户昵称',
     u_level integer default 0 comment '用户等级',

@@ -9,7 +9,7 @@ interface UserService {
 
     fun loadUserByUId(uid: String): TUserEntity?
 
-    fun registerVerificationAndSave(account: String,pwd: String,verificationCode: String,userAgentString: String?): ResultPro<TUserEntity>
+    fun registerVerificationAndSave(account: String,pwd: String,nickname: String, userAgentString: String?): ResultPro<TUserEntity>
 
-    fun login(account: String,pwd: String,verificationCode: String): ResultPro<TUserEntity>
+    fun login(account: String,pwd: String,userAgentString: String): ResultPro<TUserEntity>
 }

@@ -11,6 +11,9 @@ import java.util.*
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 
+/**
+ * 用户类控制器
+ */
 @RequestMapping(RequestMappingCommon.MAPPING_USER)
 @RestController
 class UserController {
@@ -24,10 +27,10 @@ class UserController {
     @RequestMapping(RequestMappingCommon.MAPPING_USER_REGISTER)
     fun register(@RequestParam(name = "account", required = true) account: String,
                  @RequestParam(name = "pwd", required = false) pwd: String,
-                 @RequestParam(name = "verificationCode", required = false, value = "") verificationCode: String,
-                 request: HttpServletRequest): ResultPro<TUserEntity> {
-        return userService.registerVerificationAndSave(account, pwd, verificationCode, request.getHeader("User-Agent"))
-    }
+                 @RequestParam(name = "nickname", required = false) nickname: String,
+                 request: HttpServletRequest): ResultPro<TUserEntity> =
+            userService.registerVerificationAndSave(account, pwd,nickname,request.getHeader("User-Agent"))
+
 
     /**
      * 登录
@@ -35,8 +38,8 @@ class UserController {
     @RequestMapping(RequestMappingCommon.MAPPING_USER_LOGIN)
     fun login(@RequestParam(name = "account", required = true) account: String,
               @RequestParam(name = "pwd", required = false) pwd: String,
-              @RequestParam(name = "verificationCode", required = false, value = "") verificationCode: String): ResultPro<TUserEntity> =
-            userService.login(account, pwd, verificationCode)
+              request: HttpServletRequest): ResultPro<TUserEntity> =
+            userService.login(account, pwd, request.getHeader("User-Agent"))
 }
 
 fun main() {

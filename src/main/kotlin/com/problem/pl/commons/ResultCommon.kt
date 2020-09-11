@@ -4,12 +4,12 @@ import com.problem.pl.model.entities.ResultPro
 
 object ResultCommon {
 
-    const val RESULT_CODE_SUCCESS = 200
-    const val RESULT_CODE_NOT_LOGIN = 4089
-    const val RESULT_CODE_TOKEN_NOT_EMPTY = 4092
-    const val RESULT_CODE_ALREADY_REGISTER = 4084
-    const val RESULT_CODE_NOT_REGISTER = 4085
-    const val RESULT_CODE_REGISTER_FAIL = 4083
+    const val RESULT_CODE_SUCCESS = 200 //成功
+    const val RESULT_CODE_NOT_LOGIN = 4089 //未登录
+    const val RESULT_CODE_TOKEN_NOT_EMPTY = 4092 //token不能为空
+    const val RESULT_CODE_ALREADY_REGISTER = 4084 //已经注册
+    const val RESULT_CODE_NOT_REGISTER = 4085 //未注册
+    const val RESULT_CODE_REGISTER_FAIL = 4083 //注册失败
 
 
     fun <T> generateResult(code:Int = RESULT_CODE_SUCCESS,

@@ -4,6 +4,7 @@
     <resultMap id="userResultMap" type="com.problem.pl.model.entities.TUserEntity">
         <id column="id" property="id" javaType="String"/>
         <result column="u_login_account" property="uLoginAccount" javaType="java.lang.String"/>
+        <result column="u_login_pwd" property="uLoginPwd" javaType="java.lang.String"/>
     </resultMap>
 
     <select id="loadUserByUId" resultMap="userResultMap">
@@ -25,7 +26,7 @@
     </select>
 
     <insert id="saveRegisterInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
-        insert into t_user(id,u_login_account,u_login_phone,u_login_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd,u_nickname)
-                    values (#{id},#{uLoginAccount},#{uLoginPhone},#{uLoginEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd},#{uNickname})
+        insert into t_user(id,u_login_account,u_login_phone,u_login_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
+                    values (#{id},#{uLoginAccount},#{uLoginPhone},#{uLoginEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
     </insert>
 </mapper>
