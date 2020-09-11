@@ -12,6 +12,9 @@ object RequestMappingCommon {
     const val MAPPING_PC = "/pc"
     const val MAPPING_PC_PROJECT_LIST = "/queryPlist"
     const val MAPPING_PC_ADD_NEW_PROJECT = "/addNewProject"
+    const val MAPPING_PC_MODIFY_PROJECT_PRIORITY = "/modifyProjectPriority"
+    const val MAPPING_PC_MODIFY_PROJECT_NAME = "/modifyProjectName"
+    const val MAPPING_PC_DELETE_PROJECT_BY_ID = "/deleteProjectById"
 
     //项目问题相关
     const val MAPPING_PPC = "/ppc"

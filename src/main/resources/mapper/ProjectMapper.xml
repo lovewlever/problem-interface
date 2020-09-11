@@ -35,4 +35,16 @@
         select count(0) from t_project
     </select>
 
+    <!--?? ???-->
+    <update id="modifyProjectPriority">
+        update t_project set project_level = #{priority} where id = #{pid}
+    </update>
+
+    <update id="modifyProjectName">
+        update t_project set project_name = #{projectName} where id = #{projectId}
+    </update>
+
+    <delete id="deleteProjectById">
+        delete from t_project where id = #{projectId}
+    </delete>
 </mapper>

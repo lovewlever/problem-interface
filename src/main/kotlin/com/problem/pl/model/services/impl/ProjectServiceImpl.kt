@@ -50,4 +50,52 @@ class ProjectServiceImpl: ProjectService {
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
     }
+
+    /**
+     * 修改项目的优先级
+     */
+    override fun modifyProjectPriority(priority: Int, projectId: String): ResultPro<String> {
+        return try {
+            val modifyProjectPriority = projectMapper.modifyProjectPriority(priority, projectId)
+            if (modifyProjectPriority > 0) {
+                ResultCommon.generateResult(msg = "项目优先级调整成功")
+            } else {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "项目优先级调整失败")
+            }
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
+     * 修改项目名称
+     */
+    override fun modifyProjectName(projectName: String, projectId: String): ResultPro<String> {
+        return try {
+            val modifyProjectPriority = projectMapper.modifyProjectName(projectName, projectId)
+            if (modifyProjectPriority > 0) {
+                ResultCommon.generateResult(msg = "项目名称修改成功")
+            } else {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "项目名称修改失败")
+            }
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
+     * 删除一个项目
+     */
+    override fun deleteProjectById(projectId: String): ResultPro<String> {
+        return try {
+            val modifyProjectPriority = projectMapper.deleteProjectById(projectId)
+            if (modifyProjectPriority > 0) {
+                ResultCommon.generateResult(msg = "项目删除成功")
+            } else {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "项目删除失败")
+            }
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
 }

@@ -36,4 +36,27 @@ class ProjectController {
     fun addNewProject(@RequestParam("projectName") projectName: String,
                       request: HttpServletRequest): ResultPro<String> =
             projectService.saveNewProjectInfo(projectName, request.getAttribute("uid").toString())
+
+    /**
+     * 修改项目的优先级
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_MODIFY_PROJECT_PRIORITY)
+    fun modifyProjectPriority(@RequestParam("priority") priority: Int,
+                              @RequestParam("projectId") projectId: String): ResultPro<String> =
+            projectService.modifyProjectPriority(priority,projectId)
+
+    /**
+     * 修改项目的名称
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_MODIFY_PROJECT_NAME)
+    fun modifyProjectName(@RequestParam("projectName") projectName: String,
+                          @RequestParam("projectId") projectId: String): ResultPro<String> =
+            projectService.modifyProjectName(projectName,projectId)
+
+    /**
+     * 通过id删除一个项目
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_DELETE_PROJECT_BY_ID)
+    fun deleteProjectById(@RequestParam("projectId") projectId: String): ResultPro<String> =
+            projectService.deleteProjectById(projectId)
 }
