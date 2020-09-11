@@ -11,7 +11,7 @@
         <association property="tUserEntity"
                      column="project_add_user_id"
                      javaType="com.problem.pl.model.entities.TUserEntity">
-            <id column="id" property="project_add_user_id"/>
+            <id column="project_add_user_id" property="id"/>
             <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         </association>
     </resultMap>

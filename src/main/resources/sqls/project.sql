@@ -5,7 +5,7 @@ create table T_USER(
     u_login_email varchar(255) unique comment '登录邮箱',
     u_login_phone varchar(255) unique comment '用户登录手机号',
     u_login_pwd varchar (255) not null comment '登录密码',
-    u_nickname varchar (255)  not null comment '用户昵称',
+    u_nickname varchar (255)  not null unique comment '用户昵称',
     u_level integer default 0 comment '用户等级',
     u_age integer (3) comment '用户年龄',
     u_gender enum('保密','男','女','女变男','男变女') default '保密' comment '用户性别',

@@ -6,6 +6,7 @@ object RequestMappingCommon {
     const val MAPPING_USER = "/usr"
     const val MAPPING_USER_REGISTER = "/register"
     const val MAPPING_USER_LOGIN = "/login"
+    const val MAPPING_USER_GET_VERIFY_CODE = "/getVerifyCode"
 
     //项目相关
     const val MAPPING_PC = "/pc"

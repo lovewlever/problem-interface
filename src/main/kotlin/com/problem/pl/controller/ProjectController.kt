@@ -25,8 +25,9 @@ class ProjectController {
      * 查询项目列表
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PC_PROJECT_LIST)
-    fun queryProjectList(): ResultPro<TProjectEntity> =
-            ResultCommon.generateResult()
+    fun queryProjectList(@RequestParam("page") page: Int,
+                         @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectEntity> =
+            projectService.queryPListByPagination(page,pageCountSize)
 
     /**
      * 添加一个项目

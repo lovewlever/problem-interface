@@ -3,13 +3,16 @@ package com.problem.pl.controller
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
+import com.problem.pl.commons.VerifyCode
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TUserEntity
 import com.problem.pl.model.services.UserService
 import eu.bitwalker.useragentutils.UserAgent
 import org.springframework.web.bind.annotation.*
+import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.annotation.Resource
+import javax.imageio.ImageIO
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -21,6 +24,16 @@ class UserController {
 
     @Resource(name = "userService")
     lateinit var userService: UserService
+
+    /**
+     * 获取验证码
+     */
+    @RequestMapping(value = [RequestMappingCommon.MAPPING_USER_GET_VERIFY_CODE], produces = ["image/jpg"])
+    fun getVerifyCode(): ByteArray {
+        val outputStream = ByteArrayOutputStream()
+        ImageIO.write(VerifyCode.image, "jpg", outputStream)
+        return outputStream.toByteArray()
+    }
 
     /**
      * 注册
