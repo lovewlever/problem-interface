@@ -10,6 +10,7 @@ open class TUserEntity {
     var uLoginEmail: String = ""
     var uLoginPhone: String = ""
     var uLoginPwd: String = ""
+    var uAvatar: String = ""
     var uNickname: String = ""
     var uLevel: Int = -1
     var uAge: Int = -1
@@ -23,7 +24,7 @@ open class TUserEntity {
 
 
     override fun toString(): String {
-        return "TUserEntity(id='$id', uLoginAccount='$uLoginAccount', uLoginEmail='$uLoginEmail', uLoginPhone='$uLoginPhone', uLoginPwd='$uLoginPwd', uNickname='$uNickname', uLevel=$uLevel, uAge=$uAge, uGender=$uGender, registerTimestamp=$registerTimestamp, registerDevices='$registerDevices', lastLoginTimestamp=$lastLoginTimestamp, lastLoginDevices='$lastLoginDevices', registerDevicesUserAgentString='$registerDevicesUserAgentString', token='$token')"
+        return "TUserEntity(id='$id', uLoginAccount='$uLoginAccount', uLoginEmail='$uLoginEmail', uLoginPhone='$uLoginPhone', uLoginPwd='$uLoginPwd', uAvatar='$uAvatar', uNickname='$uNickname', uLevel=$uLevel, uAge=$uAge, uGender=$uGender, registerTimestamp=$registerTimestamp, registerDevices='$registerDevices', lastLoginTimestamp=$lastLoginTimestamp, lastLoginDevices='$lastLoginDevices', registerDevicesUserAgentString='$registerDevicesUserAgentString', token='$token')"
     }
 
 

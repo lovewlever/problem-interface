@@ -10,6 +10,7 @@
         <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         <result column="u_level" property="uLevel" javaType="java.lang.Integer"/>
         <result column="u_age" property="uAge" javaType="java.lang.Integer"/>
+        <result column="u_avatar" property="uAvatar" javaType="java.lang.String"/>
         <result column="u_gender" property="uGender" javaType="java.lang.String"/>
         <result column="register_timestamp" property="registerTimestamp" javaType="java.lang.Long"/>
         <result column="register_devices" property="registerDevices" javaType="java.lang.String"/>

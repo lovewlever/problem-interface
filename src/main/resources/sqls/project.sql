@@ -8,6 +8,7 @@ create table T_USER(
     u_nickname varchar (255)  not null unique comment '用户昵称',
     u_level integer default 0 comment '用户等级',
     u_age integer (3) comment '用户年龄',
+    u_avatar varchar(255) comment '用户头像',
     u_gender enum('保密','男','女','女变男','男变女') default '保密' comment '用户性别',
     register_timestamp bigint comment '注册时间',
     register_devices varchar(255) comment '注册设备',
