@@ -4,9 +4,11 @@ import com.google.gson.JsonParser
 import com.problem.pl.commons.GsonCommon
 import com.problem.pl.commons.JwtCommon
 import com.problem.pl.commons.ResultCommon
+import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequestWrapper
 import javax.servlet.http.HttpServletResponse
 
 /**
@@ -21,7 +23,7 @@ class LoginVerificationInterceptor: HandlerInterceptorAdapter() {
         val header = request.getHeader("token")
         header?.let {
             JwtCommon.validateLogin(header)?.let {
-                request.setAttribute("uid", JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userId").asInt)
+                request.setAttribute("uid", JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userId").asString)
                 return true
             } ?: let {
                 response.writer.write(

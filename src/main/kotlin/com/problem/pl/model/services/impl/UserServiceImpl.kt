@@ -56,7 +56,14 @@ class UserServiceImpl : UserService {
         if (AESSecretCommon.decryptToStr(tUserEntity.uLoginPwd,AESSecretCommon.DATAKEY) == pwd) {
             //登录成功
             val generateJWT = JwtCommon.generateJWT(tUserEntity.id, account, userAgentString)
-            tUserEntity.token = generateJWT
+            val userAgent = UserAgent.parseUserAgentString(userAgentString)
+            tUserEntity.apply {
+                this.token = generateJWT
+                this.lastLoginDevices = userAgent?.operatingSystem?.name ?: ""
+                this.lastLoginTimestamp = UniversalCommon.generateTimestamp()
+            }
+            //保存登录记录
+            userMapper.updateLastLoginInfo(tUserEntity)
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_SUCCESS, msg = "登录成功！",data = tUserEntity)
         }
         return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")

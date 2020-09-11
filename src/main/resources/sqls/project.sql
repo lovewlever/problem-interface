@@ -19,7 +19,7 @@ create table T_USER(
 #项目表
 create table T_PROJECT(
     id varchar(255) primary key comment '主键',
-    project_name varchar(255) not null comment '项目名称',
+    project_name varchar(255) not null unique comment '项目名称',
     project_level integer not null default 0 comment '优先级',
     project_add_timestamp bigint not null comment '添加时间',
     project_complete_schedule double default 0 comment '完成进度',

@@ -12,4 +12,5 @@ interface UserMapper {
 
     fun saveRegisterInfo(tUserEntity: TUserEntity): Int
 
+    fun updateLastLoginInfo(tUserEntity: TUserEntity): Int
 }

@@ -5,6 +5,17 @@
         <id column="id" property="id" javaType="String"/>
         <result column="u_login_account" property="uLoginAccount" javaType="java.lang.String"/>
         <result column="u_login_pwd" property="uLoginPwd" javaType="java.lang.String"/>
+        <result column="u_login_email" property="uLoginEmail" javaType="java.lang.String"/>
+        <result column="u_login_phone" property="uLoginEmail" javaType="java.lang.String"/>
+        <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
+        <result column="u_level" property="uLevel" javaType="java.lang.Integer"/>
+        <result column="u_age" property="uAge" javaType="java.lang.Integer"/>
+        <result column="u_gender" property="uGender" javaType="java.lang.String"/>
+        <result column="register_timestamp" property="registerTimestamp" javaType="java.lang.Long"/>
+        <result column="register_devices" property="registerDevices" javaType="java.lang.String"/>
+        <result column="last_login_timestamp" property="lastLoginTimestamp" javaType="java.lang.Long"/>
+        <result column="last_login_devices" property="lastLoginDevices" javaType="java.lang.String"/>
+        <result column="register_devices_user_agent_string" property="registerDevicesUserAgentString" javaType="java.lang.String"/>
     </resultMap>
 
     <select id="loadUserByUId" resultMap="userResultMap">
@@ -29,4 +40,8 @@
         insert into t_user(id,u_login_account,u_login_phone,u_login_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
                     values (#{id},#{uLoginAccount},#{uLoginPhone},#{uLoginEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
     </insert>
+
+    <update id="updateLastLoginInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
+        update t_user set last_login_devices = #{lastLoginDevices},last_login_timestamp = #{lastLoginTimestamp}
+    </update>
 </mapper>

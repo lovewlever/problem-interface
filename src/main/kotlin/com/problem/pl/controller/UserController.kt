@@ -2,6 +2,7 @@ package com.problem.pl.controller
 
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
+import com.problem.pl.commons.UniversalCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TUserEntity
 import com.problem.pl.model.services.UserService
@@ -43,5 +44,6 @@ class UserController {
 }
 
 fun main() {
-    print(UUID.randomUUID().toString().replace("-", ""))
+    val pagingCalculation = UniversalCommon.pagingCalculation(2, 30, 500)
+    print(pagingCalculation)
 }

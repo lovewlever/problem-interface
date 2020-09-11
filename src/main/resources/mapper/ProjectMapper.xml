@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.problem.pl.model.dao.ProjectMapper">
+    <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectEntity">
+        <id column="id" property="id" javaType="String"/>
+        <result column="project_name" property="projectName" javaType="java.lang.String"/>
+        <result column="project_level" property="projectLevel" javaType="java.lang.Integer"/>
+        <result column="project_add_timestamp" property="projectAddTimestamp" javaType="java.lang.Long"/>
+        <result column="project_complete_schedule" property="projectCompleteSchedule" javaType="java.lang.Double"/>
+        <result column="project_add_user_id" property="projectAddUserId" javaType="java.lang.String"/>
+        <association property="tUserEntity"
+                     column="project_add_user_id"
+                     javaType="com.problem.pl.model.entities.TUserEntity">
+            <id column="id" property="project_add_user_id"/>
+            <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
+        </association>
+    </resultMap>
+
+    <select id="queryPListByPagination" resultMap="userResultMap">
+        select tp.*,tu.*
+        from t_project tp,t_user tu
+        where tp.project_add_user_id = tu.id
+        order by tp.project_level desc
+        limit #{startPos},#{entPos}
+    </select>
+    <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
+        insert into t_project (id, project_name, project_level, project_add_timestamp, project_complete_schedule,
+                               project_add_user_id)
+        VALUES (#{id}, #{projectName}, #{projectLevel}, #{projectAddTimestamp}, #{projectCompleteSchedule},
+                #{projectAddUserId})
+    </insert>
+
+    <!--?????-->
+    <select id="findProjectTotalCount" resultType="java.lang.Integer">
+        select count(0) from t_project
+    </select>
+
+</mapper>
