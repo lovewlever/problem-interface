@@ -4,6 +4,7 @@
     <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectEntity">
         <id column="id" property="id" javaType="String"/>
         <result column="project_name" property="projectName" javaType="java.lang.String"/>
+        <result column="project_is_public" property="projectIsPublic" javaType="java.lang.String"/>
         <result column="project_level" property="projectLevel" javaType="java.lang.Integer"/>
         <result column="project_add_timestamp" property="projectAddTimestamp" javaType="java.lang.Long"/>
         <result column="project_complete_schedule" property="projectCompleteSchedule" javaType="java.lang.Double"/>
