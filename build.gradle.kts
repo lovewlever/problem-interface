@@ -29,6 +29,8 @@ dependencies {
     implementation(group="io.jsonwebtoken", name= "jjwt", version= "0.9.1")
     implementation(group= "javax.xml.bind", name= "jaxb-api", version= "2.3.1")
     implementation(group= "eu.bitwalker", name= "UserAgentUtils", version= "1.21")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
+    implementation( group= "org.springframework.boot", name= "spring-boot-starter-websocket", version= "2.3.3.RELEASE")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

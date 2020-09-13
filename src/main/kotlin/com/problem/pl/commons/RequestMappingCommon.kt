@@ -29,4 +29,5 @@ object RequestMappingCommon {
 
     //项目问题相关
     const val MAPPING_PPC = "/ppc"
+    const val MAPPING_PPC_RECOMMEND_PROJECT_LABEL_FOR_PROBLEM = "/recommendProjectLabelsForProblem"
 }

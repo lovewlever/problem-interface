@@ -149,6 +149,20 @@ class ProjectServiceImpl: ProjectService {
     }
 
     /**
+     * 查询问题页面推荐的项目标签
+     * 最近修改的问题所属的项目
+     * 根据最近修改的问题 查询推荐的项目Label
+     */
+    override fun queryRecommendProjectLabelsForProblem(userId: String, labelNum: Int): ResultPro<TProjectEntity> {
+        return try {
+            ResultCommon.generateResult(data = projectMapper.queryRecommendProjectLabelsForProblem(userId,labelNum))
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+
+    }
+
+    /**
      * 根据项目id查询此项目操作记录
      */
     override fun queryProjectOperateRecordsByProjectId(projectId: String,curPage: Int,pageSize: Int): ResultPro<TProjectOperateRecorderEntity> {

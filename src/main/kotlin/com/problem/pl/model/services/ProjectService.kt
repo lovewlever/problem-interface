@@ -23,6 +23,12 @@ interface ProjectService {
 
     fun deleteProjectById(projectId: String): ResultPro<String>
 
+    /**
+     * 查询问题页面推荐的项目标签
+     * 最近修改的问题所属的项目
+     */
+    fun queryRecommendProjectLabelsForProblem(userId: String,labelNum: Int): ResultPro<TProjectEntity>
+
 
     /**
      * 根据项目id查询此项目操作记录

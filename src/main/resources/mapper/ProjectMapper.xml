@@ -35,6 +35,14 @@
         desc limit #{startPos},#{entPos}
     </select>
 
+    <select id="queryRecommendProjectLabelsForProblem" resultMap="userResultMap">
+        select distinct tp.project_name,tp.id from t_project tp
+        right join t_project_problem tpp on tp.id = tpp.project_id
+        where tpp.user_id_for_choose = #{userId}
+        and tpp.pc_complete_schedule &lt; 100
+        order by tpp.pc_choose_timestamp
+        limit #{labelNum}
+    </select>
 
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
         insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp, project_complete_schedule,

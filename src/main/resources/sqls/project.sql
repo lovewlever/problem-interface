@@ -50,9 +50,9 @@ create table T_PROJECT_OPERATE_RECORDER(
 #项目问题列表
 create table T_PROJECT_PROBLEM(
     id varchar(255) primary key comment '主键',
-    pc_timestamp bigint comment '选择修改此问题的时间',
+    pc_choose_timestamp bigint comment '选择修改此问题的时间',
     pc_complete_timestamp bigint comment '此问题修改完成的时间',
-    pc_add_timestamp bigint comment '添加此问题的时间',
+    pc_add_timestamp bigint not null comment '添加此问题的时间',
     pc_complete_schedule integer default 0 comment '此问题的进度',
     pc_devices enum('IOS','Android','后台') comment '出现问题的终端',
     pc_module_page varchar(255) not null comment '模块或页面名称',
@@ -61,10 +61,8 @@ create table T_PROJECT_PROBLEM(
     project_id varchar(255) comment '问题所属的项目ID',
     user_id_for_choose varchar(255) comment '选择修改此问题的用户ID',
     user_id_for_add varchar(255) comment '添此问题的人ID',
-    user_id_for_transfer varchar(255) comment '转让的最终用户ID',
     constraint fk_pc_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade , #所属项目的ID
     constraint fk_project_choose_user_id foreign key(user_id_for_choose) references T_USER(id),#选择此问题的用户ID
-    constraint fk_project_choose_transfer_user_id foreign key(user_id_for_transfer) references T_USER(id),#被转让的用户ID
     constraint fk_pc_add_user_id foreign key(user_id_for_add) references T_USER(id)#添加此问题的人ID
 );
 
