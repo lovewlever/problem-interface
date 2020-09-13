@@ -48,6 +48,19 @@ class ProjectServiceImpl: ProjectService {
     }
 
     /**
+     * 根据用户id查询列表
+     */
+    override fun queryProjectListByUserId(userId: String, page: Int, pageCountSize: Int): ResultPro<TProjectEntity> {
+        return try {
+            val findProjectTotalCount = projectMapper.findProjectTotalCountByUserId(userId)
+            val pageE = UniversalCommon.pagingCalculation(page, pageCountSize, findProjectTotalCount)
+            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryPListByUserIdAndPagination(userId,pageE.startPos,pageE.endPos))
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
      * 添加保存新的项目
      */
     @Transactional(rollbackFor = [RuntimeException::class])
@@ -56,7 +69,7 @@ class ProjectServiceImpl: ProjectService {
             val tProjectEntity = TProjectEntity().apply {
                 this.id = UniversalCommon.generateDBId()
                 this.projectAddTimestamp = UniversalCommon.generateTimestamp()
-                this.projectAddUserId = uid
+                this.userId = uid
                 this.projectCompleteSchedule = 0.0
                 this.projectName = projectName
                 this.projectLevel = projectLevel

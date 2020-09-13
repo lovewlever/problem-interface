@@ -9,9 +9,9 @@ open class TProjectEntity {
     var projectLevel: Int = 0
     var projectAddTimestamp: Long = 0
     var projectCompleteSchedule: Double = 0.toDouble()
-    var projectAddUserId: String = ""
     var projectDesc: String = ""
     var projectIsPublic: String = ""
+    var userId: String = ""
     var tUserEntity: TUserEntity? = null
 }
 

@@ -3,6 +3,7 @@ package com.problem.pl.interceptor
 import com.google.gson.JsonParser
 import com.problem.pl.commons.GsonCommon
 import com.problem.pl.commons.JwtCommon
+import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.ModelAndView
@@ -23,10 +24,10 @@ class LoginVerificationInterceptor: HandlerInterceptorAdapter() {
         response.contentType = "text/html,charset=utf-8"
         response.characterEncoding = "UTF-8"
 
-        val header = request.getHeader("token")
+        val header = request.getHeader(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_TOKEN)
         header?.let {
             JwtCommon.validateLogin(header)?.let {
-                request.setAttribute("uid", JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userId").asString)
+                request.setAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID, JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userId").asString)
                 return true
             } ?: let {
                 response.writer.write(

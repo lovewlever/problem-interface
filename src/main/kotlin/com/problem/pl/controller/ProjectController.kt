@@ -30,6 +30,15 @@ class ProjectController {
             projectService.queryProjectById(projectId)
 
     /**
+     * 根据用户id查询项目列表
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_QUERY_PROJECT_BY_USER_ID)
+    fun queryProjectByUserId(@RequestParam("page") page: Int,
+                             @RequestParam("pageCountSize") pageCountSize: Int,
+                                request: HttpServletRequest):ResultPro<TProjectEntity> =
+    projectService.queryProjectListByUserId(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),page,pageCountSize)
+
+    /**
      * 查询项目列表
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PC_PROJECT_LIST)
@@ -56,7 +65,7 @@ class ProjectController {
                       @RequestParam("projectLevel") projectLevel: Int,
                       @RequestParam("projectDesc") projectDesc: String,
                       request: HttpServletRequest): ResultPro<String> =
-            projectService.saveNewProjectInfo(projectName, projectLevel,projectDesc,request.getAttribute("uid").toString())
+            projectService.saveNewProjectInfo(projectName, projectLevel,projectDesc,request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString())
 
     /**
      * 修改项目的优先级

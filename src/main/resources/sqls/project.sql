@@ -27,8 +27,8 @@ create table T_PROJECT(
     project_add_timestamp bigint not null comment '添加时间',
     project_is_public enum('Y','N') default 'Y' comment '是否公开项目',
     project_complete_schedule double default 0 comment '完成进度',
-    project_add_user_id varchar(255) comment '添加此项目的人',
-    constraint fk_project_add_user_id foreign key(project_add_user_id) references T_USER(id)
+    user_id varchar(255) comment '添加此项目的人',
+    constraint fk_project_add_user_id foreign key(user_id) references T_USER(id)
 );
 
 #项目操作记录表
@@ -58,14 +58,14 @@ create table T_PROJECT_PROBLEM(
     pc_module_page varchar(255) not null comment '模块或页面名称',
     pc_content varchar(255) not null comment '问题内容描述',
     pc_transfer_flow varchar(255) comment '转让流A->B->C',
-    pc_project_id varchar(255) comment '问题所属的项目ID',
-    pc_user_id varchar(255) comment '选择修改此问题的用户ID',
-    pc_add_user_id varchar(255) comment '添此问题的人ID',
-    pc_transfer_user_id varchar(255) comment '转让的最终用户ID',
-    constraint fk_pc_project_id foreign key (pc_project_id) references T_PROJECT(id) on delete cascade , #所属项目的ID
-    constraint fk_project_choose_user_id foreign key(pc_user_id) references T_USER(id),#选择此问题的用户ID
-    constraint fk_project_choose_transfer_user_id foreign key(pc_transfer_user_id) references T_USER(id),#被转让的用户ID
-    constraint fk_pc_add_user_id foreign key(pc_add_user_id) references T_USER(id)#添加此问题的人ID
+    project_id varchar(255) comment '问题所属的项目ID',
+    user_id_for_choose varchar(255) comment '选择修改此问题的用户ID',
+    user_id_for_add varchar(255) comment '添此问题的人ID',
+    user_id_for_transfer varchar(255) comment '转让的最终用户ID',
+    constraint fk_pc_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade , #所属项目的ID
+    constraint fk_project_choose_user_id foreign key(user_id_for_choose) references T_USER(id),#选择此问题的用户ID
+    constraint fk_project_choose_transfer_user_id foreign key(user_id_for_transfer) references T_USER(id),#被转让的用户ID
+    constraint fk_pc_add_user_id foreign key(user_id_for_add) references T_USER(id)#添加此问题的人ID
 );
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -77,9 +77,9 @@ create table T_PROJECT_INTERFACE(
     pi_name varchar(255) not null comment '接口名',
     pi_data_json json not null comment '接口链接/参数/返回值、JSON格式存储',
     pi_mod_transfer_flow varchar(255) comment '修改流A->B->C',
-    pi_add_user_id varchar(255) comment '添加人',
-    pi_project_id varchar(255) comment '所属的项目id',
-    constraint fk_pi_add_user_id foreign key (pi_add_user_id) references T_USER(id), #所属用户ID
-    constraint fk_pi_project_id foreign key (pi_project_id) references T_PROJECT(id) on delete cascade #所属项目的ID
+    user_id_for_add varchar(255) comment '添加人',
+    project_id varchar(255) comment '所属的项目id',
+    constraint fk_pi_add_user_id foreign key (user_id_for_add) references T_USER(id), #所属用户ID
+    constraint fk_pi_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade #所属项目的ID
 
 )

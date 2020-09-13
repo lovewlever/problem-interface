@@ -13,6 +13,8 @@ interface ProjectService {
 
     fun queryPListByPagination(page: Int,pageCount: Int): ResultPro<TProjectEntity>
 
+    fun queryProjectListByUserId(userId: String, page: Int, pageCountSize: Int): ResultPro<TProjectEntity>
+
     fun saveNewProjectInfo(projectName: String, projectLevel: Int,projectDesc: String,uid: String): ResultPro<String>
 
     fun modifyProjectPriority(priority: Int,projectId: String): ResultPro<String>
@@ -21,8 +23,11 @@ interface ProjectService {
 
     fun deleteProjectById(projectId: String): ResultPro<String>
 
+
     /**
      * 根据项目id查询此项目操作记录
      */
     fun queryProjectOperateRecordsByProjectId(projectId: String,curPage: Int,pageSize: Int): ResultPro<TProjectOperateRecorderEntity>
+
+
 }
