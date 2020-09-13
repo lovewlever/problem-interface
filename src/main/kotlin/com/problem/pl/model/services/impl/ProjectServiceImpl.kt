@@ -31,7 +31,7 @@ class ProjectServiceImpl: ProjectService {
     /**
      * 添加保存新的项目
      */
-    override fun saveNewProjectInfo(projectName: String,uid: String): ResultPro<String> {
+    override fun saveNewProjectInfo(projectName: String,projectLevel: Int,projectDesc: String,uid: String): ResultPro<String> {
         try {
             val saveNewProjectInfo = projectMapper.saveNewProjectInfo(TProjectEntity().apply {
                 this.id = UniversalCommon.generateDBId()
@@ -39,7 +39,8 @@ class ProjectServiceImpl: ProjectService {
                 this.projectAddUserId = uid
                 this.projectCompleteSchedule = 0.0
                 this.projectName = projectName
-                this.projectLevel = 0
+                this.projectLevel = projectLevel
+                this.projectDesc = projectDesc
             })
             return if (saveNewProjectInfo > 0) {
                 ResultCommon.generateResult(msg = "项目添加成功")

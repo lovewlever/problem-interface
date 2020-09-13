@@ -12,7 +12,7 @@ import java.util.Random
 
 import javax.imageio.ImageIO
 
-object VerifyCode {
+class VerifyCode {
     private val width = 90
     private val high = 40
     private val random = Random()

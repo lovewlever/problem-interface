@@ -81,6 +81,7 @@ class UserServiceImpl : UserService {
                 this.registerTimestamp = UniversalCommon.generateTimestamp()
                 this.registerDevices = userAgent?.operatingSystem?.name ?: ""
                 this.registerDevicesUserAgentString = userAgentString ?: ""
+                this.uLoginAccount = account
                 when {
                     PatternCommon.PATTERN_PHONE.matcher(account).matches() -> {
                         this.uLoginPhone = account

@@ -2,8 +2,8 @@
 create table T_USER(
     id varchar(255) primary key comment '主键',
     u_login_account varchar (255) unique comment '登录账号',
-    u_login_email varchar(255) unique comment '登录邮箱',
-    u_login_phone varchar(255) unique comment '用户登录手机号',
+    u_bind_email varchar(255) comment '绑定邮箱',
+    u_bind_phone varchar(255) comment '绑定手机号',
     u_login_pwd varchar (255) not null comment '登录密码',
     u_nickname varchar (255)  not null unique comment '用户昵称',
     u_level integer default 0 comment '用户等级',
@@ -23,6 +23,7 @@ create table T_PROJECT(
     id varchar(255) primary key comment '主键',
     project_name varchar(255) not null unique comment '项目名称',
     project_level integer not null default 0 comment '优先级',
+    project_desc varchar(255) comment '项目描述',
     project_add_timestamp bigint not null comment '添加时间',
     project_is_public enum('Y','N') default 'Y' comment '是否公开项目',
     project_complete_schedule double default 0 comment '完成进度',

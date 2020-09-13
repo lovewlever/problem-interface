@@ -16,6 +16,11 @@ object RequestMappingCommon {
     const val MAPPING_PC_MODIFY_PROJECT_NAME = "/modifyProjectName"
     const val MAPPING_PC_DELETE_PROJECT_BY_ID = "/deleteProjectById"
 
+    //通用相关
+    const val MAPPING_UNIVERSAL = "/uni"
+    const val MAPPING_UNIVERSAL_VERIFY_TOKEN = "/verifyToken"
+
+
     //项目问题相关
     const val MAPPING_PPC = "/ppc"
 }

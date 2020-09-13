@@ -11,12 +11,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class ProjectConfig: WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowCredentials(true)
-                .maxAge(3600)
-                .allowedHeaders("*")
+        //registry.addMapping("/**")
+                //.allowedOrigins("*")
+                //.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                //.allowedHeaders("x-requested-with,content-type,token,auth","token")
+                //.allowCredentials(true)
+                //.maxAge(3600)
+                //.allowedHeaders("*")
         super.addCorsMappings(registry)
     }
 
@@ -27,5 +28,6 @@ class ProjectConfig: WebMvcConfigurer {
 
         super.addInterceptors(registry)
     }
+
     
 }

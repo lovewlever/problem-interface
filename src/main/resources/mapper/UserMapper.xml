@@ -45,6 +45,6 @@
     <update id="updateLastLoginInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
         update t_user set last_login_devices = #{lastLoginDevices},
                           last_login_timestamp = #{lastLoginTimestamp}
-        where id = #{uid}
+        where id = #{id}
     </update>
 </mapper>

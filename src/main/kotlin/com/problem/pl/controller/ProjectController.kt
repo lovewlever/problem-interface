@@ -34,8 +34,10 @@ class ProjectController {
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PC_ADD_NEW_PROJECT)
     fun addNewProject(@RequestParam("projectName") projectName: String,
+                      @RequestParam("projectLevel") projectLevel: Int,
+                      @RequestParam("projectDesc") projectDesc: String,
                       request: HttpServletRequest): ResultPro<String> =
-            projectService.saveNewProjectInfo(projectName, request.getAttribute("uid").toString())
+            projectService.saveNewProjectInfo(projectName, projectLevel,projectDesc,request.getAttribute("uid").toString())
 
     /**
      * 修改项目的优先级

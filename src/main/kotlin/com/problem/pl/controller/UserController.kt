@@ -14,6 +14,7 @@ import java.util.*
 import javax.annotation.Resource
 import javax.imageio.ImageIO
 import javax.servlet.http.HttpServletRequest
+import javax.websocket.server.PathParam
 
 /**
  * 用户类控制器
@@ -29,21 +30,39 @@ class UserController {
      * 获取验证码
      */
     @RequestMapping(value = [RequestMappingCommon.MAPPING_USER_GET_VERIFY_CODE], produces = ["image/jpg"])
-    fun getVerifyCode(): ByteArray {
+    fun getVerifyCode(@RequestParam("sessionKey") sessionKey: String,request: HttpServletRequest): ByteArray {
         val outputStream = ByteArrayOutputStream()
-        ImageIO.write(VerifyCode.image, "jpg", outputStream)
+        val verifyCode = VerifyCode()
+        ImageIO.write(verifyCode.image, "jpg", outputStream)
+        (request.session ?: request.getSession(true)).let { ss ->
+            ss.maxInactiveInterval = 2 * 60
+            ss.setAttribute(sessionKey,verifyCode.value)
+        }
         return outputStream.toByteArray()
     }
 
     /**
      * 注册
      */
-    @RequestMapping(RequestMappingCommon.MAPPING_USER_REGISTER)
-    fun register(@RequestParam(name = "account", required = true) account: String,
-                 @RequestParam(name = "pwd", required = false) pwd: String,
-                 @RequestParam(name = "nickname", required = false) nickname: String,
-                 request: HttpServletRequest): ResultPro<TUserEntity> =
+    @RequestMapping(RequestMappingCommon.MAPPING_USER_REGISTER,method = [RequestMethod.POST])
+    fun register(@RequestParam("account") account: String,
+                 @RequestParam("pwd") pwd: String,
+                 @RequestParam("nickname") nickname: String,
+                 @RequestParam("sessionKey") sessionKey: String,
+                 @RequestParam("verifyCode") verifyCode: Int,
+                 request: HttpServletRequest): ResultPro<TUserEntity>  {
+        var code: Any? = null
+        request.session?.let { ss ->
+            code = ss.getAttribute(sessionKey)
+            ss.removeAttribute(sessionKey)
+        }
+        return if (code == verifyCode) {
             userService.registerVerificationAndSave(account, pwd,nickname,request.getHeader("User-Agent"))
+        } else {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "验证码错误！")
+        }
+    }
+
 
 
     /**
@@ -52,8 +71,21 @@ class UserController {
     @RequestMapping(RequestMappingCommon.MAPPING_USER_LOGIN)
     fun login(@RequestParam(name = "account", required = true) account: String,
               @RequestParam(name = "pwd", required = false) pwd: String,
-              request: HttpServletRequest): ResultPro<TUserEntity> =
+              @RequestParam("sessionKey") sessionKey: String,
+              @RequestParam("verifyCode") verifyCode: Int,
+              request: HttpServletRequest): ResultPro<TUserEntity> {
+        var code: Any? = null
+        request.session?.let { ss ->
+            code = ss.getAttribute(sessionKey)
+            ss.removeAttribute(sessionKey)
+        }
+        return if (code == verifyCode) {
             userService.login(account, pwd, request.getHeader("User-Agent"))
+        } else {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "验证码错误！")
+        }
+    }
+
 }
 
 fun main() {
