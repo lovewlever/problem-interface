@@ -4,6 +4,7 @@ import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
+import com.problem.pl.model.entities.TProjectOperateRecorderEntity
 import com.problem.pl.model.services.ProjectService
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -35,6 +36,17 @@ class ProjectController {
     fun queryProjectList(@RequestParam("page") page: Int,
                          @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectEntity> =
             projectService.queryPListByPagination(page,pageCountSize)
+
+
+    /**
+     * 查询项目的操作记录
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_QUERY_PROJECT_OPERATE_RECORDER)
+    fun queryProjectOperateRecordsByProjectId(@RequestParam("projectId") projectId: String,
+                                              @RequestParam("page") page: Int,
+                                              @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectOperateRecorderEntity> {
+        return projectService.queryProjectOperateRecordsByProjectId(projectId,page,pageCountSize)
+    }
 
     /**
      * 添加一个项目

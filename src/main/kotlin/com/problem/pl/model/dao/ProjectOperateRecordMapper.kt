@@ -8,4 +8,14 @@ import com.problem.pl.model.entities.TProjectOperateRecorderEntity
 interface ProjectOperateRecordMapper {
 
     fun insertProjectOperateRecord(tProjectOperateRecorderEntity: TProjectOperateRecorderEntity): Int
+
+    /**
+     * 根据项目id查询此项目记录
+     */
+    fun queryProjectOperateRecordsByProjectId(projectId: String,startPos: Int,endPos: Int): MutableList<TProjectOperateRecorderEntity>
+
+    /**
+     * 根据项目id查询 操作的总记录
+     */
+    fun queryCountSizeByProjectId(projectId: String): Int
 }

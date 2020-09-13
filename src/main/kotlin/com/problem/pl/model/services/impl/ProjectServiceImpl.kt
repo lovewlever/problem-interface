@@ -134,4 +134,17 @@ class ProjectServiceImpl: ProjectService {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
     }
+
+    /**
+     * 根据项目id查询此项目操作记录
+     */
+    override fun queryProjectOperateRecordsByProjectId(projectId: String,curPage: Int,pageSize: Int): ResultPro<TProjectOperateRecorderEntity> {
+        return try {
+            val findOperateRecordCount = projectOperateRecordMapper.queryCountSizeByProjectId(projectId)
+            val pageE = UniversalCommon.pagingCalculation(curPage, pageSize, findOperateRecordCount)
+            ResultCommon.generateResult(pagination = pageE,data = projectOperateRecordMapper.queryProjectOperateRecordsByProjectId(projectId,pageE.startPos,pageE.endPos))
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
 }

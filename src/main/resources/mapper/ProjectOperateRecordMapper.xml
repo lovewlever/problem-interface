@@ -22,4 +22,14 @@
                                         values (#{id},#{tporTimestamp},#{tporOperateType},#{tporProjectName},#{tporOperateContent},#{tporProjectId},#{tporModUserId})
     </insert>
 
+    <select id="queryProjectOperateRecordsByProjectId" resultMap="userResultMap">
+        select * from t_project_operate_recorder tor
+            left join t_user tu on tor.tpor_mod_user_id = tu.id
+            where tor.tpor_project_id = #{projectId} limit #{startPos},#{endPos}
+    </select>
+
+    <select id="queryCountSizeByProjectId" resultType="java.lang.Integer">
+        select count(0) from t_project_operate_recorder where tpor_project_id = #{projectId}
+    </select>
+
 </mapper>
