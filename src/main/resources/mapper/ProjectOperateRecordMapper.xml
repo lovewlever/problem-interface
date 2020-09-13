@@ -5,31 +5,32 @@
         <id column="id" property="id" javaType="String"/>
         <result column="tpor_timestamp" property="tporTimestamp" javaType="java.lang.Long"/>
         <result column="tpor_operate_type" property="tporOperateType" javaType="java.lang.String"/>
-        <result column="tpor_project_name" property="tporProjectName" javaType="java.lang.String"/>
+        <result column="tpor_name" property="tporName" javaType="java.lang.String"/>
         <result column="tpor_operate_content" property="tporOperateContent" javaType="java.lang.String"/>
-        <result column="tpor_project_id" property="tporProjectId" javaType="java.lang.String"/>
-        <result column="tpor_mod_user_id" property="tporModUserId" javaType="java.lang.String"/>
+        <result column="project_problem_id" property="projectProblemId" javaType="java.lang.String"/>
+        <result column="project_interface_id" property="projectInterfaceId" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" javaType="java.lang.String"/>
+        <result column="user_id" property="userId" javaType="java.lang.String"/>
         <association property="refTUserEntity"
-                     column="project_add_user_id"
                      javaType="com.problem.pl.model.entities.TUserEntity">
-            <id column="tpor_mod_user_id" property="id"/>
+            <id column="user_id" property="id"/>
             <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         </association>
     </resultMap>
 
     <insert id="insertProjectOperateRecord" parameterType="com.problem.pl.model.entities.TProjectOperateRecorderEntity">
-        insert into t_project_operate_recorder(id,tpor_timestamp,tpor_operate_type,tpor_project_name,tpor_operate_content,tpor_project_id,tpor_mod_user_id)
-                                        values (#{id},#{tporTimestamp},#{tporOperateType},#{tporProjectName},#{tporOperateContent},#{tporProjectId},#{tporModUserId})
+        insert into t_project_operate_recorder(id,tpor_timestamp,tpor_operate_type,tpor_name,tpor_operate_content,project_id,user_id)
+                                        values (#{id},#{tporTimestamp},#{tporOperateType},#{tporName},#{tporOperateContent},#{projectId},#{userId})
     </insert>
 
     <select id="queryProjectOperateRecordsByProjectId" resultMap="userResultMap">
         select * from t_project_operate_recorder tor
-            left join t_user tu on tor.tpor_mod_user_id = tu.id
-            where tor.tpor_project_id = #{projectId} limit #{startPos},#{endPos}
+            left join t_user tu on tor.user_id = tu.id
+            where tor.project_id = #{projectId} limit #{startPos},#{endPos}
     </select>
 
     <select id="queryCountSizeByProjectId" resultType="java.lang.Integer">
-        select count(0) from t_project_operate_recorder where tpor_project_id = #{projectId}
+        select count(0) from t_project_operate_recorder where project_id = #{projectId}
     </select>
 
 </mapper>

@@ -8,15 +8,17 @@ open class TProjectOperateRecorderEntity {
     var id: String = ""
     var tporTimestamp: Long = 0L
     var tporOperateType: String = ""
-    var tporProjectName: String = ""
+    var tporName: String = ""
     var tporOperateContent: String = ""
-    var tporProjectId: String = ""
-    var tporModUserId: String = ""
+    var userId: String = ""
+    var projectId: String = ""
+    var projectProblemId: String = ""
+    var projectInterfaceId: String = ""
     var refTUserEntity: TUserEntity? = null
 
 
     override fun toString(): String {
-        return "TProjectOperateRecorderEntity(id='$id', tporTimestamp=$tporTimestamp, tporOperateType='$tporOperateType', tporProjectName='$tporProjectName', tporOperateContent='$tporOperateContent', tporProjectId='$tporProjectId', tporModUserId='$tporModUserId', refTUserEntity=$refTUserEntity)"
+        return "TProjectOperateRecorderEntity(id='$id', tporTimestamp=$tporTimestamp, tporOperateType='$tporOperateType', tporName='$tporName', tporOperateContent='$tporOperateContent', userId='$userId', projectId='$projectId', projectProblemId='$projectProblemId', projectInterfaceId='$projectInterfaceId', refTUserEntity=$refTUserEntity)"
     }
 
 

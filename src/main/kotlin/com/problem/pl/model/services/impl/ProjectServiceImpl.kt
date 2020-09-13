@@ -71,9 +71,9 @@ class ProjectServiceImpl: ProjectService {
                 this.tporTimestamp = UniversalCommon.generateTimestamp()
                 this.tporOperateType = "CREATE"
                 this.tporOperateContent = "添加项目"
-                this.tporProjectName = tProjectEntity.projectName
-                this.tporProjectId = tProjectEntity.id
-                this.tporModUserId = uid
+                this.tporName = tProjectEntity.projectName
+                this.projectId = tProjectEntity.id
+                this.userId = uid
             })
 
             return if (saveNewProjectInfo > 0 && saveRecord > 0) {

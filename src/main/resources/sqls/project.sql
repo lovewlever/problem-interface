@@ -38,10 +38,12 @@ create table T_PROJECT_OPERATE_RECORDER(
     tpor_timestamp bigint comment '记录的时间',
     tpor_operate_type enum('DELETE','CREATE','MODIFY') not null comment '操作的类型',
     tpor_operate_content varchar(255) not null comment '操作的内容',
-    tpor_project_name varchar(255) not null comment '项目名称',
-    tpor_project_id varchar(255) not null comment '项目id(不与项目表关联 防止项目删除后影响此表)',
-    tpor_mod_user_id varchar(255) comment '修改人ID',
-    constraint fk_tpor_mod_user_id foreign key (tpor_mod_user_id) references T_USER(id) #记录修改人的ID
+    tpor_name varchar(255) not null comment '项目/问题/接口名称',
+    project_id varchar(255) comment '项目id(不与项目表关联 防止项目删除后影响此表)',
+    project_problem_id varchar(255) comment '对应的项目问题id(不与项目问题表关联 防止项目删除后影响此表)',
+    project_interface_id varchar(255) comment '对应的项目接口Id(不与项目接口表关联 防止项目删除后影响此表)',
+    user_id varchar(255) comment '修改人ID',
+    constraint fk_tpor_mod_user_id foreign key (user_id) references T_USER(id) #记录修改人的ID
 );
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -64,18 +66,6 @@ create table T_PROJECT_PROBLEM(
     constraint fk_project_choose_user_id foreign key(pc_user_id) references T_USER(id),#选择此问题的用户ID
     constraint fk_project_choose_transfer_user_id foreign key(pc_transfer_user_id) references T_USER(id),#被转让的用户ID
     constraint fk_pc_add_user_id foreign key(pc_add_user_id) references T_USER(id)#添加此问题的人ID
-);
-
-#项目问题操作记录表
-#不与项目问题表关联 防止项目删除后影响此表
-create table T_PROJECT_PROBLEM_OPERATE_RECORDER(
-      id varchar(255) primary key comment '主键',
-      tpmr_timestamp bigint comment '记录的时间',
-      tpmr_operate_type enum('DELETE','CREATE','MODIFY') not null comment '操作的类型',
-      tpmr_operate_content varchar(255) not null comment '操作的内容记录',
-      tpmr_project_id varchar(255) not null comment '项目问题的id(不与项目问题表关联 防止项目删除后影响此表)',
-      tpmr_mod_user_id varchar(255) comment '修改人ID',
-      constraint fk_tpmr_mod_user_id foreign key (tpmr_mod_user_id) references T_USER(id) #记录修改人的ID
 );
 
 #-----------------------------------------------------------------------------------------------------------------------
