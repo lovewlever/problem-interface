@@ -28,7 +28,7 @@
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
         insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp, project_complete_schedule,
                                project_add_user_id)
-        VALUES (#{id}, #{projectName}, #{projectLevel},#{projectDesc} #{projectAddTimestamp}, #{projectCompleteSchedule},
+        VALUES (#{id}, #{projectName}, #{projectLevel},#{projectDesc}, #{projectAddTimestamp}, #{projectCompleteSchedule},
                 #{projectAddUserId})
     </insert>
 

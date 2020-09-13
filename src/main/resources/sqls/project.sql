@@ -38,6 +38,7 @@ create table T_PROJECT_OPERATE_RECORDER(
     tpor_timestamp bigint comment '记录的时间',
     tpor_operate_type enum('DELETE','CREATE','MODIFY') not null comment '操作的类型',
     tpor_operate_content varchar(255) not null comment '操作的内容',
+    tpor_project_name varchar(255) not null comment '项目名称',
     tpor_project_id varchar(255) not null comment '项目id(不与项目表关联 防止项目删除后影响此表)',
     tpor_mod_user_id varchar(255) comment '修改人ID',
     constraint fk_tpor_mod_user_id foreign key (tpor_mod_user_id) references T_USER(id) #记录修改人的ID

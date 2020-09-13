@@ -84,10 +84,10 @@ class UserServiceImpl : UserService {
                 this.uLoginAccount = account
                 when {
                     PatternCommon.PATTERN_PHONE.matcher(account).matches() -> {
-                        this.uLoginPhone = account
+                        this.uBindPhone = account
                     }
                     PatternCommon.PATTERN_EMAIL.matcher(account).matches() -> {
-                        this.uLoginEmail = account
+                        this.uBindEmail = account
                     }
                     else -> {
                         this.uLoginAccount = account

@@ -5,8 +5,8 @@
         <id column="id" property="id" javaType="String"/>
         <result column="u_login_account" property="uLoginAccount" javaType="java.lang.String"/>
         <result column="u_login_pwd" property="uLoginPwd" javaType="java.lang.String"/>
-        <result column="u_login_email" property="uLoginEmail" javaType="java.lang.String"/>
-        <result column="u_login_phone" property="uLoginEmail" javaType="java.lang.String"/>
+        <result column="u_bind_email" property="uBindEmail" javaType="java.lang.String"/>
+        <result column="u_bind_phone" property="uBindEmail" javaType="java.lang.String"/>
         <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         <result column="u_level" property="uLevel" javaType="java.lang.Integer"/>
         <result column="u_age" property="uAge" javaType="java.lang.Integer"/>
@@ -29,17 +29,17 @@
                 then 'true'
                 else 'false'
             end
-        FROM t_user WHERE u_login_account = #{account} OR u_login_phone = #{account} OR u_login_email = #{account}
+        FROM t_user WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
     </select>
 
     <select id="loadUserByAccount" resultMap="userResultMap">
         SELECT *
-        FROM t_user WHERE u_login_account = #{account} OR u_login_phone = #{account} OR u_login_email = #{account}
+        FROM t_user WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
     </select>
 
     <insert id="saveRegisterInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
-        insert into t_user(id,u_login_account,u_login_phone,u_login_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
-                    values (#{id},#{uLoginAccount},#{uLoginPhone},#{uLoginEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
+        insert into t_user(id,u_login_account,u_bind_phone,u_bind_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
+                    values (#{id},#{uLoginAccount},#{uBindPhone},#{uBindEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
     </insert>
 
     <update id="updateLastLoginInfo" parameterType="com.problem.pl.model.entities.TUserEntity">

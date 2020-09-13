@@ -3,10 +3,14 @@ package com.problem.pl.model.services.impl
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
 import com.problem.pl.model.dao.ProjectMapper
+import com.problem.pl.model.dao.ProjectOperateRecordMapper
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
+import com.problem.pl.model.entities.TProjectOperateRecorderEntity
 import com.problem.pl.model.services.ProjectService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.interceptor.TransactionAspectSupport
 import javax.annotation.Resource
 
 @Service("projectService")
@@ -14,6 +18,8 @@ class ProjectServiceImpl: ProjectService {
 
     @Resource
     lateinit var projectMapper: ProjectMapper
+    @Resource
+    lateinit var projectOperateRecordMapper: ProjectOperateRecordMapper
 
     /**
      * 分页查询项目
@@ -31,9 +37,10 @@ class ProjectServiceImpl: ProjectService {
     /**
      * 添加保存新的项目
      */
+    @Transactional(rollbackFor = [RuntimeException::class])
     override fun saveNewProjectInfo(projectName: String,projectLevel: Int,projectDesc: String,uid: String): ResultPro<String> {
         try {
-            val saveNewProjectInfo = projectMapper.saveNewProjectInfo(TProjectEntity().apply {
+            val tProjectEntity = TProjectEntity().apply {
                 this.id = UniversalCommon.generateDBId()
                 this.projectAddTimestamp = UniversalCommon.generateTimestamp()
                 this.projectAddUserId = uid
@@ -41,13 +48,28 @@ class ProjectServiceImpl: ProjectService {
                 this.projectName = projectName
                 this.projectLevel = projectLevel
                 this.projectDesc = projectDesc
+            }
+            //保存项目
+            val saveNewProjectInfo = projectMapper.saveNewProjectInfo(tProjectEntity)
+
+            // 保存项目操作记录
+            val saveRecord = projectOperateRecordMapper.insertProjectOperateRecord(TProjectOperateRecorderEntity().apply {
+                this.id = UniversalCommon.generateDBId()
+                this.tporTimestamp = UniversalCommon.generateTimestamp()
+                this.tporOperateType = "CREATE"
+                this.tporOperateContent = "添加项目"
+                this.tporProjectName = tProjectEntity.projectName
+                this.tporProjectId = tProjectEntity.id
+                this.tporModUserId = uid
             })
-            return if (saveNewProjectInfo > 0) {
+
+            return if (saveNewProjectInfo > 0 && saveRecord > 0) {
                 ResultCommon.generateResult(msg = "项目添加成功")
             } else {
                 ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "项目添加失败")
             }
         } catch (e: Exception) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly() //回滚
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
     }

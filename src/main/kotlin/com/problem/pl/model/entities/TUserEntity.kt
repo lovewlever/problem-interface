@@ -7,8 +7,8 @@ open class TUserEntity {
 
     var id: String = ""
     var uLoginAccount: String = ""
-    var uLoginEmail: String = ""
-    var uLoginPhone: String = ""
+    var uBindEmail: String = ""
+    var uBindPhone: String = ""
     var uLoginPwd: String = ""
     var uAvatar: String = ""
     var uNickname: String = ""
@@ -24,7 +24,7 @@ open class TUserEntity {
 
 
     override fun toString(): String {
-        return "TUserEntity(id='$id', uLoginAccount='$uLoginAccount', uLoginEmail='$uLoginEmail', uLoginPhone='$uLoginPhone', uLoginPwd='$uLoginPwd', uAvatar='$uAvatar', uNickname='$uNickname', uLevel=$uLevel, uAge=$uAge, uGender=$uGender, registerTimestamp=$registerTimestamp, registerDevices='$registerDevices', lastLoginTimestamp=$lastLoginTimestamp, lastLoginDevices='$lastLoginDevices', registerDevicesUserAgentString='$registerDevicesUserAgentString', token='$token')"
+        return "TUserEntity(id='$id', uLoginAccount='$uLoginAccount', uBindEmail='$uBindEmail', uBindPhone='$uBindPhone', uLoginPwd='$uLoginPwd', uAvatar='$uAvatar', uNickname='$uNickname', uLevel=$uLevel, uAge=$uAge, uGender=$uGender, registerTimestamp=$registerTimestamp, registerDevices='$registerDevices', lastLoginTimestamp=$lastLoginTimestamp, lastLoginDevices='$lastLoginDevices', registerDevicesUserAgentString='$registerDevicesUserAgentString', token='$token')"
     }
 
 
