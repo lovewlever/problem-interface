@@ -39,8 +39,8 @@ class ProjectConfig: WebMvcConfigurer, WebSocketConfigurer{
      * 注册WebSocket
      */
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
-        registry.addHandler(ProblemInterfaceWebsocketHandler(),"/ws/websocket.server")
-                .addHandler(ProblemInterfaceWebsocketHandler(),"/ws/websocketJs.server").withSockJS()
+        registry.addHandler(ProblemInterfaceWebsocketHandler(),"/ws/websocket.server").setAllowedOrigins("*")
+        registry.addHandler(ProblemInterfaceWebsocketHandler(),"/ws/websocketJs.server").withSockJS()
     }
 
 
