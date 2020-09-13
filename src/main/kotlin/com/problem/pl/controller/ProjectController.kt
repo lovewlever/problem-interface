@@ -22,6 +22,13 @@ class ProjectController {
     lateinit var projectService: ProjectService
 
     /**
+     * 根据id查询项目详情
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PC_QUERY_PROJECT_BY_ID)
+    fun queryProjectById(@RequestParam("projectId") projectId: String): ResultPro<TProjectEntity> =
+            projectService.queryProjectById(projectId)
+
+    /**
      * 查询项目列表
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PC_PROJECT_LIST)

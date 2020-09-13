@@ -18,12 +18,12 @@
         </association>
     </resultMap>
 
+    <select id="queryProjectById" parameterType="java.lang.String" resultMap="userResultMap">
+        select * from t_project tp left join t_user tu on tp.project_add_user_id = tu.id where tp.id = #{projectId}
+    </select>
+
     <select id="queryPListByPagination" resultMap="userResultMap">
-        select tp.*,tu.*
-        from t_project tp,t_user tu
-        where tp.project_add_user_id = tu.id
-        order by tp.project_level desc
-        limit #{startPos},#{entPos}
+        select * from t_project tp left join t_user tu on tp.project_add_user_id = tu.id order by tp.project_add_timestamp desc limit #{startPos},#{entPos}
     </select>
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
         insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp, project_complete_schedule,

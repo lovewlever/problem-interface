@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam
 @Service
 interface ProjectService {
 
+    fun queryProjectById(projectId: String): ResultPro<TProjectEntity>
+
     fun queryPListByPagination(page: Int,pageCount: Int): ResultPro<TProjectEntity>
 
     fun saveNewProjectInfo(projectName: String, projectLevel: Int,projectDesc: String,uid: String): ResultPro<String>

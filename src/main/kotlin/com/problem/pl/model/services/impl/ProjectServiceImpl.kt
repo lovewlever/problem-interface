@@ -21,6 +21,19 @@ class ProjectServiceImpl: ProjectService {
     @Resource
     lateinit var projectOperateRecordMapper: ProjectOperateRecordMapper
 
+
+    /**
+     * 根据项目id查询单个项目的详情
+     */
+    override fun queryProjectById(projectId: String): ResultPro<TProjectEntity> {
+        return try {
+            val findProjectTotalCount = projectMapper.queryProjectById(projectId)
+            ResultCommon.generateResult(data = findProjectTotalCount)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
     /**
      * 分页查询项目
      */

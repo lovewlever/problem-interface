@@ -8,6 +8,8 @@ import com.problem.pl.model.entities.TProjectEntity
  */
 interface ProjectMapper {
 
+    fun queryProjectById(projectId: String): TProjectEntity
+
     fun queryPListByPagination(startPos: Int,entPos: Int): MutableList<TProjectEntity>
 
     fun saveNewProjectInfo(tProjectEntity: TProjectEntity): Int
