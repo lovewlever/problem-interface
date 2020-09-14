@@ -1,14 +1,19 @@
 package com.problem.pl.controller
 
+import com.google.gson.JsonArray
 import com.problem.pl.commons.RequestMappingCommon
+import com.problem.pl.commons.ResultCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
 import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import com.problem.pl.model.services.ProjectProblemService
 import com.problem.pl.model.services.ProjectService
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.io.BufferedInputStream
+import java.io.BufferedReader
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 
@@ -41,4 +46,12 @@ class ProjectProblemController {
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_SYSTEM_DEVICES)
     fun querySystemDevicesList(): ResultPro<TProjectSystemDevicesEntity> =
             projectProblemService.querySystemDevicesList()
+
+
+    /**
+     * 保存项目问题
+     */
+    fun saveProjectProblems(@RequestBody jsonArray: JsonArray): ResultPro<String> =
+            ResultCommon.generateResult()
+
 }
