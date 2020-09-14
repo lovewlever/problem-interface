@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.problem.pl.model.dao.ProjectSystemDevicesMapper">
+    <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectSystemDevicesEntity">
+        <id column="id" property="id" javaType="String"/>
+        <result column="system_devices_name" property="systemDevicesName" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="querySystemDevicesList" resultMap="userResultMap">
+        select * from t_project_system_devices
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.problem.pl.model.dao.ProjectProblemMapper">
+    <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectProblemEntity">
+        <id column="id" property="id" javaType="String"/>
+        <result column="pp_choose_timestamp" property="ppChooseTimestamp" javaType="java.lang.Long"/>
+        <result column="pp_complete_timestamp" property="ppCompleteTimestamp" javaType="java.lang.Long"/>
+        <result column="pp_add_timestamp" property="ppAddTimestamp" javaType="java.lang.Long"/>
+        <result column="pp_complete_schedule" property="ppCompleteSchedule" javaType="java.lang.Integer"/>
+        <result column="pp_module_page" property="ppModulePage" javaType="java.lang.String"/>
+        <result column="pp_content" property="ppContent" javaType="java.lang.String"/>
+        <result column="pp_transfer_flow" property="ppTransferFlow" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" javaType="java.lang.String"/>
+        <result column="user_id_for_choose" property="userIdForChoose" javaType="java.lang.String"/>
+        <result column="user_id_for_add" property="userIdForAdd" javaType="java.lang.String"/>
+        <result column="system_devices_id" property="systemDevicesId" javaType="java.lang.String"/>
+
+    </resultMap>
+
+
+</mapper>
