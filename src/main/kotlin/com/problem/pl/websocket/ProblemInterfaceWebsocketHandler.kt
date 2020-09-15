@@ -21,6 +21,7 @@ class ProblemInterfaceWebsocketHandler:TextWebSocketHandler() {
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
         super.afterConnectionEstablished(session)
+        session.uri?.query
         onlineUsers[session.id] = session
     }
 
