@@ -18,4 +18,9 @@ interface ProjectProblemMapper {
      * 查询某个项目下问题总数量
      */
     fun getPPListByProjectIdCount(projectId: String): Int
+
+    /**
+     * 查询最新的指定条问题
+     */
+    fun queryNewProblems(pageCount: Int): MutableList<TProjectProblemEntity>
 }

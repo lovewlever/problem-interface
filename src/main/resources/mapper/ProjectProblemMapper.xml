@@ -40,4 +40,8 @@
     <select id="getPPListByProjectIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
         select count(0) from t_project_problem where project_id = #{projectId}
     </select>
+
+    <select id="queryNewProblems" resultMap="userResultMap" parameterType="java.lang.Integer">
+         select * from t_project_problem order by pp_add_timestamp desc limit #{pageCount}
+    </select>
 </mapper>

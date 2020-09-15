@@ -56,6 +56,14 @@ class ProjectProblemController {
 
 
     /**
+     * 查询最新的指定条问题
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_QUERY_PROBLEM_LIST_NEW_TIME_COUNT)
+    fun queryNewProblems(@RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectProblemEntity> =
+            projectProblemService.queryNewProblems(pageCountSize)
+
+
+    /**
      * 保存项目问题
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_SAVE_PROBLEM_LIST)

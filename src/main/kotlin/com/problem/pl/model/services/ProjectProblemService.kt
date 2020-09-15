@@ -18,5 +18,9 @@ interface ProjectProblemService {
      */
     fun queryProjectProblemsListByProjectId(projectId: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity>
 
+    /**
+     * 查询最新的指定条问题
+     */
+    fun queryNewProblems(pageCount: Int): ResultPro<TProjectProblemEntity>
 
 }

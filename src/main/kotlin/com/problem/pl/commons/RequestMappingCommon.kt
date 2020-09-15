@@ -33,4 +33,5 @@ object RequestMappingCommon {
     const val MAPPING_PPC_PROJECT_SYSTEM_DEVICES = "/queryProjectSystemDevices"
     const val MAPPING_PPC_PROJECT_SAVE_PROBLEM_LIST = "/saveProjectSaveProblemList"
     const val MAPPING_PPC_QUERY_PROBLEM_LIST_BY_PROJECT_ID = "/queryProblemListByProjectId"
+    const val MAPPING_PPC_QUERY_PROBLEM_LIST_NEW_TIME_COUNT = "/queryProblemListNewTimeCount"
 }

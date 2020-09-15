@@ -127,4 +127,16 @@ class ProjectProblemServiceImpl: ProjectProblemService {
         }
     }
 
+    /**
+     * 查询最新的指定条问题
+     */
+    override fun queryNewProblems(pageCount: Int): ResultPro<TProjectProblemEntity> {
+        return try {
+            val queryNewProblems = projectProblemMapper.queryNewProblems(pageCount)
+            ResultCommon.generateResult(data = queryNewProblems)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
 }
