@@ -1,11 +1,9 @@
 package com.problem.pl.controller
 
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor
-import com.google.gson.JsonArray
 import com.problem.pl.commons.RequestMappingCommon
-import com.problem.pl.commons.ResultCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
+import com.problem.pl.model.entities.TProjectProblemEntity
 import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import com.problem.pl.model.services.ProjectProblemService
 import com.problem.pl.model.services.ProjectService
@@ -13,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.io.BufferedInputStream
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.lang.StringBuilder
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 
@@ -50,6 +43,16 @@ class ProjectProblemController {
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_SYSTEM_DEVICES)
     fun querySystemDevicesList(): ResultPro<TProjectSystemDevicesEntity> =
             projectProblemService.querySystemDevicesList()
+
+
+    /**
+     * 根据项目id查询问题列表
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_QUERY_PROBLEM_LIST_BY_PROJECT_ID)
+    fun queryProjectProblemsListByProjectId(@RequestParam("projectId") projectId: String,
+                                            @RequestParam("page") page: Int,
+                                            @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectProblemEntity> =
+            projectProblemService.queryProjectProblemsListByProjectId(projectId,page,pageCountSize)
 
 
     /**

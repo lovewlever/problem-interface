@@ -113,4 +113,18 @@ class ProjectProblemServiceImpl: ProjectProblemService {
         }
     }
 
+    /**
+     * 根据项目id查询 问题列表
+     */
+    override fun queryProjectProblemsListByProjectId(projectId: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity> {
+        return try {
+            val findOperateRecordCount = projectProblemMapper.getPPListByProjectIdCount(projectId)
+            val pageE = UniversalCommon.pagingCalculation(curPage, pageCountSize, findOperateRecordCount)
+            val queryProjectProblemsListByProjectId = projectProblemMapper.queryProjectProblemsListByProjectId(projectId, pageE.startPos, pageE.endPos)
+            ResultCommon.generateResult(data = queryProjectProblemsListByProjectId,pagination = pageE)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
 }
