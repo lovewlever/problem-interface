@@ -5,7 +5,7 @@
         <id column="id" property="id" javaType="String"/>
         <result column="tpor_timestamp" property="tporTimestamp" javaType="java.lang.Long"/>
         <result column="tpor_operate_type" property="tporOperateType" javaType="java.lang.String"/>
-        <result column="tpor_name" property="tporName" javaType="java.lang.String"/>
+        <result column="project_name" property="projectName" javaType="java.lang.String"/>
         <result column="tpor_operate_content" property="tporOperateContent" javaType="java.lang.String"/>
         <result column="project_problem_id" property="projectProblemId" javaType="java.lang.String"/>
         <result column="project_interface_id" property="projectInterfaceId" javaType="java.lang.String"/>
@@ -19,8 +19,8 @@
     </resultMap>
 
     <insert id="insertProjectOperateRecord" parameterType="com.problem.pl.model.entities.TProjectOperateRecorderEntity">
-        insert into t_project_operate_recorder(id,tpor_timestamp,tpor_operate_type,tpor_name,tpor_operate_content,project_id,user_id)
-                                        values (#{id},#{tporTimestamp},#{tporOperateType},#{tporName},#{tporOperateContent},#{projectId},#{userId})
+        insert into t_project_operate_recorder(id,tpor_timestamp,tpor_operate_type,project_name,tpor_operate_content,project_id,user_id)
+                                        values (#{id},#{tporTimestamp},#{tporOperateType},#{projectName},#{tporOperateContent},#{projectId},#{userId})
     </insert>
 
     <select id="queryProjectOperateRecordsByProjectId" resultMap="userResultMap">
@@ -32,5 +32,29 @@
     <select id="queryCountSizeByProjectId" resultType="java.lang.Integer">
         select count(0) from t_project_operate_recorder where project_id = #{projectId}
     </select>
+
+    <insert id="insertProjectOperateRecords" parameterType="List" useGeneratedKeys="false">
+        insert into t_project_operate_recorder(id,tpor_timestamp,
+                                               tpor_operate_type,
+                                               project_name,
+                                               tpor_operate_content,
+                                               project_problem_id,
+                                               project_interface_id,
+                                               project_id,
+                                               user_id) values
+        <foreach collection="operates" item="opera" index="index" separator=",">
+        (
+            #{opera.id},
+            #{opera.tporTimestamp},
+            #{opera.tporOperateType},
+            #{opera.projectName},
+            #{opera.tporOperateContent},
+            #{opera.projectProblemId},
+            #{opera.projectInterfaceId},
+            #{opera.projectId},
+            #{opera.userId}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

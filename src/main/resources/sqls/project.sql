@@ -26,7 +26,6 @@ create table T_PROJECT(
     project_desc varchar(255) comment '项目描述',
     project_add_timestamp bigint not null comment '添加时间',
     project_is_public enum('Y','N') default 'Y' comment '是否公开项目',
-    project_complete_schedule double default 0 comment '完成进度',
     user_id varchar(255) comment '添加此项目的人',
     constraint fk_project_add_user_id foreign key(user_id) references T_USER(id)
 );
@@ -38,7 +37,7 @@ create table T_PROJECT_OPERATE_RECORDER(
     tpor_timestamp bigint comment '记录的时间',
     tpor_operate_type enum('DELETE','CREATE','MODIFY') not null comment '操作的类型',
     tpor_operate_content varchar(255) not null comment '操作的内容',
-    tpor_name varchar(255) not null comment '项目/问题/接口名称',
+    project_name varchar(255) not null comment '项目/问题/接口名称',
     project_id varchar(255) comment '项目id(不与项目表关联 防止项目删除后影响此表)',
     project_problem_id varchar(255) comment '对应的项目问题id(不与项目问题表关联 防止项目删除后影响此表)',
     project_interface_id varchar(255) comment '对应的项目接口Id(不与项目接口表关联 防止项目删除后影响此表)',

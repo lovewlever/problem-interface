@@ -1,6 +1,5 @@
 package com.problem.pl.model.dao
 
-import com.problem.pl.model.entities.TProjectEntity
 import com.problem.pl.model.entities.TProjectProblemEntity
 
 /**

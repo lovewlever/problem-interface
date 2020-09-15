@@ -18,4 +18,6 @@ interface ProjectOperateRecordMapper {
      * 根据项目id查询 操作的总记录
      */
     fun queryCountSizeByProjectId(projectId: String): Int
+
+    fun insertProjectOperateRecords(operates: MutableList<TProjectOperateRecorderEntity>): Int
 }

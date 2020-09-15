@@ -21,13 +21,13 @@ open class TProjectProblemEntity {
 
     var ppTransferFlow: String = ""
 
-    var projectId: String = ""
+    var projectId: String? = null
 
-    var userIdForChoose: String = ""
+    var userIdForChoose: String? = null
 
-    var userIdForAdd: String = ""
+    var userIdForAdd: String? = null
     
-    var systemDevicesId: String = ""
+    var systemDevicesId: String? = null
     
     var refTProjectEntity: TProjectEntity? = null
     

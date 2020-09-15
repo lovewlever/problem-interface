@@ -18,4 +18,18 @@
     </resultMap>
 
 
+    <insert id="insertBatchProjectProblems" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into t_project_problem(id,pp_add_timestamp,pp_module_page,pp_content,project_id,system_devices_id,user_id_for_add) values
+        <foreach collection="tppes" item="pro" index="index" separator=",">(
+            #{pro.id},
+            #{pro.ppAddTimestamp},
+            #{pro.ppModulePage},
+            #{pro.ppContent},
+            #{pro.projectId},
+            #{pro.systemDevicesId},
+            #{pro.userIdForAdd}
+            )
+        </foreach>
+    </insert>
+
 </mapper>

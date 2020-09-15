@@ -13,7 +13,7 @@ interface ProjectMapper {
      */
     fun queryRecommendProjectLabelsForProblem(userId: String,labelNum: Int): MutableList<TProjectEntity>
 
-    fun queryProjectById(projectId: String): TProjectEntity
+    fun queryProjectById(projectId: String): TProjectEntity?
 
     fun queryPListByPagination(startPos: Int,entPos: Int): MutableList<TProjectEntity>
 

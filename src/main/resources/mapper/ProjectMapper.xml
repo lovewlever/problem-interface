@@ -8,7 +8,6 @@
         <result column="project_desc" property="projectDesc" javaType="java.lang.String"/>
         <result column="project_level" property="projectLevel" javaType="java.lang.Integer"/>
         <result column="project_add_timestamp" property="projectAddTimestamp" javaType="java.lang.Long"/>
-        <result column="project_complete_schedule" property="projectCompleteSchedule" javaType="java.lang.Double"/>
         <result column="user_id" property="userId" javaType="java.lang.String"/>
         <association property="tUserEntity"
                      column="user_id"
@@ -39,15 +38,14 @@
         select distinct tp.project_name,tp.id from t_project tp
         right join t_project_problem tpp on tp.id = tpp.project_id
         where tpp.user_id_for_choose = #{userId}
-        and tpp.pc_complete_schedule &lt; 100
-        order by tpp.pc_choose_timestamp
+        order by tpp.pp_choose_timestamp
         limit #{labelNum}
     </select>
 
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
-        insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp, project_complete_schedule,
+        insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp,
                                user_id)
-        VALUES (#{id}, #{projectName}, #{projectLevel},#{projectDesc}, #{projectAddTimestamp}, #{projectCompleteSchedule},
+        VALUES (#{id}, #{projectName}, #{projectLevel},#{projectDesc}, #{projectAddTimestamp},
                 #{userId})
     </insert>
 

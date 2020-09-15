@@ -1,5 +1,6 @@
 package com.problem.pl.controller
 
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor
 import com.google.gson.JsonArray
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.io.BufferedInputStream
 import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.StringBuilder
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
 
@@ -51,7 +55,24 @@ class ProjectProblemController {
     /**
      * 保存项目问题
      */
-    fun saveProjectProblems(@RequestBody jsonArray: JsonArray): ResultPro<String> =
-            ResultCommon.generateResult()
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_SAVE_PROBLEM_LIST)
+    fun saveProjectProblems(@RequestBody entities: MutableList<RequestSaveProblemEntity>,
+                            request: HttpServletRequest): ResultPro<Int> {
+
+        return projectProblemService.insertProjectProblems(
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),entities)
+        /*val br = BufferedReader(InputStreamReader(request.inputStream))
+        val sb = StringBuilder()
+        var str: String?
+        while (br.readLine().also { str = it } != null) {
+            sb.append(str)
+        }*/
+    }
 
 }
+
+
+class RequestSaveProblemEntity(val problemChooseDeviceId: String,
+                               val problemModulePage: String,
+                               val problemContent: String,
+                               val projectId: String)

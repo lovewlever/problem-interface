@@ -84,7 +84,7 @@ class ProjectServiceImpl: ProjectService {
                 this.tporTimestamp = UniversalCommon.generateTimestamp()
                 this.tporOperateType = "CREATE"
                 this.tporOperateContent = "添加项目"
-                this.tporName = tProjectEntity.projectName
+                this.projectName = tProjectEntity.projectName
                 this.projectId = tProjectEntity.id
                 this.userId = uid
             })
