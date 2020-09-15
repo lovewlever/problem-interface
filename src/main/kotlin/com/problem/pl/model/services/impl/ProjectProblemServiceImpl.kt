@@ -82,7 +82,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                             this.projectId = projectEntity.id
                             this.projectName = projectEntity.projectName
                             this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_CREATE
-                            this.tporOperateContent = "用户=>${projectEntity.tUserEntity?.uNickname}=>对此项目添加了新问题=>${req.problemContent}"
+                            this.tporOperateContent = "添加新问题=>${req.problemContent}"
                             this.tporTimestamp = UniversalCommon.generateTimestamp()
                             this.userId = uid
                         })
