@@ -23,4 +23,14 @@ interface ProjectProblemMapper {
      * 查询最新的指定条问题
      */
     fun queryNewProblems(pageCount: Int): MutableList<TProjectProblemEntity>
+
+    /**
+     * 根据id查询一个问题
+     */
+    fun queryProblemById(problemId: String): TProjectProblemEntity?
+
+    /**
+     * 选择问题修改
+     */
+    fun updateChooseProblem(problemEntity: TProjectProblemEntity): Int
 }

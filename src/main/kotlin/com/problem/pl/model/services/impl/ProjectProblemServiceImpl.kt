@@ -139,4 +139,31 @@ class ProjectProblemServiceImpl: ProjectProblemService {
         }
     }
 
+    /**
+     * 选择问题修改
+     */
+    override fun chooseProblem(uid: String, problemId: String): ResultPro<TProjectProblemEntity> {
+        try {
+            projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
+                problemEntity.chooseProblemTUserEntity?.let {  // 如果已选择的用户是不是null 则已经有人选了
+                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "已经有人选择该问题")
+                } ?: let {
+                    val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
+                        this.userIdForChoose = uid
+                        this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
+                    })
+                    return if (updateNum > 0) {
+                        ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                    } else {
+                        ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "选择失败，请重试！")
+                    }
+                }
+            } ?: let {
+                return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "未查询到该问题，该问题或已删除！")
+            }
+        } catch (e: Exception) {
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
 }

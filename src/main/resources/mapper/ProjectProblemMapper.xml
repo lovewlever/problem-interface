@@ -60,4 +60,17 @@
                                               left join t_user tu on tpp.user_id_for_choose = tu.id
         order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
+
+    <!--??????-->
+    <update id="updateChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
+        update t_project_problem set pp_choose_timestamp = #{ppChooseTimestamp} ,user_id_for_choose = #{userIdForChoose} where id = #{id}
+    </update>
+
+    <select id="queryProblemById" parameterType="java.lang.String" resultMap="userResultMap">
+        select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname from t_project_problem tpp
+            left join t_project tp on tpp.project_id = tp.id
+            left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
+            left join t_user tu on tpp.user_id_for_choose = tu.id
+        where tpp.id = #{problemId}
+    </select>
 </mapper>

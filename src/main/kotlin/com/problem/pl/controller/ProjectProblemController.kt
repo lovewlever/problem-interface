@@ -80,6 +80,14 @@ class ProjectProblemController {
         }*/
     }
 
+    /**
+     * 选择一个问题
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_CHOOSE_PROBLEM)
+    fun chooseOneProjectProblem(@RequestParam("problemId") problemId: String,request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        return projectProblemService.chooseProblem(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId)
+    }
+
 }
 
 

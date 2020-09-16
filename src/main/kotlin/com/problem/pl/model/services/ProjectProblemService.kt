@@ -23,4 +23,9 @@ interface ProjectProblemService {
      */
     fun queryNewProblems(pageCount: Int): ResultPro<TProjectProblemEntity>
 
+    /**
+     * 选择问题修改
+     */
+    fun chooseProblem(uid: String,problemId: String): ResultPro<TProjectProblemEntity>
+
 }
