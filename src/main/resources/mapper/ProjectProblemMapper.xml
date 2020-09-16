@@ -14,7 +14,18 @@
         <result column="user_id_for_choose" property="userIdForChoose" javaType="java.lang.String"/>
         <result column="user_id_for_add" property="userIdForAdd" javaType="java.lang.String"/>
         <result column="system_devices_id" property="systemDevicesId" javaType="java.lang.String"/>
-
+        <collection property="refTProjectEntity" javaType="com.problem.pl.model.entities.TProjectEntity">
+            <id column="project_id" property="id"/>
+            <result column="project_name" property="projectName" javaType="java.lang.String"/>
+        </collection>
+        <collection property="refTProjectSystemDevicesEntity" javaType="com.problem.pl.model.entities.TProjectSystemDevicesEntity">
+            <id column="system_devices_id" property="id"/>
+            <result column="system_devices_name" property="systemDevicesName" javaType="java.lang.String"/>
+        </collection>
+        <collection property="chooseProblemTUserEntity" javaType="com.problem.pl.model.entities.TUserEntity">
+            <id column="user_id_for_choose" property="id"/>
+            <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
+        </collection>
     </resultMap>
 
 
@@ -42,6 +53,11 @@
     </select>
 
     <select id="queryNewProblems" resultMap="userResultMap" parameterType="java.lang.Integer">
-         select * from t_project_problem order by pp_add_timestamp desc limit #{pageCount}
+        select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname
+        from t_project_problem tpp
+                                              left join t_project tp on tpp.project_id = tp.id
+                                              left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
+                                              left join t_user tu on tpp.user_id_for_choose = tu.id
+        order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
 </mapper>
