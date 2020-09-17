@@ -65,6 +65,7 @@ create table T_PROJECT_PROBLEM(
     pp_choose_timestamp bigint comment '选择修改此问题的时间',
     pp_complete_timestamp bigint comment '此问题修改完成的时间',
     pp_add_timestamp bigint not null comment '添加此问题的时间',
+    pp_complete_schedule integer default 0 comment '此问题的进度',
     pp_module_page varchar(255) not null comment '模块或页面名称',
     pp_content varchar(255) not null comment '问题内容描述',
     pp_transfer_flow varchar(255) comment '转让流A->B->C',
