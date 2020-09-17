@@ -6,6 +6,7 @@
         <result column="project_name" property="projectName" javaType="java.lang.String"/>
         <result column="project_is_public" property="projectIsPublic" javaType="java.lang.String"/>
         <result column="project_desc" property="projectDesc" javaType="java.lang.String"/>
+        <result column="overall_progress" property="overallProgress" javaType="java.lang.Double" jdbcType="VARCHAR"/>
         <result column="project_level" property="projectLevel" javaType="java.lang.Integer"/>
         <result column="project_add_timestamp" property="projectAddTimestamp" javaType="java.lang.Long"/>
         <result column="user_id" property="userId" javaType="java.lang.String"/>
@@ -23,11 +24,15 @@
 
 
     <select id="queryPListByPagination" resultMap="userResultMap">
-        select * from t_project tp left join t_user tu on tp.user_id = tu.id order by tp.project_add_timestamp desc limit #{startPos},#{entPos}
+        select tp.* ,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id ) / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
+        from t_project tp
+        left join t_user tu on tp.user_id = tu.id
+        order by tp.project_add_timestamp desc limit #{startPos},#{entPos}
     </select>
 
     <select id="queryPListByUserIdAndPagination" resultMap="userResultMap">
-        select * from t_project tp
+        select tp.* ,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id ) / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
+        from t_project tp
         left join t_user tu on tp.user_id = tu.id
         where tp.user_id = #{userId}
         order by tp.project_add_timestamp

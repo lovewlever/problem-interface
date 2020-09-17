@@ -142,6 +142,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
     /**
      * 选择问题修改
      */
+    @Transactional
     override fun chooseProblem(uid: String, problemId: String): ResultPro<TProjectProblemEntity> {
         try {
             projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
@@ -162,8 +163,68 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                 return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "未查询到该问题，该问题或已删除！")
             }
         } catch (e: Exception) {
+            //回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
+    }
+
+    /**
+     * 修改问题进度
+     * 100为已完成
+     */
+    @Transactional
+    override fun updateModifyProblemProgress(uid: String, problemId: String, schedule: Int): ResultPro<TProjectProblemEntity> {
+        try {
+            projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
+                //判断修改此问题的人是不是本人
+                if (uid != problemEntity.userIdForChoose) {
+                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "你不是此问题的选择人，无法修改进度")
+                }
+                if (problemEntity.ppCompleteSchedule == 100) {
+                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "无法修改进度，因为此问题进度已达到100！")
+                }
+                problemEntity.apply {
+                    //判断进度 是100 加入完成时间
+                    if (schedule == 100) {
+                        this.ppCompleteTimestamp = UniversalCommon.generateTimestamp()
+                    }
+                    this.ppCompleteSchedule = schedule
+
+                }
+
+                //插入进度
+                val updateNum = projectProblemMapper.updateModifyProblemProgress(problemEntity)
+
+                //更新操作记录
+                projectOperateRecordMapper.insertProjectOperateRecord(TProjectOperateRecorderEntity().apply {
+                    this.id = UniversalCommon.generateDBId()
+                    this.userId = uid
+                    this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_MODIFY
+                    this.tporOperateContent = "修改问题：${problemEntity.ppContent} 的进度到${schedule}%"
+                    this.tporTimestamp = UniversalCommon.generateTimestamp()
+                    this.projectId = problemEntity.projectId
+                    this.projectName = problemEntity.refTProjectEntity?.projectName ?: ""
+                    this.projectProblemId = problemEntity.id
+                })
+
+                //存储WS消息
+                // TODO 2020-09-17 暂放
+
+                return if (updateNum > 0) {
+                    ResultCommon.generateResult(data = problemEntity)
+                } else {
+                    ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "进度更新失败，请重试！")
+                }
+            } ?: let {
+                return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "未查询到该问题，该问题或已删除！")
+            }
+        } catch (e: Exception) {
+            //回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+
     }
 
 }

@@ -73,4 +73,9 @@
             left join t_user tu on tpp.user_id_for_choose = tu.id
         where tpp.id = #{problemId}
     </select>
+
+    <!--Update problem progress-->
+    <update id="updateModifyProblemProgress" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
+        update t_project_problem set pp_complete_schedule = #{ppCompleteSchedule} , pp_complete_timestamp = #{ppCompleteTimestamp} where id = #{id}
+    </update>
 </mapper>

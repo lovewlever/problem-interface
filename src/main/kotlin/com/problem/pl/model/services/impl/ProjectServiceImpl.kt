@@ -70,7 +70,6 @@ class ProjectServiceImpl: ProjectService {
                 this.id = UniversalCommon.generateDBId()
                 this.projectAddTimestamp = UniversalCommon.generateTimestamp()
                 this.userId = uid
-                this.projectCompleteSchedule = 0.0
                 this.projectName = projectName
                 this.projectLevel = projectLevel
                 this.projectDesc = projectDesc

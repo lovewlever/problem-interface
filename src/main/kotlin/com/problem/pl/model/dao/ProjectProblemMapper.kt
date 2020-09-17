@@ -33,4 +33,9 @@ interface ProjectProblemMapper {
      * 选择问题修改
      */
     fun updateChooseProblem(problemEntity: TProjectProblemEntity): Int
+
+    /**
+     * 修改问题进度
+     */
+    fun updateModifyProblemProgress(problemEntity: TProjectProblemEntity): Int
 }

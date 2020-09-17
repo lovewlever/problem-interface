@@ -8,7 +8,7 @@ open class TProjectEntity {
     var projectName: String = ""
     var projectLevel: Int = 0
     var projectAddTimestamp: Long = 0
-    var projectCompleteSchedule: Double = 0.toDouble()
+    var overallProgress: Double = 0.toDouble()
     var projectDesc: String = ""
     var projectIsPublic: String = ""
     var userId: String = ""

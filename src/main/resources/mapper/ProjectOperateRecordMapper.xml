@@ -26,7 +26,8 @@
     <select id="queryProjectOperateRecordsByProjectId" resultMap="userResultMap">
         select * from t_project_operate_recorder tor
             left join t_user tu on tor.user_id = tu.id
-            where tor.project_id = #{projectId} limit #{startPos},#{endPos}
+            where tor.project_id = #{projectId}
+        order by tpor_timestamp DESC limit #{startPos},#{endPos}
     </select>
 
     <select id="queryCountSizeByProjectId" resultType="java.lang.Integer">

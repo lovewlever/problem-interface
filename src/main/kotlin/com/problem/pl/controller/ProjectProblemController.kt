@@ -88,6 +88,17 @@ class ProjectProblemController {
         return projectProblemService.chooseProblem(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId)
     }
 
+    /**
+     * 修改问题进度
+     * 100为已完成
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_UPDATE_MODIFY_PROBLEM_PROGRESS)
+    fun updateModifyProblemProgress(@RequestParam("problemId") problemId: String,
+                                    @RequestParam("schedule") schedule: Int,
+                                    request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        return projectProblemService.updateModifyProblemProgress(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId,schedule)
+    }
+
 }
 
 
