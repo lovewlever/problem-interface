@@ -45,7 +45,12 @@
 
 
     <select id="queryProjectProblemsListByProjectId" resultMap="userResultMap">
-        select * from t_project_problem where project_id = #{projectId} order by pp_add_timestamp desc limit #{startPos},#{endPos}
+        select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname
+        from t_project_problem tpp
+                 left join t_project tp on tpp.project_id = tp.id
+                 left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
+                 left join t_user tu on tpp.user_id_for_choose = tu.id
+        where project_id = #{projectId} order by pp_add_timestamp desc limit #{startPos},#{pageCountSize}
     </select>
 
     <select id="getPPListByProjectIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">

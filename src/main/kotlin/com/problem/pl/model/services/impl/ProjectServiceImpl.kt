@@ -41,7 +41,7 @@ class ProjectServiceImpl: ProjectService {
         return try {
             val findProjectTotalCount = projectMapper.findProjectTotalCount()
             val pageE = UniversalCommon.pagingCalculation(page, pageCount, findProjectTotalCount)
-            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryPListByPagination(pageE.startPos,pageE.endPos))
+            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryPListByPagination(pageE.startPos,pageCount))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
@@ -54,7 +54,7 @@ class ProjectServiceImpl: ProjectService {
         return try {
             val findProjectTotalCount = projectMapper.findProjectTotalCountByUserId(userId)
             val pageE = UniversalCommon.pagingCalculation(page, pageCountSize, findProjectTotalCount)
-            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryPListByUserIdAndPagination(userId,pageE.startPos,pageE.endPos))
+            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryPListByUserIdAndPagination(userId,pageE.startPos,pageCountSize))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
@@ -168,7 +168,7 @@ class ProjectServiceImpl: ProjectService {
         return try {
             val findOperateRecordCount = projectOperateRecordMapper.queryCountSizeByProjectId(projectId)
             val pageE = UniversalCommon.pagingCalculation(curPage, pageSize, findOperateRecordCount)
-            ResultCommon.generateResult(pagination = pageE,data = projectOperateRecordMapper.queryProjectOperateRecordsByProjectId(projectId,pageE.startPos,pageE.endPos))
+            ResultCommon.generateResult(pagination = pageE,data = projectOperateRecordMapper.queryProjectOperateRecordsByProjectId(projectId,pageE.startPos,pageSize))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }

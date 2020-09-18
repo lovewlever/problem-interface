@@ -15,9 +15,9 @@ interface ProjectMapper {
 
     fun queryProjectById(projectId: String): TProjectEntity?
 
-    fun queryPListByPagination(startPos: Int,entPos: Int): MutableList<TProjectEntity>
+    fun queryPListByPagination(startPos: Int,pageCountSize: Int): MutableList<TProjectEntity>
 
-    fun queryPListByUserIdAndPagination(userId: String,startPos: Int,entPos: Int): MutableList<TProjectEntity>
+    fun queryPListByUserIdAndPagination(userId: String,startPos: Int,pageCountSize: Int): MutableList<TProjectEntity>
 
     fun saveNewProjectInfo(tProjectEntity: TProjectEntity): Int
 

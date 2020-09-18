@@ -41,7 +41,7 @@
                  left join t_user tu on tp.user_id = tu.id
         group by tp.id
         order by tp.project_add_timestamp DESC
-        limit #{startPos},#{entPos}
+        limit #{startPos},#{pageCountSize}
     </select>
 
     <select id="queryPListByUserIdAndPagination" resultMap="userResultMap">
@@ -52,7 +52,7 @@
                  left join t_user tu on tp.user_id = tu.id
         where tp.user_id = #{userId}  group by tp.id
         order by tp.project_add_timestamp DESC
-        limit  #{startPos},#{entPos};
+        limit  #{startPos},#{pageCountSize};
     </select>
 
     <select id="queryRecommendProjectLabelsForProblem" resultMap="userResultMap">

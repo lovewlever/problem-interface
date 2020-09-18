@@ -12,7 +12,7 @@ interface ProjectProblemMapper {
     /**
      * 根据项目id查询 问题列表
      */
-    fun queryProjectProblemsListByProjectId(projectId: String,startPos: Int,endPos: Int): MutableList<TProjectProblemEntity>
+    fun queryProjectProblemsListByProjectId(projectId: String,startPos: Int,pageCountSize: Int): MutableList<TProjectProblemEntity>
 
     /**
      * 查询某个项目下问题总数量

@@ -12,7 +12,7 @@ interface ProjectOperateRecordMapper {
     /**
      * 根据项目id查询此项目记录
      */
-    fun queryProjectOperateRecordsByProjectId(projectId: String,startPos: Int,endPos: Int): MutableList<TProjectOperateRecorderEntity>
+    fun queryProjectOperateRecordsByProjectId(projectId: String,startPos: Int,pageSize: Int): MutableList<TProjectOperateRecorderEntity>
 
     /**
      * 根据项目id查询 操作的总记录
