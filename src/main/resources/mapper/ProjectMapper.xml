@@ -16,6 +16,17 @@
             <id column="user_id" property="id"/>
             <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         </association>
+        <association property="tProjectProblemEntity"
+                     column="tpp_id"
+                     javaType="com.problem.pl.model.entities.TProjectProblemEntity"
+                     resultMap="getNewProblem">
+        </association>
+    </resultMap>
+
+    <resultMap id="getNewProblem" type="com.problem.pl.model.entities.TProjectProblemEntity">
+        <result column="tpp_id" property="id" javaType="String" jdbcType="VARCHAR"/>
+        <result column="pp_content" property="ppContent" javaType="java.lang.String"/>
+        <result column="pp_add_timestamp" property="ppAddTimestamp" javaType="java.lang.Long"/>
     </resultMap>
 
     <select id="queryProjectById" parameterType="java.lang.String" resultMap="userResultMap">
@@ -24,19 +35,25 @@
 
 
     <select id="queryPListByPagination" resultMap="userResultMap">
-        select tp.* ,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id ) / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
+        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id )
+            / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
         from t_project tp
-        left join t_user tu on tp.user_id = tu.id
-        order by tp.project_add_timestamp desc limit #{startPos},#{entPos}
+                 left join (select * from t_project_problem order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
+                 left join t_user tu on tp.user_id = tu.id
+        group by tp.id
+        order by tp.project_add_timestamp DESC
+        limit #{startPos},#{entPos}
     </select>
 
     <select id="queryPListByUserIdAndPagination" resultMap="userResultMap">
-        select tp.* ,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id ) / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
+        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id )
+            / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
         from t_project tp
-        left join t_user tu on tp.user_id = tu.id
-        where tp.user_id = #{userId}
-        order by tp.project_add_timestamp
-        desc limit #{startPos},#{entPos}
+                 left join (select * from t_project_problem order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
+                 left join t_user tu on tp.user_id = tu.id
+        where tp.user_id = #{userId}  group by tp.id
+        order by tp.project_add_timestamp DESC
+        limit  #{startPos},#{entPos};
     </select>
 
     <select id="queryRecommendProjectLabelsForProblem" resultMap="userResultMap">

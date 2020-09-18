@@ -13,5 +13,6 @@ open class TProjectEntity {
     var projectIsPublic: String = ""
     var userId: String = ""
     var tUserEntity: TUserEntity? = null
+    var tProjectProblemEntity: TProjectProblemEntity? = null
 }
 
