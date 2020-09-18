@@ -17,7 +17,6 @@
             <result column="u_nickname" property="uNickname" javaType="java.lang.String"/>
         </association>
         <association property="tProjectProblemEntity"
-                     column="tpp_id"
                      javaType="com.problem.pl.model.entities.TProjectProblemEntity"
                      resultMap="getNewProblem">
         </association>

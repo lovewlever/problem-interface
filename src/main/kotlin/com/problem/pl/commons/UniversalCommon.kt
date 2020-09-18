@@ -10,7 +10,7 @@ object UniversalCommon {
 
     fun generateDBId(): String = UUID.randomUUID().toString().replace("-","")
 
-    fun generateTimestamp() : Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+    fun generateTimestamp() : Long = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli()
 
     /**
      * 计算分页
