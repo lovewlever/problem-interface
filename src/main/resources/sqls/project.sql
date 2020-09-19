@@ -86,6 +86,7 @@ create table T_PROJECT_INTERFACE(
     pi_add_timestamp bigint comment '添加时间',
     pi_last_mod_timestamp bigint comment '最后修改时间',
     pi_name varchar(255) not null comment '接口名',
+    pi_is_abandoned enum('N','Y') default 'N' comment '是否废弃',
     pi_data_json json not null comment '接口链接/参数/返回值、JSON格式存储',
     pi_mod_transfer_flow varchar(255) comment '修改流A->B->C',
     user_id_for_add varchar(255) comment '添加人',
