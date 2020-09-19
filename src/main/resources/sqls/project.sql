@@ -94,4 +94,13 @@ create table T_PROJECT_INTERFACE(
     constraint fk_pi_add_user_id foreign key (user_id_for_add) references T_USER(id), #所属用户ID
     constraint fk_pi_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade #所属项目的ID
 
+);
+
+#项目接口评分表(差强人意，褒贬不一，好评如潮)
+create table T_PROJECT_INTERFACE_SCORE(
+    id varchar(255) primary key comment '主键',
+    tis_points integer not null comment '分值',
+    tis_assess_time bigint not null comment '评价时间',
+    interface_id varchar(255) comment '接口表外键',
+    constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id) #所属接口id
 )
