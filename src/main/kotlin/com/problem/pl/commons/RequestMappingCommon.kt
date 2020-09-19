@@ -30,6 +30,7 @@ object RequestMappingCommon {
     //项目问题相关
     const val MAPPING_PPC = "/ppc"
     const val MAPPING_PPC_RECOMMEND_PROJECT_LABEL_FOR_PROBLEM = "/recommendProjectLabelsForProblem"
+    const val MAPPING_PPC_PROJECT_LABEL_FOR_PROBLEM_BY_PAGINATION = "/queryProjectLabelsForProblemByPagination"
     const val MAPPING_PPC_PROJECT_SYSTEM_DEVICES = "/queryProjectSystemDevices"
     const val MAPPING_PPC_PROJECT_SAVE_PROBLEM_LIST = "/saveProjectSaveProblemList"
     const val MAPPING_PPC_QUERY_PROBLEM_LIST_BY_PROJECT_ID = "/queryProblemListByProjectId"

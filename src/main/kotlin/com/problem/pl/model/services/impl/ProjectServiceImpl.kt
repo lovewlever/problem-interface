@@ -148,6 +148,20 @@ class ProjectServiceImpl: ProjectService {
     }
 
     /**
+     * 查询问题页面的顶部项目标签，
+     * 分页查询
+     */
+    override fun queryProjectToLabelsByPagination(curPage: Int,pageSize: Int): ResultPro<TProjectEntity> {
+        return try {
+            val findProjectTotalCount = projectMapper.findProjectTotalCount()
+            val pageE = UniversalCommon.pagingCalculation(curPage, pageSize, findProjectTotalCount)
+            ResultCommon.generateResult(data = projectMapper.queryProjectToLabelsByPagination(pageE.startPos,pageSize))
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
      * 查询问题页面推荐的项目标签
      * 最近修改的问题所属的项目
      * 根据最近修改的问题 查询推荐的项目Label

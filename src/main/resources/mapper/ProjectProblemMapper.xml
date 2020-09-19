@@ -63,6 +63,7 @@
                                               left join t_project tp on tpp.project_id = tp.id
                                               left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
                                               left join t_user tu on tpp.user_id_for_choose = tu.id
+        where tpp.pp_complete_schedule &lt; 100
         order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
 

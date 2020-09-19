@@ -38,6 +38,15 @@ class ProjectProblemController {
             projectService.queryRecommendProjectLabelsForProblem(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(), labelNum)
 
     /**
+     * 查询问题页面的顶部项目标签，
+     * 分页查询
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_LABEL_FOR_PROBLEM_BY_PAGINATION)
+    fun queryProjectToLabelsByPagination(@RequestParam("page") page: Int,
+                                         @RequestParam("pageCountSize") pageCountSize: Int) =
+            projectService.queryProjectToLabelsByPagination(page,pageCountSize)
+
+    /**
      * 查询系统设备列表
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_SYSTEM_DEVICES)

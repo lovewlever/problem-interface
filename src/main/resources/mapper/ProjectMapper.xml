@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.problem.pl.model.dao.ProjectMapper">
     <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectEntity">
@@ -63,6 +63,12 @@
         limit #{labelNum}
     </select>
 
+    <select id="queryProjectToLabelsByPagination" resultMap="userResultMap">
+        select t_project.id,t_project.project_name
+        from t_project order by project_add_timestamp DESC
+        LIMIT #{startPos},#{pageCountSize}
+    </select>
+
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
         insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp,
                                user_id)
@@ -70,25 +76,26 @@
                 #{userId})
     </insert>
 
+
     <!--?????-->
     <select id="findProjectTotalCount" resultType="java.lang.Integer">
-        select count(0) from t_project
+        SELECT COUNT(0) FROM t_project
     </select>
 
     <select id="findProjectTotalCountByUserId" resultType="java.lang.Integer">
-        select count(0) from t_project where user_id = #{userId}
+        SELECT COUNT(0) FROM t_project WHERE user_id = #{userId}
     </select>
 
     <!--?? ???-->
     <update id="modifyProjectPriority">
-        update t_project set project_level = #{priority} where id = #{pid}
+        UPDATE t_project SET project_level = #{priority} WHERE id = #{pid}
     </update>
 
     <update id="modifyProjectName">
-        update t_project set project_name = #{projectName} where id = #{projectId}
+        UPDATE t_project SET project_name = #{projectName} WHERE id = #{projectId}
     </update>
 
     <delete id="deleteProjectById">
-        delete from t_project where id = #{projectId}
+        DELETE FROM t_project WHERE id = #{projectId}
     </delete>
 </mapper>

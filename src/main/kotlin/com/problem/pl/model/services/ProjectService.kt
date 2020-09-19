@@ -23,6 +23,13 @@ interface ProjectService {
 
     fun deleteProjectById(projectId: String): ResultPro<String>
 
+
+    /**
+     * 查询问题页面的顶部项目标签，
+     * 分页查询
+     */
+    fun queryProjectToLabelsByPagination(curPage: Int,pageSize: Int): ResultPro<TProjectEntity>
+
     /**
      * 查询问题页面推荐的项目标签
      * 最近修改的问题所属的项目
