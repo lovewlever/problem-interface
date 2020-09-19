@@ -1,5 +1,8 @@
 package com.problem.pl.commons
 
+/**
+ * Controller的RequestMapping
+ */
 object RequestMappingCommon {
 
     const val REQUEST_ATTRIBUTE_KEY_USER_ID = "uid"

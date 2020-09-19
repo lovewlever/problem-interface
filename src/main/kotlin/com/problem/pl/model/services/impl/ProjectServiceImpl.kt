@@ -155,7 +155,7 @@ class ProjectServiceImpl: ProjectService {
         return try {
             val findProjectTotalCount = projectMapper.findProjectTotalCount()
             val pageE = UniversalCommon.pagingCalculation(curPage, pageSize, findProjectTotalCount)
-            ResultCommon.generateResult(data = projectMapper.queryProjectToLabelsByPagination(pageE.startPos,pageSize))
+            ResultCommon.generateResult(pagination = pageE,data = projectMapper.queryProjectToLabelsByPagination(pageE.startPos,pageSize))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
