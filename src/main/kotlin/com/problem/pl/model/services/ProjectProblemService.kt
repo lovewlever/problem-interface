@@ -15,6 +15,17 @@ interface ProjectProblemService {
     fun insertProjectProblems(uid: String,problems: MutableList<RequestSaveProblemEntity>): ResultPro<Int>
 
     /**
+     * 查询我选中未修改完的问题
+     */
+    fun queryMineNotCompletedProblems(uid: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity>
+
+    /**
+     * 查询我选中已经修改完的问题
+     */
+    fun queryMineCompletedProblems(uid: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity>
+
+
+    /**
      * 根据项目id查询 问题列表
      */
     fun queryProjectProblemsListByProjectId(projectId: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity>

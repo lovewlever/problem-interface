@@ -3,16 +3,39 @@ package com.problem.pl.model.dao
 import com.problem.pl.model.entities.TProjectProblemEntity
 
 /**
- * 项目管理Mapper
+ * 项目管理问题Mapper
  */
 interface ProjectProblemMapper {
 
+    /**
+     * 插入新问题
+     */
     fun insertBatchProjectProblems(tppes: MutableList<TProjectProblemEntity>): Int
 
     /**
      * 根据项目id查询 问题列表
      */
     fun queryProjectProblemsListByProjectId(projectId: String,startPos: Int,pageCountSize: Int): MutableList<TProjectProblemEntity>
+
+    /**
+     * 查询我选中未修改完的问题
+     */
+    fun queryMineNotCompletedProblems(uid: String,startPos: Int,pageCountSize: Int): MutableList<TProjectProblemEntity>
+
+    /**
+     * 查询我选中未修改完的问题的总数量
+     */
+    fun getMineNotCompletedProblemsCount(uid: String): Int
+
+    /**
+     * 查询我选中已经修改完的问题
+     */
+    fun queryMineCompletedProblems(uid: String,startPos: Int,pageCountSize: Int): MutableList<TProjectProblemEntity>
+
+    /**
+     * 查询我选中已经修改完的问题的总数量
+     */
+    fun getMineCompletedProblemsCount(uid: String): Int
 
     /**
      * 查询某个项目下问题总数量

@@ -114,6 +114,34 @@ class ProjectProblemServiceImpl: ProjectProblemService {
     }
 
     /**
+     * 查询我选中未修改完的问题
+     */
+    override fun queryMineNotCompletedProblems(uid: String,curPage: Int, pageCountSize: Int): ResultPro<TProjectProblemEntity> {
+        return try {
+            val mineNotCompletedProblemsCount = projectProblemMapper.getMineNotCompletedProblemsCount(uid)
+            val pageE = UniversalCommon.pagingCalculation(curPage, pageCountSize, mineNotCompletedProblemsCount)
+            val queryMineNotCompletedProblems = projectProblemMapper.queryMineNotCompletedProblems(uid, pageE.startPos, pageCountSize)
+            ResultCommon.generateResult(data = queryMineNotCompletedProblems,pagination = pageE)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
+     * 查询我选中已经修改完的问题
+     */
+    override fun queryMineCompletedProblems(uid: String,curPage: Int, pageCountSize: Int): ResultPro<TProjectProblemEntity> {
+        return try {
+            val mineModifiedProblemsCount = projectProblemMapper.getMineCompletedProblemsCount(uid)
+            val pageE = UniversalCommon.pagingCalculation(curPage, pageCountSize, mineModifiedProblemsCount)
+            val queryMineModifiedProblems = projectProblemMapper.queryMineCompletedProblems(uid, pageE.startPos, pageCountSize)
+            ResultCommon.generateResult(data = queryMineModifiedProblems,pagination = pageE)
+        } catch (e: Exception) {
+            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
+
+    /**
      * 根据项目id查询 问题列表
      */
     override fun queryProjectProblemsListByProjectId(projectId: String,curPage: Int,pageCountSize: Int): ResultPro<TProjectProblemEntity> {

@@ -1,6 +1,7 @@
 package com.problem.pl.controller
 
 import com.problem.pl.commons.RequestMappingCommon
+import com.problem.pl.commons.ResultCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
 import com.problem.pl.model.entities.TProjectProblemEntity
@@ -62,6 +63,29 @@ class ProjectProblemController {
                                             @RequestParam("page") page: Int,
                                             @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectProblemEntity> =
             projectProblemService.queryProjectProblemsListByProjectId(projectId,page,pageCountSize)
+
+
+    /**
+     * 查询我已修改完成或选中未修改完成的问题列表
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_QUERY_MINE_COMPLETED_OR_NOT_COMPLETED_PROBLEMS)
+    fun queryMineCompletedOrNotCompletedProblems(@RequestParam("findType") findType: String,
+                                                @RequestParam("page") page: Int,
+                                                @RequestParam("pageCountSize") pageCountSize: Int,
+                                                request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        val uid = request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString()
+        return when (findType) {
+            "NotCompleted" -> {
+                projectProblemService.queryMineNotCompletedProblems(uid,page,pageCountSize)
+            }
+            "Completed" -> {
+                projectProblemService.queryMineCompletedProblems(uid,page,pageCountSize)
+            }
+            else -> {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "findType参数错误")
+            }
+        }
+    }
 
 
     /**
