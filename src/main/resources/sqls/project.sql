@@ -68,7 +68,7 @@ create table T_PROJECT_PROBLEM(
     pp_complete_schedule integer not null default 0 comment '此问题的进度',
     pp_module_page varchar(255) not null comment '模块或页面名称',
     pp_content varchar(255) not null comment '问题内容描述',
-    pp_transfer_flow varchar(255) comment '转让流A->B->C',
+    pp_transfer_flow varchar(255) comment '转让流A=>B=>C',
     project_id varchar(255) comment '问题所属的项目ID',
     user_id_for_choose varchar(255) comment '选择修改此问题的用户ID',
     user_id_for_add varchar(255) comment '添此问题的人ID',

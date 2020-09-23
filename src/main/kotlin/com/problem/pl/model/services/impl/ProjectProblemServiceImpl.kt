@@ -3,15 +3,13 @@ package com.problem.pl.model.services.impl
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
 import com.problem.pl.controller.RequestSaveProblemEntity
-import com.problem.pl.model.dao.ProjectMapper
-import com.problem.pl.model.dao.ProjectOperateRecordMapper
-import com.problem.pl.model.dao.ProjectProblemMapper
-import com.problem.pl.model.dao.ProjectSystemDevicesMapper
+import com.problem.pl.model.dao.*
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectOperateRecorderEntity
 import com.problem.pl.model.entities.TProjectProblemEntity
 import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import com.problem.pl.model.services.ProjectProblemService
+import com.problem.pl.model.services.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.interceptor.TransactionAspectSupport
@@ -23,6 +21,9 @@ import javax.annotation.Resource
  */
 @Service("projectProblemService")
 class ProjectProblemServiceImpl: ProjectProblemService {
+
+    @Resource
+    lateinit var userMapper: UserMapper
 
     @Resource
     lateinit var projectMapper: ProjectMapper
@@ -191,18 +192,18 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                         }
                     }
                 } else if (operatingType == "Cancel") {
-                    if (problemEntity.userIdForChoose == uid) {
+                    return if (problemEntity.userIdForChoose == uid) {
                         val updateNum = projectProblemMapper.updateCancelChooseProblem(problemEntity.apply {
                             this.userIdForChoose = null
                             this.ppChooseTimestamp = 0
                         })
-                        return if (updateNum > 0) {
+                        if (updateNum > 0) {
                             ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
                         } else {
                             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "取消失败，请重试！")
                         }
                     } else {
-                        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "此问题不是你修改中的问题！无法取消")
+                        ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "此问题不是你修改中的问题！无法取消")
                     }
                 } else {
                     return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "参数错误：请传入Selected或Cancel")
@@ -276,4 +277,55 @@ class ProjectProblemServiceImpl: ProjectProblemService {
 
     }
 
+    /**
+     * 转让问题给某个用户
+     */
+    @Transactional
+    override fun updateTransferIssues(uid: String, toUserId: String, problemId: String): ResultPro<TProjectProblemEntity> {
+        try {
+            val selfUserEntity = userMapper.loadUserByUId(uid)
+                    ?: return ResultCommon.generateResult(ResultCommon.RESULT_CODE_FAIL, "未查询到你的信息！")
+            val toUserEntity = userMapper.loadUserByUId(toUserId)
+                    ?: return ResultCommon.generateResult(ResultCommon.RESULT_CODE_FAIL, "未查询到被转让人的信息的信息！")
+
+            val problemEntity = projectProblemMapper.queryProblemById(problemId)
+                    ?: return ResultCommon.generateResult(ResultCommon.RESULT_CODE_FAIL, "未查询到问题信息！")
+
+            //转让人不是问题的选择人
+            if (selfUserEntity.id != problemEntity.chooseProblemTUserEntity?.id) {
+                return ResultCommon.generateResult(ResultCommon.RESULT_CODE_FAIL, "你未选择该问题，无法转让！")
+            }
+
+            val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
+                this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
+                this.ppTransferFlow += "${selfUserEntity.uNickname}=>${toUserEntity.uNickname}"
+                this.userIdForChoose = toUserEntity.id
+            })
+
+            //更新操作记录
+            val oreUpdateNum = projectOperateRecordMapper.insertProjectOperateRecord(TProjectOperateRecorderEntity().apply {
+                this.id = UniversalCommon.generateDBId()
+                this.userId = uid
+                this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_MODIFY
+                this.tporOperateContent = "${selfUserEntity.uNickname}将问题:${problemEntity.ppContent} 转让给${toUserEntity.uNickname}"
+                this.tporTimestamp = UniversalCommon.generateTimestamp()
+                this.projectId = problemEntity.projectId
+                this.projectName = problemEntity.refTProjectEntity?.projectName ?: ""
+                this.projectProblemId = problemEntity.id
+            })
+
+            //发送ws消息
+            // TODO 2020-09-23 发送ws消息，暂放
+
+            return if (updateNum > 0 && oreUpdateNum > 0) {
+                ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+            } else {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL, msg = "转让失败，请重试！")
+            }
+        } catch (e: Exception) {
+            //回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+    }
 }

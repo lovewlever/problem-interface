@@ -133,7 +133,22 @@ class ProjectProblemController {
     fun updateModifyProblemProgress(@RequestParam("problemId") problemId: String,
                                     @RequestParam("schedule") schedule: Int,
                                     request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
-        return projectProblemService.updateModifyProblemProgress(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId,schedule)
+        return projectProblemService.updateModifyProblemProgress(
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId,schedule)
+    }
+
+
+    /**
+     * 转让问题给某个用户
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_UPDATE_TRANSFER_ISSUES)
+    fun transferIssues(@RequestParam("toUserId") toUserId: String,
+                       @RequestParam("problemId") problemId: String,
+                       request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        return projectProblemService.updateTransferIssues(
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                toUserId,
+                problemId)
     }
 
 }

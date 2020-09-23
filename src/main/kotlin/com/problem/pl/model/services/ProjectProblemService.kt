@@ -6,6 +6,7 @@ import com.problem.pl.model.entities.TProjectProblemEntity
 import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
+import javax.servlet.http.HttpServletRequest
 
 @Service
 interface ProjectProblemService {
@@ -46,4 +47,8 @@ interface ProjectProblemService {
      */
     fun updateModifyProblemProgress(uid: String, problemId: String,schedule: Int): ResultPro<TProjectProblemEntity>
 
+    /**
+     * 转让问题给某个用户
+     */
+    fun updateTransferIssues(uid: String,toUserId: String,problemId: String): ResultPro<TProjectProblemEntity>
 }
