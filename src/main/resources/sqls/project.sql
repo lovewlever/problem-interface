@@ -62,10 +62,10 @@ insert into T_PROJECT_SYSTEM_DEVICES(id,system_devices_name) values ('078e276d71
 #项目问题列表
 create table T_PROJECT_PROBLEM(
     id varchar(255) primary key comment '主键',
-    pp_choose_timestamp bigint comment '选择修改此问题的时间',
-    pp_complete_timestamp bigint comment '此问题修改完成的时间',
+    pp_choose_timestamp bigint not null default 0 comment '选择修改此问题的时间',
+    pp_complete_timestamp bigint not null default 0  comment '此问题修改完成的时间',
     pp_add_timestamp bigint not null comment '添加此问题的时间',
-    pp_complete_schedule integer default 0 comment '此问题的进度',
+    pp_complete_schedule integer not null default 0 comment '此问题的进度',
     pp_module_page varchar(255) not null comment '模块或页面名称',
     pp_content varchar(255) not null comment '问题内容描述',
     pp_transfer_flow varchar(255) comment '转让流A->B->C',
@@ -84,7 +84,7 @@ create table T_PROJECT_PROBLEM(
 create table T_PROJECT_INTERFACE(
     id varchar(255) primary key comment '主键',
     pi_add_timestamp bigint comment '添加时间',
-    pi_last_mod_timestamp bigint comment '最后修改时间',
+    pi_last_mod_timestamp bigint not null default 0 comment '最后修改时间',
     pi_name varchar(255) not null comment '接口名',
     pi_is_abandoned enum('N','Y') default 'N' comment '是否废弃',
     pi_data_json json not null comment '接口链接/参数/返回值、JSON格式存储',

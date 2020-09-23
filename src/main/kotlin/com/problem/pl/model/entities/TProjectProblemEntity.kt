@@ -9,7 +9,7 @@ open class TProjectProblemEntity {
 
     var ppChooseTimestamp: Long = 0
 
-    var ppCompleteTimestamp: Long? = null
+    var ppCompleteTimestamp: Long = 0
 
     var ppAddTimestamp: Long = 0
 

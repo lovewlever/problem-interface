@@ -38,7 +38,7 @@ interface ProjectProblemService {
     /**
      * 选择问题修改
      */
-    fun chooseProblem(uid: String,problemId: String): ResultPro<TProjectProblemEntity>
+    fun chooseOrCancelProblem(uid: String,problemId: String,operatingType: String): ResultPro<TProjectProblemEntity>
 
 
     /**

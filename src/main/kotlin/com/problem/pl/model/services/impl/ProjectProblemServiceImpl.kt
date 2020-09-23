@@ -171,22 +171,43 @@ class ProjectProblemServiceImpl: ProjectProblemService {
      * 选择问题修改
      */
     @Transactional
-    override fun chooseProblem(uid: String, problemId: String): ResultPro<TProjectProblemEntity> {
+    override fun chooseOrCancelProblem(uid: String, problemId: String,operatingType: String): ResultPro<TProjectProblemEntity> {
         try {
+
+            // TODO 2020-09-23 未完成：ws消息；添加操作记录
             projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
-                problemEntity.chooseProblemTUserEntity?.let {  // 如果已选择的用户是不是null 则已经有人选了
-                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "已经有人选择该问题")
-                } ?: let {
-                    val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
-                        this.userIdForChoose = uid
-                        this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
-                    })
-                    return if (updateNum > 0) {
-                        ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
-                    } else {
-                        ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "选择失败，请重试！")
+                if (operatingType == "Selected") {
+                    problemEntity.chooseProblemTUserEntity?.let {  // 如果已选择的用户是不是null 则已经有人选了
+                        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "已经有人选择该问题")
+                    } ?: let {
+                        val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
+                            this.userIdForChoose = uid
+                            this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
+                        })
+                        return if (updateNum > 0) {
+                            ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                        } else {
+                            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "选择失败，请重试！")
+                        }
                     }
+                } else if (operatingType == "Cancel") {
+                    if (problemEntity.userIdForChoose == uid) {
+                        val updateNum = projectProblemMapper.updateCancelChooseProblem(problemEntity.apply {
+                            this.userIdForChoose = null
+                            this.ppChooseTimestamp = 0
+                        })
+                        return if (updateNum > 0) {
+                            ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                        } else {
+                            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "取消失败，请重试！")
+                        }
+                    } else {
+                        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "此问题不是你修改中的问题！无法取消")
+                    }
+                } else {
+                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "参数错误：请传入Selected或Cancel")
                 }
+
             } ?: let {
                 return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "未查询到该问题，该问题或已删除！")
             }

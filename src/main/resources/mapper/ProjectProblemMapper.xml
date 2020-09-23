@@ -103,9 +103,15 @@
         order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
 
-    <!--??????-->
+    <!--选择问题修改-->
     <update id="updateChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
         update t_project_problem set pp_choose_timestamp = #{ppChooseTimestamp} ,user_id_for_choose = #{userIdForChoose} where id = #{id}
+    </update>
+
+    <!--取消选择一个问题-->
+    <update id="updateCancelChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
+        update t_project_problem set pp_choose_timestamp = #{ppChooseTimestamp} ,
+                                     user_id_for_choose = #{userIdForChoose} where id = #{id}
     </update>
 
     <select id="queryProblemById" parameterType="java.lang.String" resultMap="userResultMap">

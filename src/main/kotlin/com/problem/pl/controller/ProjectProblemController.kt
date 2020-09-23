@@ -114,11 +114,15 @@ class ProjectProblemController {
     }
 
     /**
-     * 选择一个问题
+     * 选择或取消修改某个问题
      */
-    @RequestMapping(RequestMappingCommon.MAPPING_PPC_CHOOSE_PROBLEM)
-    fun chooseOneProjectProblem(@RequestParam("problemId") problemId: String,request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
-        return projectProblemService.chooseProblem(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId)
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_CHOOSE_OR_CANCEL_PROBLEM)
+    fun chooseOneProjectProblem(@RequestParam("operatingType") operatingType: String,
+                                @RequestParam("problemId") problemId: String,
+                                request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        return projectProblemService.chooseOrCancelProblem(
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                problemId,operatingType)
     }
 
     /**

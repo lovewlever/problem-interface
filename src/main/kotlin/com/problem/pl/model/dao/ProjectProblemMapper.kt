@@ -58,6 +58,11 @@ interface ProjectProblemMapper {
     fun updateChooseProblem(problemEntity: TProjectProblemEntity): Int
 
     /**
+     * 取消选择一个问题
+     */
+    fun updateCancelChooseProblem(problemEntity: TProjectProblemEntity): Int
+
+    /**
      * 修改问题进度
      */
     fun updateModifyProblemProgress(problemEntity: TProjectProblemEntity): Int
