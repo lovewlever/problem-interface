@@ -5,13 +5,14 @@ import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * WebSocket
  */
 class ProblemInterfaceWebsocketHandler:TextWebSocketHandler() {
 
-    private val onlineUsers = HashMap<String, WebSocketSession>()
+    private val onlineUsers = ConcurrentHashMap<String, WebSocketSession>()
 
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
