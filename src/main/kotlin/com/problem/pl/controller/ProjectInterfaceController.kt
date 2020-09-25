@@ -1,5 +1,6 @@
 package com.problem.pl.controller
 
+import com.problem.pl.commons.HttpConnectCommon
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectInterfaceEntity
@@ -26,5 +27,14 @@ class ProjectInterfaceController {
                                 request: HttpServletRequest): ResultPro<TProjectInterfaceEntity> {
         return projectInterfaceService.saveProjectInterface(projectId,
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),json)
+    }
+
+
+    /**
+     * 请求接口数据并返回到客户端
+     */
+    @RequestMapping("/requestInterface")
+    fun requestInterfaceAndReturn(@RequestParam("url") url: String): String {
+        return HttpConnectCommon.interfaceRequest(url)
     }
 }

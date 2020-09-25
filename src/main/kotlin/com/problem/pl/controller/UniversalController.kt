@@ -25,4 +25,5 @@ class UniversalController {
     @RequestMapping
     fun options(): ResultPro<String> =
             ResultCommon.generateResult()
+
 }
