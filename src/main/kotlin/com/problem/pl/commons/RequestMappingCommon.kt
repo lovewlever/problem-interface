@@ -42,4 +42,11 @@ object RequestMappingCommon {
     const val MAPPING_PPC_UPDATE_MODIFY_PROBLEM_PROGRESS = "/updateProblemProgress" //修改问题进度 100为完成
     const val MAPPING_PPC_QUERY_MINE_COMPLETED_OR_NOT_COMPLETED_PROBLEMS = "/queryMineCompletedOrNotProblems" //查询我的 选中未修改完或者已修改完成的问题
     const val MAPPING_PPC_UPDATE_TRANSFER_ISSUES = "/updateTransferIssues" //转让某个问题给用户
+
+    //项目接口相关
+    const val MAPPING_PIF = "/pif"
+    const val MAPPING_PIF_REQUEST_INTERFACE = "/requestInterface" //请求接口数据并返回到客户端
+    const val MAPPING_PIF_SAVE_A_INTERFACE = "/saveInterface" // 新增一个接口
+    const val MAPPING_PIF_QUERY_INTERFACES_BY_PROJECT_ID = "/queryInterfacesByProjectId" // 分页查询项目下的接口
+    const val MAPPING_PIF_QUERY_INTERFACE_BY_ID = "/queryInterfaceById" // 查询接口详情
 }

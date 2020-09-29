@@ -15,5 +15,13 @@ interface ProjectInterfaceService {
      */
     fun saveProjectInterface(projectId: String,uid: String,json: String): ResultPro<TProjectInterfaceEntity>
 
+    /**
+     * 分页查询项目下的接口
+     */
+    fun queryProjectInterfacesByProjectId(projectId: String,curPage: Int,pageSize: Int): ResultPro<TProjectInterfaceEntity>
 
+    /**
+     * 根据id查询接口详情
+     */
+    fun queryProjectInterfaceById(interfaceId: String): ResultPro<TProjectInterfaceEntity>
 }

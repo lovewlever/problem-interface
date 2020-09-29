@@ -102,5 +102,7 @@ create table T_PROJECT_INTERFACE_SCORE(
     tis_points integer not null comment '分值',
     tis_assess_time bigint not null comment '评价时间',
     interface_id varchar(255) comment '接口表外键',
-    constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id) #所属接口id
+    user_id varchar(255) comment '评论人id',
+    constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id), #所属接口id
+    constraint fk_user_id foreign key (user_id) references T_USER(id) #所属接口id
 )
