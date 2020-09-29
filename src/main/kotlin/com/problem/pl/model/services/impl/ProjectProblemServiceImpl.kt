@@ -66,9 +66,10 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                     val operates = ArrayList<TProjectOperateRecorderEntity>(problems.size)
                     //循环生成问题表数据实体类
                     problems.forEach { req: RequestSaveProblemEntity ->
+                        val dbProblemId = UniversalCommon.generateDBId()
                         //问题
                         projectProblems.add(TProjectProblemEntity().apply {
-                            this.id = UniversalCommon.generateDBId()
+                            this.id = dbProblemId
                             this.ppAddTimestamp = UniversalCommon.generateTimestamp()
                             this.ppCompleteSchedule = 0
                             this.ppContent = req.problemContent
@@ -81,6 +82,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                         operates.add(TProjectOperateRecorderEntity().apply {
                             this.id = UniversalCommon.generateDBId()
                             this.projectId = projectEntity.id
+                            this.projectProblemId = dbProblemId
                             this.projectName = projectEntity.projectName
                             this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_CREATE
                             this.tporOperateContent = "添加新问题=>${req.problemContent}"

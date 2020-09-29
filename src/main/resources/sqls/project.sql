@@ -89,9 +89,9 @@ create table T_PROJECT_INTERFACE(
     pi_is_abandoned enum('N','Y') default 'N' comment '是否废弃',
     pi_data_json json not null comment '接口链接/参数/返回值、JSON格式存储',
     pi_mod_transfer_flow varchar(255) comment '修改流A->B->C',
-    user_id_for_add varchar(255) comment '添加人',
+    user_id varchar(255) comment '添加人',
     project_id varchar(255) comment '所属的项目id',
-    constraint fk_pi_add_user_id foreign key (user_id_for_add) references T_USER(id), #所属用户ID
+    constraint fk_pi_add_user_id foreign key (user_id) references T_USER(id), #所属用户ID
     constraint fk_pi_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade #所属项目的ID
 
 );

@@ -17,7 +17,7 @@ open class TProjectInterfaceEntity {
 
     var piModTransferFlow: String = ""
 
-    var userIdForAdd: String? = null
+    var userId: String? = null
 
     var projectId: String? = null
 

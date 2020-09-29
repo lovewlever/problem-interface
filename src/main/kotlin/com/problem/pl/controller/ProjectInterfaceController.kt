@@ -56,3 +56,21 @@ class ProjectInterfaceController {
         return HttpConnectCommon.interfaceRequest(url)
     }
 }
+
+
+class InterfaceRequestParam {
+    var requestType = "get"
+    var requestUrl = ""
+    var interfaceTitle = ""
+    var interfaceDescription = ""
+    var interfaceResponse = ""
+    var params = ArrayList<ParamsAndHeaders>()
+    var headers = ArrayList<ParamsAndHeaders>()
+}
+
+class ParamsAndHeaders {
+    var key = ""
+    var value = ""
+    var description = ""
+    var checked = true
+}

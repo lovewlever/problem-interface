@@ -9,7 +9,7 @@
        <result column="pi_is_abandoned" property="piIsAbandoned" javaType="java.lang.String"/>
        <result column="pi_data_json" property="piDataJson" javaType="java.lang.String"/>
        <result column="pi_mod_transfer_flow" property="piModTransferFlow" javaType="java.lang.String"/>
-       <result column="user_id_for_add" property="userIdForAdd" javaType="java.lang.String"/>
+       <result column="user_id" property="userId" javaType="java.lang.String"/>
        <result column="project_id" property="projectId" javaType="java.lang.String"/>
     </resultMap>
 
@@ -33,7 +33,7 @@
 
     <!--插入一个接口-->
     <insert id="saveProjectInterface" parameterType="com.problem.pl.model.entities.TProjectInterfaceEntity">
-        INSERT INTO t_project_interface(id, pi_add_timestamp, pi_name, pi_data_json, user_id_for_add, project_id)
+        INSERT INTO t_project_interface(id, pi_add_timestamp, pi_name, pi_data_json, user_id, project_id)
         VALUES (#{id},#{piAddTimestamp},#{piName},#{piDataJson},#{userIdForAdd},#{projectId})
     </insert>
 
