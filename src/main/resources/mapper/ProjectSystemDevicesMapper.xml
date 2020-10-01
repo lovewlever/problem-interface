@@ -7,7 +7,7 @@
     </resultMap>
 
     <select id="querySystemDevicesList" resultMap="userResultMap">
-        select * from t_project_system_devices
+        select * from T_PROJECT_SYSTEM_DEVICES
     </select>
 
 </mapper>

@@ -20,7 +20,7 @@
     </resultMap>
 
     <select id="loadUserByUId" resultMap="userResultMap">
-        SELECT * FROM t_user WHERE id = #{uid}
+        SELECT * FROM T_USER WHERE id = #{uid}
     </select>
 
     <select id="isAlreadyRegisteredByAccount" resultType="java.lang.Boolean">
@@ -29,21 +29,21 @@
                 then 'true'
                 else 'false'
             end
-        FROM t_user WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
+        FROM T_USER WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
     </select>
 
     <select id="loadUserByAccount" resultMap="userResultMap">
         SELECT *
-        FROM t_user WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
+        FROM T_USER WHERE u_login_account = #{account} OR u_bind_phone = #{account} OR u_bind_email = #{account}
     </select>
 
     <insert id="saveRegisterInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
-        insert into t_user(id,u_login_account,u_bind_phone,u_bind_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
+        insert into T_USER(id,u_login_account,u_bind_phone,u_bind_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
                     values (#{id},#{uLoginAccount},#{uBindPhone},#{uBindEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
     </insert>
 
     <update id="updateLastLoginInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
-        update t_user set last_login_devices = #{lastLoginDevices},
+        update T_USER set last_login_devices = #{lastLoginDevices},
                           last_login_timestamp = #{lastLoginTimestamp}
         where id = #{id}
     </update>

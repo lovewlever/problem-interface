@@ -19,23 +19,23 @@
     </resultMap>
 
     <insert id="insertProjectOperateRecord" parameterType="com.problem.pl.model.entities.TProjectOperateRecorderEntity">
-        insert into t_project_operate_recorder(id,tpor_timestamp,tpor_operate_type,project_name,tpor_operate_content,project_id,project_problem_id,project_interface_id,user_id)
+        insert into T_PROJECT_OPERATE_RECORDER(id,tpor_timestamp,tpor_operate_type,project_name,tpor_operate_content,project_id,project_problem_id,project_interface_id,user_id)
                                         values (#{id},#{tporTimestamp},#{tporOperateType},#{projectName},#{tporOperateContent},#{projectId},#{projectProblemId},#{projectInterfaceId},#{userId})
     </insert>
 
     <select id="queryProjectOperateRecordsByProjectId" resultMap="userResultMap">
-        select * from t_project_operate_recorder tor
-            left join t_user tu on tor.user_id = tu.id
+        select * from T_PROJECT_OPERATE_RECORDER tor
+            left join T_USER tu on tor.user_id = tu.id
             where tor.project_id = #{projectId}
         order by tpor_timestamp DESC limit #{startPos},#{pageSize}
     </select>
 
     <select id="queryCountSizeByProjectId" resultType="java.lang.Integer">
-        select count(0) from t_project_operate_recorder where project_id = #{projectId}
+        select count(0) from T_PROJECT_OPERATE_RECORDER where project_id = #{projectId}
     </select>
 
     <insert id="insertProjectOperateRecords" parameterType="List" useGeneratedKeys="false">
-        insert into t_project_operate_recorder(id,tpor_timestamp,
+        insert into T_PROJECT_OPERATE_RECORDER(id,tpor_timestamp,
                                                tpor_operate_type,
                                                project_name,
                                                tpor_operate_content,

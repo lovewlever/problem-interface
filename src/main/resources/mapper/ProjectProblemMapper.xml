@@ -30,7 +30,7 @@
 
 
     <insert id="insertBatchProjectProblems" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="false">
-        insert into t_project_problem(id,pp_add_timestamp,pp_module_page,pp_content,project_id,system_devices_id,user_id_for_add) values
+        insert into T_PROJECT_PROBLEM(id,pp_add_timestamp,pp_module_page,pp_content,project_id,system_devices_id,user_id_for_add) values
         <foreach collection="tppes" item="pro" index="index" separator=",">(
             #{pro.id},
             #{pro.ppAddTimestamp},
@@ -46,10 +46,10 @@
     <!--查询我选中未修改完的问题-->
     <select id="queryMineNotCompletedProblems" resultMap="userResultMap">
         select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname
-        from t_project_problem tpp
-                 left join t_project tp on tpp.project_id = tp.id
-                 left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
-                 left join t_user tu on tpp.user_id_for_choose = tu.id
+        from T_PROJECT_PROBLEM tpp
+                 left join T_PROJECT tp on tpp.project_id = tp.id
+                 left join T_PROJECT_SYSTEM_DEVICES tpsd on tpp.system_devices_id = tpsd.id
+                 left join T_USER tu on tpp.user_id_for_choose = tu.id
         where user_id_for_choose = #{uid} and pp_complete_schedule &lt; 100
         order by pp_choose_timestamp desc limit #{startPos},#{pageCountSize}
     </select>
@@ -57,17 +57,17 @@
     <!--查询我选中未修改完的问题的总数量-->
     <select id="getMineNotCompletedProblemsCount" resultType="java.lang.Integer">
         select COUNT(0)
-        from t_project_problem
+        from T_PROJECT_PROBLEM
         where user_id_for_choose = #{uid} and pp_complete_schedule &lt; 100
     </select>
 
     <!--查询我选中已经修改完的问题-->
     <select id="queryMineCompletedProblems" resultMap="userResultMap">
         select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname
-        from t_project_problem tpp
-                 left join t_project tp on tpp.project_id = tp.id
-                 left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
-                 left join t_user tu on tpp.user_id_for_choose = tu.id
+        from T_PROJECT_PROBLEM tpp
+                 left join T_PROJECT tp on tpp.project_id = tp.id
+                 left join T_PROJECT_SYSTEM_DEVICES tpsd on tpp.system_devices_id = tpsd.id
+                 left join T_USER tu on tpp.user_id_for_choose = tu.id
         where user_id_for_choose = #{uid} and pp_complete_schedule >= 100
         order by pp_complete_timestamp desc limit #{startPos},#{pageCountSize}
     </select>
@@ -75,57 +75,57 @@
     <!--查询我选中已经修改完的问题的总数量-->
     <select id="getMineCompletedProblemsCount" resultType="java.lang.Integer">
         select COUNT(0)
-        from t_project_problem
+        from T_PROJECT_PROBLEM
         where user_id_for_choose = #{uid} and pp_complete_schedule >= 100
     </select>
 
 
     <select id="queryProjectProblemsListByProjectId" resultMap="userResultMap">
         select tpp.*, tp.project_name, tpsd.system_devices_name, tu.u_nickname
-        from t_project_problem tpp
-                 left join t_project tp on tpp.project_id = tp.id
-                 left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
-                 left join t_user tu on tpp.user_id_for_choose = tu.id
+        from T_PROJECT_PROBLEM tpp
+                 left join T_PROJECT tp on tpp.project_id = tp.id
+                 left join T_PROJECT_SYSTEM_DEVICES tpsd on tpp.system_devices_id = tpsd.id
+                 left join T_USER tu on tpp.user_id_for_choose = tu.id
         where project_id = #{projectId}
         order by tpp.pp_complete_schedule, tpp.pp_add_timestamp DESC
         limit #{startPos},#{pageCountSize}
     </select>
 
     <select id="getPPListByProjectIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
-        select count(0) from t_project_problem where project_id = #{projectId}
+        select count(0) from T_PROJECT_PROBLEM where project_id = #{projectId}
     </select>
 
     <select id="queryNewProblems" resultMap="userResultMap" parameterType="java.lang.Integer">
         select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname
-        from t_project_problem tpp
-                                              left join t_project tp on tpp.project_id = tp.id
-                                              left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
-                                              left join t_user tu on tpp.user_id_for_choose = tu.id
+        from T_PROJECT_PROBLEM tpp
+                                              left join T_PROJECT tp on tpp.project_id = tp.id
+                                              left join T_PROJECT_SYSTEM_DEVICES tpsd on tpp.system_devices_id = tpsd.id
+                                              left join T_USER tu on tpp.user_id_for_choose = tu.id
         where tpp.pp_complete_schedule &lt; 100
         order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
 
     <!--选择问题修改-->
     <update id="updateChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
-        update t_project_problem set pp_choose_timestamp = #{ppChooseTimestamp} ,user_id_for_choose = #{userIdForChoose} where id = #{id}
+        update T_PROJECT_PROBLEM set pp_choose_timestamp = #{ppChooseTimestamp} ,user_id_for_choose = #{userIdForChoose} where id = #{id}
     </update>
 
     <!--取消选择一个问题-->
     <update id="updateCancelChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
-        update t_project_problem set pp_choose_timestamp = #{ppChooseTimestamp} ,
+        update T_PROJECT_PROBLEM set pp_choose_timestamp = #{ppChooseTimestamp} ,
                                      user_id_for_choose = #{userIdForChoose} where id = #{id}
     </update>
 
     <select id="queryProblemById" parameterType="java.lang.String" resultMap="userResultMap">
-        select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname from t_project_problem tpp
-            left join t_project tp on tpp.project_id = tp.id
-            left join t_project_system_devices tpsd on tpp.system_devices_id = tpsd.id
-            left join t_user tu on tpp.user_id_for_choose = tu.id
+        select tpp.*,tp.project_name,tpsd.system_devices_name,tu.u_nickname from T_PROJECT_PROBLEM tpp
+            left join T_PROJECT tp on tpp.project_id = tp.id
+            left join T_PROJECT_SYSTEM_DEVICES tpsd on tpp.system_devices_id = tpsd.id
+            left join T_USER tu on tpp.user_id_for_choose = tu.id
         where tpp.id = #{problemId}
     </select>
 
     <!--Update problem progress-->
     <update id="updateModifyProblemProgress" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
-        update t_project_problem set pp_complete_schedule = #{ppCompleteSchedule} , pp_complete_timestamp = #{ppCompleteTimestamp} where id = #{id}
+        update T_PROJECT_PROBLEM set pp_complete_schedule = #{ppCompleteSchedule} , pp_complete_timestamp = #{ppCompleteTimestamp} where id = #{id}
     </update>
 </mapper>

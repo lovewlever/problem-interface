@@ -29,48 +29,48 @@
     </resultMap>
 
     <select id="queryProjectById" parameterType="java.lang.String" resultMap="userResultMap">
-        select * from t_project tp left join t_user tu on tp.user_id = tu.id where tp.id = #{projectId}
+        select * from T_PROJECT tp left join T_USER tu on tp.user_id = tu.id where tp.id = #{projectId}
     </select>
 
 
     <select id="queryPListByPagination" resultMap="userResultMap">
-        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id )
-            / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
-        from t_project tp
-                 left join (select * from t_project_problem order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
-                 left join t_user tu on tp.user_id = tu.id
+        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from T_PROJECT_PROBLEM where project_id = tp.id )
+            / (select count(0) from T_PROJECT_PROBLEM where project_id = tp.id)) overall_progress
+        from T_PROJECT tp
+                 left join (select * from T_PROJECT_PROBLEM order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
+                 left join T_USER tu on tp.user_id = tu.id
         group by tp.id
         order by tp.project_add_timestamp DESC
         limit #{startPos},#{pageCountSize}
     </select>
 
     <select id="queryPListByUserIdAndPagination" resultMap="userResultMap">
-        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from t_project_problem where project_id = tp.id )
-            / (select count(0) from t_project_problem where project_id = tp.id)) overall_progress
-        from t_project tp
-                 left join (select * from t_project_problem order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
-                 left join t_user tu on tp.user_id = tu.id
+        select tp.*,tpp.*,tpp.id tpp_id,tu.*,((select sum(pp_complete_schedule) from T_PROJECT_PROBLEM where project_id = tp.id )
+            / (select count(0) from T_PROJECT_PROBLEM where project_id = tp.id)) overall_progress
+        from T_PROJECT tp
+                 left join (select * from T_PROJECT_PROBLEM order by pp_add_timestamp DESC limit 1) tpp on tp.id = tpp.project_id
+                 left join T_USER tu on tp.user_id = tu.id
         where tp.user_id = #{userId}  group by tp.id
         order by tp.project_add_timestamp DESC
         limit  #{startPos},#{pageCountSize};
     </select>
 
     <select id="queryRecommendProjectLabelsForProblem" resultMap="userResultMap">
-        select distinct tp.project_name,tp.id from t_project tp
-        right join t_project_problem tpp on tp.id = tpp.project_id
+        select distinct tp.project_name,tp.id from T_PROJECT tp
+        right join T_PROJECT_PROBLEM tpp on tp.id = tpp.project_id
         where tpp.user_id_for_choose = #{userId}
         order by tpp.pp_choose_timestamp
         limit #{labelNum}
     </select>
 
     <select id="queryProjectToLabelsByPagination" resultMap="userResultMap">
-        select t_project.id,t_project.project_name
-        from t_project order by project_add_timestamp DESC
+        select T_PROJECT.id,T_PROJECT.project_name
+        from T_PROJECT order by project_add_timestamp DESC
         LIMIT #{startPos},#{pageCountSize}
     </select>
 
     <insert id="saveNewProjectInfo" parameterType="com.problem.pl.model.entities.TProjectEntity">
-        insert into t_project (id, project_name, project_level, project_desc, project_add_timestamp,
+        insert into T_PROJECT (id, project_name, project_level, project_desc, project_add_timestamp,
                                user_id)
         VALUES (#{id}, #{projectName}, #{projectLevel},#{projectDesc}, #{projectAddTimestamp},
                 #{userId})
@@ -79,23 +79,23 @@
 
     <!--?????-->
     <select id="findProjectTotalCount" resultType="java.lang.Integer">
-        SELECT COUNT(0) FROM t_project
+        SELECT COUNT(0) FROM T_PROJECT
     </select>
 
     <select id="findProjectTotalCountByUserId" resultType="java.lang.Integer">
-        SELECT COUNT(0) FROM t_project WHERE user_id = #{userId}
+        SELECT COUNT(0) FROM T_PROJECT WHERE user_id = #{userId}
     </select>
 
     <!--?? ???-->
     <update id="modifyProjectPriority">
-        UPDATE t_project SET project_level = #{priority} WHERE id = #{pid}
+        UPDATE T_PROJECT SET project_level = #{priority} WHERE id = #{pid}
     </update>
 
     <update id="modifyProjectName">
-        UPDATE t_project SET project_name = #{projectName} WHERE id = #{projectId}
+        UPDATE T_PROJECT SET project_name = #{projectName} WHERE id = #{projectId}
     </update>
 
     <delete id="deleteProjectById">
-        DELETE FROM t_project WHERE id = #{projectId}
+        DELETE FROM T_PROJECT WHERE id = #{projectId}
     </delete>
 </mapper>

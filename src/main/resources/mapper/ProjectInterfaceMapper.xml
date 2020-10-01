@@ -15,17 +15,17 @@
 
     <!--根据id查询接口详情-->
     <select id="queryProjectInterfaceById" parameterType="java.lang.String">
-        SELECT * FROM t_project_interface WHERE id = #{interfaceId}
+        SELECT * FROM T_PROJECT_INTERFACE WHERE id = #{interfaceId}
     </select>
 
     <!--查询某个项目下所有接口的数量-->
     <select id="getProjectInterfacesByProjectIdCount" parameterType="java.lang.String">
-        SELECT COUNT(0) FROM t_project_interface WHERE project_id = #{projectId}
+        SELECT COUNT(0) FROM T_PROJECT_INTERFACE WHERE project_id = #{projectId}
     </select>
 
     <!--查询某个项目下的接口列表-->
     <select id="queryProjectInterfacesByProjectId" >
-        SELECT * FROM t_project_interface
+        SELECT * FROM T_PROJECT_INTERFACE
         WHERE project_id = #{projectId}
         ORDER BY pi_add_timestamp DESC
         LIMIT #{startPos},#{pageSizeCount}
@@ -33,7 +33,7 @@
 
     <!--插入一个接口-->
     <insert id="saveProjectInterface" parameterType="com.problem.pl.model.entities.TProjectInterfaceEntity">
-        INSERT INTO t_project_interface(id, pi_add_timestamp, pi_name, pi_data_json, user_id, project_id)
+        INSERT INTO T_PROJECT_INTERFACE(id, pi_add_timestamp, pi_name, pi_data_json, user_id, project_id)
         VALUES (#{id},#{piAddTimestamp},#{piName},#{piDataJson},#{userIdForAdd},#{projectId})
     </insert>
 
