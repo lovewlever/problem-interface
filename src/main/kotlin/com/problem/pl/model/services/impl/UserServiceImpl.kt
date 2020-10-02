@@ -9,6 +9,7 @@ import eu.bitwalker.useragentutils.UserAgent
 import org.springframework.stereotype.Service
 import java.util.regex.Pattern
 import javax.annotation.Resource
+import javax.servlet.http.HttpServletRequest
 
 /**
  * 用户操作 逻辑处理类
@@ -27,9 +28,9 @@ class UserServiceImpl : UserService {
     /**
      * 注册
      */
-    override fun registerVerificationAndSave(account: String, pwd: String, nickname: String, userAgentString: String?): ResultPro<TUserEntity> {
+    override fun registerVerificationAndSave(account: String, pwd: String, nickname: String, request: HttpServletRequest): ResultPro<TUserEntity> {
         return try {
-            registerVerification(account, pwd, nickname, userAgentString)
+            registerVerification(account, pwd, nickname, request.getHeader("User-Agent"), UniversalCommon.getIpAddr(request))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_REGISTER_FAIL, msg = "${e.message}")
         }
@@ -38,16 +39,16 @@ class UserServiceImpl : UserService {
     /**
      * 登录
      */
-    override fun login(account: String, pwd: String,userAgentString: String): ResultPro<TUserEntity> {
+    override fun login(account: String, pwd: String,request: HttpServletRequest): ResultPro<TUserEntity> {
         return try {
-            loginVerification(account, pwd,userAgentString)
+            loginVerification(account, pwd, request.getHeader("User-Agent"), UniversalCommon.getIpAddr(request))
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_REGISTER_FAIL, msg = "${e.message}")
         }
     }
 
     @Throws
-    private fun loginVerification(account: String, pwd: String,userAgentString: String): ResultPro<TUserEntity> {
+    private fun loginVerification(account: String, pwd: String,userAgentString: String,ip: String?): ResultPro<TUserEntity> {
         val loadUserByAccount = userMapper.loadUserByAccount(account)
         if (loadUserByAccount.isEmpty()) {
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")
@@ -61,6 +62,8 @@ class UserServiceImpl : UserService {
                 this.token = generateJWT
                 this.lastLoginDevices = userAgent?.operatingSystem?.name ?: ""
                 this.lastLoginTimestamp = UniversalCommon.generateTimestamp()
+                this.lastLoginIp = ip ?: ""
+                this.lastLoginDevicesUserAgentString = userAgentString
             }
             //保存登录记录
             userMapper.updateLastLoginInfo(tUserEntity)
@@ -70,7 +73,7 @@ class UserServiceImpl : UserService {
     }
 
     @Throws
-    private fun registerVerification(account: String, pwd: String,nickname: String, userAgentString: String?): ResultPro<TUserEntity> {
+    private fun registerVerification(account: String, pwd: String,nickname: String, userAgentString: String?,ip: String?): ResultPro<TUserEntity> {
         val alreadyRegisteredByAccount = userMapper.isAlreadyRegisteredByAccount(account)
         if (alreadyRegisteredByAccount) { //已经注册的话返回已注册
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_ALREADY_REGISTER, msg = "该账号已注册！")
@@ -81,6 +84,7 @@ class UserServiceImpl : UserService {
                 this.registerTimestamp = UniversalCommon.generateTimestamp()
                 this.registerDevices = userAgent?.operatingSystem?.name ?: ""
                 this.registerDevicesUserAgentString = userAgentString ?: ""
+                this.registerIp = ip ?: ""
                 this.uLoginAccount = account
                 when {
                     PatternCommon.PATTERN_PHONE.matcher(account).matches() -> {

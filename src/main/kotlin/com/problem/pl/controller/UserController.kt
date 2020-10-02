@@ -57,7 +57,7 @@ class UserController {
             ss.removeAttribute(sessionKey)
         }
         return if (code == verifyCode) {
-            userService.registerVerificationAndSave(account, pwd,nickname,request.getHeader("User-Agent"))
+            userService.registerVerificationAndSave(account, pwd,nickname,request)
         } else {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "验证码错误！")
         }
@@ -80,7 +80,7 @@ class UserController {
             ss.removeAttribute(sessionKey)
         }
         return if (code == verifyCode) {
-            userService.login(account, pwd, request.getHeader("User-Agent"))
+            userService.login(account, pwd, request)
         } else {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "验证码错误！")
         }

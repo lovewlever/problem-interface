@@ -14,9 +14,12 @@
         <result column="u_gender" property="uGender" javaType="java.lang.String"/>
         <result column="register_timestamp" property="registerTimestamp" javaType="java.lang.Long"/>
         <result column="register_devices" property="registerDevices" javaType="java.lang.String"/>
+        <result column="register_ip" property="registerIp" javaType="java.lang.String"/>
         <result column="last_login_timestamp" property="lastLoginTimestamp" javaType="java.lang.Long"/>
         <result column="last_login_devices" property="lastLoginDevices" javaType="java.lang.String"/>
+        <result column="last_login_ip" property="lastLoginIp" javaType="java.lang.String"/>
         <result column="register_devices_user_agent_string" property="registerDevicesUserAgentString" javaType="java.lang.String"/>
+        <result column="last_login_devices_user_agent_string" property="lastLoginDevicesUserAgentString" javaType="java.lang.String"/>
     </resultMap>
 
     <select id="loadUserByUId" resultMap="userResultMap">
@@ -38,13 +41,15 @@
     </select>
 
     <insert id="saveRegisterInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
-        insert into T_USER(id,u_login_account,u_bind_phone,u_bind_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd)
-                    values (#{id},#{uLoginAccount},#{uBindPhone},#{uBindEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd})
+        insert into T_USER(id,u_login_account,u_bind_phone,u_bind_email,u_nickname,register_timestamp,register_devices,register_devices_user_agent_string,u_login_pwd,register_ip)
+                    values (#{id},#{uLoginAccount},#{uBindPhone},#{uBindEmail},#{uNickname},#{registerTimestamp},#{registerDevices},#{registerDevicesUserAgentString},#{uLoginPwd},#{registerIp})
     </insert>
 
     <update id="updateLastLoginInfo" parameterType="com.problem.pl.model.entities.TUserEntity">
         update T_USER set last_login_devices = #{lastLoginDevices},
-                          last_login_timestamp = #{lastLoginTimestamp}
+                          last_login_timestamp = #{lastLoginTimestamp},
+                          last_login_ip = #{lastLoginIp},
+                          last_login_devices_user_agent_string = #{lastLoginDevicesUserAgentString}
         where id = #{id}
     </update>
 </mapper>
