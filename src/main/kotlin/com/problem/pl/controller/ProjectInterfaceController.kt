@@ -25,10 +25,11 @@ class ProjectInterfaceController {
      * 新增一个接口
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PIF_SAVE_A_INTERFACE)
-    fun saveProjectInterface(@RequestParam("projectId") projectId: String,
+    fun saveProjectInterface(@RequestParam("interfaceId") interfaceId: String,
+                             @RequestParam("projectId") projectId: String,
                              @RequestParam("jsonData") json: String,
-                                request: HttpServletRequest): ResultPro<TProjectInterfaceEntity> {
-        return projectInterfaceService.saveProjectInterface(projectId,
+                             request: HttpServletRequest): ResultPro<TProjectInterfaceEntity> {
+        return projectInterfaceService.saveProjectInterface(projectId,interfaceId,
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),json)
     }
 
@@ -63,7 +64,7 @@ class InterfaceRequestParam {
     var requestUrl = ""
     var interfaceTitle = ""
     var interfaceDescription = ""
-    var interfaceResponse = ""
+    var interfaceResponse: Map<String,Any>? = null
     var params = ArrayList<ParamsAndHeaders>()
     var headers = ArrayList<ParamsAndHeaders>()
 }

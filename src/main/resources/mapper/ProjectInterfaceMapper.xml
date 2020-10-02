@@ -14,17 +14,17 @@
     </resultMap>
 
     <!--根据id查询接口详情-->
-    <select id="queryProjectInterfaceById" parameterType="java.lang.String">
+    <select id="queryProjectInterfaceById" parameterType="java.lang.String" resultMap="userResultMap">
         SELECT * FROM T_PROJECT_INTERFACE WHERE id = #{interfaceId}
     </select>
 
     <!--查询某个项目下所有接口的数量-->
-    <select id="getProjectInterfacesByProjectIdCount" parameterType="java.lang.String">
+    <select id="getProjectInterfacesByProjectIdCount" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT COUNT(0) FROM T_PROJECT_INTERFACE WHERE project_id = #{projectId}
     </select>
 
     <!--查询某个项目下的接口列表-->
-    <select id="queryProjectInterfacesByProjectId" >
+    <select id="queryProjectInterfacesByProjectId" resultMap="userResultMap">
         SELECT * FROM T_PROJECT_INTERFACE
         WHERE project_id = #{projectId}
         ORDER BY pi_add_timestamp DESC
@@ -34,7 +34,10 @@
     <!--插入一个接口-->
     <insert id="saveProjectInterface" parameterType="com.problem.pl.model.entities.TProjectInterfaceEntity">
         INSERT INTO T_PROJECT_INTERFACE(id, pi_add_timestamp, pi_name, pi_data_json, user_id, project_id)
-        VALUES (#{id},#{piAddTimestamp},#{piName},#{piDataJson},#{userIdForAdd},#{projectId})
+        VALUES (#{id},#{piAddTimestamp},#{piName},#{piDataJson},#{userId},#{projectId})
     </insert>
 
+    <delete id="deleteInterfaceById" parameterType="java.lang.String">
+        DELETE FROM T_PROJECT_INTERFACE WHERE id = #{interfaceId}
+    </delete>
 </mapper>

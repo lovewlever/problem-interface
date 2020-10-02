@@ -13,7 +13,7 @@ interface ProjectInterfaceService {
     /**
      * 保存接口
      */
-    fun saveProjectInterface(projectId: String,uid: String,json: String): ResultPro<TProjectInterfaceEntity>
+    fun saveProjectInterface(projectId: String,interfaceId: String,uid: String,json: String): ResultPro<TProjectInterfaceEntity>
 
     /**
      * 分页查询项目下的接口
