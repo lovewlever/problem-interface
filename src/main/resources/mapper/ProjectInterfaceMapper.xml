@@ -11,11 +11,17 @@
        <result column="pi_mod_transfer_flow" property="piModTransferFlow" javaType="java.lang.String"/>
        <result column="user_id" property="userId" javaType="java.lang.String"/>
        <result column="project_id" property="projectId" javaType="java.lang.String"/>
+        <association property="refTProjectEntity" column="project_id" javaType="com.problem.pl.model.entities.TProjectEntity">
+            <id property="id" column="id" javaType="java.lang.String"/>
+            <result property="projectName" column="project_name" javaType="java.lang.String"/>
+        </association>
     </resultMap>
 
     <!--根据id查询接口详情-->
     <select id="queryProjectInterfaceById" parameterType="java.lang.String" resultMap="userResultMap">
-        SELECT * FROM T_PROJECT_INTERFACE WHERE id = #{interfaceId}
+        SELECT tpi.*,tp.* FROM T_PROJECT_INTERFACE tpi
+        LEFT JOIN T_PROJECT tp ON tpi.project_id = tp.id
+        WHERE tpi.id = #{interfaceId}
     </select>
 
     <!--查询某个项目下所有接口的数量-->
@@ -25,9 +31,10 @@
 
     <!--查询某个项目下的接口列表-->
     <select id="queryProjectInterfacesByProjectId" resultMap="userResultMap">
-        SELECT * FROM T_PROJECT_INTERFACE
-        WHERE project_id = #{projectId}
-        ORDER BY pi_add_timestamp DESC
+        SELECT * FROM T_PROJECT_INTERFACE tpi
+        LEFT JOIN T_PROJECT tp ON tpi.project_id = tp.id
+        WHERE tpi.project_id = #{projectId}
+        ORDER BY tpi.pi_add_timestamp DESC
         LIMIT #{startPos},#{pageSizeCount}
     </select>
 
