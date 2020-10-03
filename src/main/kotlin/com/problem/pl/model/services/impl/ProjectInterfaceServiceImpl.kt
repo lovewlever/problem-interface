@@ -46,34 +46,34 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
     @Transactional
     override fun saveProjectInterface(projectId: String, interfaceId: String, uid: String, json: String): ResultPro<TProjectInterfaceEntity> {
         try {
-            log.info("saveProjectInterface-接口参数：${json}")
+            log.debug("saveProjectInterface-接口参数：${json}")
             //解析json
             val requestParams = GsonCommon.gson.fromJson<InterfaceRequestParam>(json,InterfaceRequestParam::class.java) ?:
                     return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "接口参数格式错误！")
-            log.info("saveProjectInterface-解析接口参数：${GsonCommon.gson.toJson(requestParams)}")
+            log.debug("saveProjectInterface-解析接口参数：${GsonCommon.gson.toJson(requestParams)}")
 
             //查询项目
             val projectEntity = projectMapper.queryProjectById(projectId) ?:
                 return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "项目不存在，请确认！")
 
-            log.info("saveProjectInterface-根据项目id查询项目实体：${GsonCommon.gson.toJson(projectEntity)}")
+            log.debug("saveProjectInterface-根据项目id查询项目实体：${GsonCommon.gson.toJson(projectEntity)}")
 
             //查询用户
             val userInfoEntity = userMapper.loadUserByUId(uid) ?:
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "用户不存在，请确认！")
-            log.info("saveProjectInterface-根据用户id查询用户实体：${GsonCommon.gson.toJson(userInfoEntity)}")
+            log.debug("saveProjectInterface-根据用户id查询用户实体：${GsonCommon.gson.toJson(userInfoEntity)}")
 
             var dbInterfaceId = UniversalCommon.generateDBId()
             //查询要保存的接口是否已经存在 则删除
             projectInterfaceMapper.queryProjectInterfaceById(interfaceId)?.let {
                 dbInterfaceId = it.id
                 val deleteInterfaceNum = projectInterfaceMapper.deleteInterfaceById(interfaceId)
-                log.info("saveProjectInterface-删除已存在的接口：${deleteInterfaceNum}")
+                log.debug("saveProjectInterface-删除已存在的接口：${deleteInterfaceNum}")
             }
 
 
-            log.info("saveProjectInterface-生成数据库ID：${dbInterfaceId}")
-            log.info("saveProjectInterface-插入接口：")
+            log.debug("saveProjectInterface-生成数据库ID：${dbInterfaceId}")
+            log.debug("saveProjectInterface-插入接口：")
             //插入接口
             val insertNum = projectInterfaceMapper.saveProjectInterface(TProjectInterfaceEntity().apply {
                 this.id = dbInterfaceId
@@ -83,8 +83,8 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                 this.projectId = projectEntity.id
                 this.userId = userInfoEntity.id
             })
-            log.info("saveProjectInterface-插入接口返回影响数量：${insertNum}")
-            log.info("saveProjectInterface-插入项目操作记录：")
+            log.debug("saveProjectInterface-插入接口返回影响数量：${insertNum}")
+            log.debug("saveProjectInterface-插入项目操作记录：")
 
             //插入项目记录
             val insertOperateNum = projectOperateRecordMapper.insertProjectOperateRecords(ArrayList<TProjectOperateRecorderEntity>().apply {
@@ -100,17 +100,17 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                 })
             })
 
-            log.info("saveProjectInterface-插入项目操作记录返回影响数量：${insertOperateNum}")
+            log.debug("saveProjectInterface-插入项目操作记录返回影响数量：${insertOperateNum}")
 
             return if (insertNum > 0 && insertOperateNum > 0) {
-                log.info("saveProjectInterface-保存成功")
+                log.debug("saveProjectInterface-保存成功")
                 ResultCommon.generateResult()
             } else {
-                log.info("saveProjectInterface-保存失败：${insertNum}---${insertOperateNum}")
+                log.debug("saveProjectInterface-保存失败：${insertNum}---${insertOperateNum}")
                 ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "保存失败，请重试！")
             }
         } catch (e: Exception) {
-            log.info("saveProjectInterface-Catch:错误回滚:${e.stackTrace}")
+            log.error("saveProjectInterface-Catch:错误回滚:",e)
             //回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")

@@ -90,7 +90,7 @@ create table T_PROJECT_INTERFACE(
     pi_last_mod_timestamp bigint not null default 0 comment '最后修改时间',
     pi_name varchar(255) not null comment '接口名',
     pi_is_abandoned enum('N','Y') default 'N' comment '是否废弃',
-    pi_data_json json not null comment '接口链接/参数/返回值、JSON格式存储',
+    pi_data_json text comment '接口链接/参数/返回值、JSON格式存储',
     pi_mod_transfer_flow varchar(255) comment '修改流A->B->C',
     user_id varchar(255) comment '添加人',
     project_id varchar(255) comment '所属的项目id',
@@ -99,11 +99,13 @@ create table T_PROJECT_INTERFACE(
 
 );
 
-#项目接口评分表(差强人意，褒贬不一，好评如潮)
-create table T_PROJECT_INTERFACE_SCORE(
+#项目接口评论/评分表(差强人意，褒贬不一，好评如潮)
+create table T_PROJECT_INTERFACE_CS(
     id varchar(255) primary key comment '主键',
     tis_points integer not null comment '分值',
     tis_assess_time bigint not null comment '评价时间',
+    tis_comment_content varchar(255) comment '评论内容',
+    tis_is_anonymous enum('N','Y') default 'Y' comment '是否匿名,默认匿名',
     interface_id varchar(255) comment '接口表外键',
     user_id varchar(255) comment '评论人id',
     constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id), #所属接口id

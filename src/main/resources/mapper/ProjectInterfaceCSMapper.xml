@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.problem.pl.model.dao.ProjectInterfaceCSMapper">
+    <resultMap id="userResultMap" type="com.problem.pl.model.entities.TProjectInterfaceCSEntity">
+        <id column="id" property="id" javaType="String"/>
+        <result property="tisPoints" column="tis_points" javaType="java.lang.Integer"/>
+        <result property="tisAssessTime" column="tis_assess_time" javaType="java.lang.Long"/>
+        <result property="tisCommentContent" column="tis_comment_content" javaType="java.lang.String"/>
+        <result property="tisIsAnonymous" column="tis_is_anonymous" javaType="java.lang.String"/>
+        <result property="interfaceId" column="interface_id" javaType="java.lang.String"/>
+        <result property="userId" column="user_id" javaType="java.lang.String"/>
+    </resultMap>
+
+    <!--添加一条评分-->
+    <insert id="insertScoreByInterfaceId" parameterType="com.problem.pl.model.entities.TProjectInterfaceCSEntity">
+        INSERT INTO T_PROJECT_INTERFACE_CS (id, tis_points, tis_assess_time, tis_comment_content, tis_is_anonymous,
+                                            interface_id, user_id)
+        VALUES (#{id}, #{tisPoints}, #{tisAssessTime}, #{tisCommentContent}, #{tisIsAnonymous}, #{interfaceId},
+                #{userId})
+    </insert>
+
+    <!--更新评论/评分-->
+    <update id="updateScore" parameterType="com.problem.pl.model.entities.TProjectInterfaceCSEntity">
+        UPDATE T_PROJECT_INTERFACE_CS
+        SET tis_points = #{tisPoints},
+            tis_comment_content = #{tisCommentContent},
+            tis_is_anonymous = #{tisIsAnonymous},
+            tis_assess_time = #{tisAssessTime}
+        WHERE id = #{id}
+    </update>
+
+    <!--获取接口的平均分-->
+    <select id="getTheAverageScoreByInterfaceId" parameterType="java.lang.String" resultType="java.lang.Double">
+        SELECT SUM(tis_points) / COUNT(0) FROM T_PROJECT_INTERFACE_CS WHERE id = #{interfaceId}
+    </select>
+
+    <!--查询用户评论的信息-->
+    <select id="queryScoreByInterfaceIdAndUid" resultMap="userResultMap">
+        SELECT id, tis_points, tis_assess_time, tis_comment_content, tis_is_anonymous, interface_id, user_id
+        FROM T_PROJECT_INTERFACE_CS
+        WHERE interface_id = #{interfaceId}
+          AND user_id = #{uid}
+    </select>
+</mapper>

@@ -49,4 +49,8 @@ object RequestMappingCommon {
     const val MAPPING_PIF_SAVE_A_INTERFACE = "/saveInterface" // 新增一个接口
     const val MAPPING_PIF_QUERY_INTERFACES_BY_PROJECT_ID = "/queryInterfacesByProjectId" // 分页查询项目下的接口
     const val MAPPING_PIF_QUERY_INTERFACE_BY_ID = "/queryInterfaceById" // 查询接口详情
+
+    //项目接口评论/评分相关
+    const val MAPPING_PICS = "/pics"
+    const val MAPPING_PICS_ADD_OR_UPDATE_CS = "/addOrUpdateInterfaceCs" //添加或修改评论/评分
 }
