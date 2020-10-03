@@ -1,13 +1,12 @@
 package com.problem.pl.model.services.impl
 
+import com.google.gson.JsonObject
+import com.google.gson.internal.LinkedTreeMap
 import com.problem.pl.commons.GsonCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
 import com.problem.pl.controller.InterfaceRequestParam
-import com.problem.pl.model.dao.ProjectInterfaceMapper
-import com.problem.pl.model.dao.ProjectMapper
-import com.problem.pl.model.dao.ProjectOperateRecordMapper
-import com.problem.pl.model.dao.UserMapper
+import com.problem.pl.model.dao.*
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectInterfaceEntity
 import com.problem.pl.model.entities.TProjectOperateRecorderEntity
@@ -39,6 +38,9 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
     @Resource
     lateinit var projectOperateRecordMapper: ProjectOperateRecordMapper
 
+    @Resource
+    lateinit var projectInterfaceCSMapper: ProjectInterfaceCSMapper
+
 
     /**
      * 保存一个接口
@@ -50,6 +52,7 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
             //解析json
             val requestParams = GsonCommon.gson.fromJson<InterfaceRequestParam>(json,InterfaceRequestParam::class.java) ?:
                     return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "接口参数格式错误！")
+            requestParams.interfaceResponse = requestParams.interfaceResponse.toString()
             log.debug("saveProjectInterface-解析接口参数：${GsonCommon.gson.toJson(requestParams)}")
 
             //查询项目
@@ -63,20 +66,29 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "用户不存在，请确认！")
             log.debug("saveProjectInterface-根据用户id查询用户实体：${GsonCommon.gson.toJson(userInfoEntity)}")
 
-            var dbInterfaceId = UniversalCommon.generateDBId()
-            //查询要保存的接口是否已经存在 则删除
-            projectInterfaceMapper.queryProjectInterfaceById(interfaceId)?.let {
-                dbInterfaceId = it.id
-                val deleteInterfaceNum = projectInterfaceMapper.deleteInterfaceById(interfaceId)
-                log.debug("saveProjectInterface-删除已存在的接口：${deleteInterfaceNum}")
+            log.debug("saveProjectInterface-判断接口是否已经存在：")
+            //查询要保存的接口是否已经存在 则更新
+            projectInterfaceMapper.queryProjectInterfaceById(interfaceId)?.apply {
+                this.piAddTimestamp = UniversalCommon.generateTimestamp()
+                this.piDataJson = json
+                this.piName = requestParams.interfaceTitle
+                val updateInterface = projectInterfaceMapper.updateInterface(this)
+                log.debug("saveProjectInterface-接口是否已经存在-更新接口：${updateInterface}")
+                return if (updateInterface > 0) {
+                    log.debug("saveProjectInterface-更新接口成功")
+                    ResultCommon.generateResult()
+                } else {
+                    log.debug("saveProjectInterface-更新接口成功失败：${updateInterface}")
+                    ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "保存失败，请重试！")
+                }
             }
 
 
-            log.debug("saveProjectInterface-生成数据库ID：${dbInterfaceId}")
             log.debug("saveProjectInterface-插入接口：")
+            val dbId = UniversalCommon.generateDBId()
             //插入接口
             val insertNum = projectInterfaceMapper.saveProjectInterface(TProjectInterfaceEntity().apply {
-                this.id = dbInterfaceId
+                this.id = dbId
                 this.piAddTimestamp = UniversalCommon.generateTimestamp()
                 this.piDataJson = json
                 this.piName = requestParams.interfaceTitle
@@ -92,7 +104,7 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                     this.id = UniversalCommon.generateDBId()
                     this.projectId = projectEntity.id
                     this.projectName = projectEntity.projectName
-                    this.projectInterfaceId = dbInterfaceId
+                    this.projectInterfaceId = dbId
                     this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_CREATE
                     this.tporOperateContent = "添加新接口=>${requestParams.interfaceTitle}"
                     this.tporTimestamp = UniversalCommon.generateTimestamp()
@@ -138,6 +150,18 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
         return try {
             log.info("queryProjectInterfaceById-参数InterfaceId:${interfaceId}")
             val queryProjectInterfaceById = projectInterfaceMapper.queryProjectInterfaceById(interfaceId)
+            //查询该接口的评分
+            val theAverageScore = projectInterfaceCSMapper.getTheAverageScoreByInterfaceId(interfaceId)
+            var averageStr = "暂无评分"
+            if (theAverageScore > 0.0 && theAverageScore <= 20.0) {
+                averageStr = "差强人意"
+            } else if (theAverageScore > 20.0 && theAverageScore <= 70.0) {
+                averageStr = "褒贬不一"
+            } else if (theAverageScore > 70.0 && theAverageScore <= 100.0) {
+                averageStr = "好评如潮"
+            }
+            log.info("queryProjectInterfaceById-评分:${theAverageScore}->${averageStr}")
+            queryProjectInterfaceById?.theAverageScoreStr = averageStr
             ResultCommon.generateResult(data = queryProjectInterfaceById)
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")

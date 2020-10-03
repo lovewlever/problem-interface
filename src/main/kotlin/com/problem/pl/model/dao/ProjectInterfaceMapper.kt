@@ -29,7 +29,12 @@ interface ProjectInterfaceMapper {
     fun queryProjectInterfaceById(interfaceId: String): TProjectInterfaceEntity?
 
     /**
-     * 删除一个项目
+     * 更新接口
+     */
+    fun updateInterface(projectInterfaceEntity: TProjectInterfaceEntity): Int
+
+    /**
+     * 删除一个项目接口
      */
     fun deleteInterfaceById(interfaceId: String): Int
 }

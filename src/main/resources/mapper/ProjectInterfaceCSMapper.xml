@@ -31,7 +31,13 @@
 
     <!--获取接口的平均分-->
     <select id="getTheAverageScoreByInterfaceId" parameterType="java.lang.String" resultType="java.lang.Double">
-        SELECT SUM(tis_points) / COUNT(0) FROM T_PROJECT_INTERFACE_CS WHERE id = #{interfaceId}
+        SELECT
+            case
+                when TPICa.average IS NULL
+                    then 0
+                else TPICa.average
+                end
+        FROM (SELECT (SUM(tis_points) / COUNT(0) * 10) average FROM T_PROJECT_INTERFACE_CS WHERE interface_id = #{interfaceId}) as TPICa
     </select>
 
     <!--查询用户评论的信息-->

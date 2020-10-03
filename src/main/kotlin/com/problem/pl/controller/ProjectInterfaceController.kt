@@ -64,7 +64,7 @@ class InterfaceRequestParam {
     var requestUrl = ""
     var interfaceTitle = ""
     var interfaceDescription = ""
-    var interfaceResponse: String? = null
+    var interfaceResponse: Any? = null
     var params = ArrayList<ParamsAndHeaders>()
     var headers = ArrayList<ParamsAndHeaders>()
 }

@@ -25,5 +25,8 @@ open class TProjectInterfaceEntity {
 
     var refTProjectEntity: TProjectEntity? = null
 
+    //评分
+    var theAverageScoreStr: String = "暂无评分"
+
 }
 

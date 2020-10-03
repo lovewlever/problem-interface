@@ -47,4 +47,12 @@
     <delete id="deleteInterfaceById" parameterType="java.lang.String">
         DELETE FROM T_PROJECT_INTERFACE WHERE id = #{interfaceId}
     </delete>
+
+    <update id="updateInterface" parameterType="com.problem.pl.model.entities.TProjectInterfaceEntity">
+        UPDATE T_PROJECT_INTERFACE
+        SET pi_add_timestamp = #{piAddTimestamp},
+            pi_name          = #{piName},
+            pi_data_json     = #{piDataJson}
+        WHERE id = #{id}
+    </update>
 </mapper>
