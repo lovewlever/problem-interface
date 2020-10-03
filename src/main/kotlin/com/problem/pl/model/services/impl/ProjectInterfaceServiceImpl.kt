@@ -74,7 +74,22 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                 this.piName = requestParams.interfaceTitle
                 val updateInterface = projectInterfaceMapper.updateInterface(this)
                 log.debug("saveProjectInterface-接口是否已经存在-更新接口：${updateInterface}")
-                return if (updateInterface > 0) {
+
+                //插入项目记录
+                val insertOperateNum = projectOperateRecordMapper.insertProjectOperateRecords(ArrayList<TProjectOperateRecorderEntity>().apply {
+                    add(TProjectOperateRecorderEntity().apply {
+                        this.id = UniversalCommon.generateDBId()
+                        this.projectId = projectEntity.id
+                        this.projectName = projectEntity.projectName
+                        this.projectInterfaceId = interfaceId
+                        this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_CREATE
+                        this.tporOperateContent = "修改接口=>${requestParams.interfaceTitle}"
+                        this.tporTimestamp = UniversalCommon.generateTimestamp()
+                        this.userId = uid
+                    })
+                })
+
+                return if (updateInterface > 0 && insertOperateNum > 0) {
                     log.debug("saveProjectInterface-更新接口成功")
                     ResultCommon.generateResult()
                 } else {
