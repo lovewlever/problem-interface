@@ -1,7 +1,5 @@
 package com.problem.pl.model.services.impl
 
-import com.google.gson.JsonObject
-import com.google.gson.internal.LinkedTreeMap
 import com.problem.pl.commons.GsonCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.interceptor.TransactionAspectSupport
-import java.lang.Exception
 import javax.annotation.Resource
 
 /**
@@ -52,7 +49,6 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
             //解析json
             val requestParams = GsonCommon.gson.fromJson<InterfaceRequestParam>(json,InterfaceRequestParam::class.java) ?:
                     return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "接口参数格式错误！")
-            requestParams.interfaceResponse = requestParams.interfaceResponse.toString()
             log.debug("saveProjectInterface-解析接口参数：${GsonCommon.gson.toJson(requestParams)}")
 
             //查询项目

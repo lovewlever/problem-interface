@@ -79,7 +79,7 @@ create table T_PROJECT_PROBLEM(
     constraint fk_pc_project_id foreign key (project_id) references T_PROJECT(id) on delete cascade , #所属项目的ID
     constraint fk_project_choose_user_id foreign key(user_id_for_choose) references T_USER(id),#选择此问题的用户ID
     constraint fk_pc_add_user_id foreign key(user_id_for_add) references T_USER(id),#添加此问题的人ID
-    constraint fk_system_devices_id foreign key(system_devices_id) references T_PROJECT_SYSTEM_DEVICES(id)#对应的设备表ID
+    constraint fk_system_devices_id foreign key(system_devices_id) references T_PROJECT_SYSTEM_DEVICES(id)  on delete cascade #对应的设备表ID
 );
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -108,6 +108,6 @@ create table T_PROJECT_INTERFACE_CS(
     tis_is_anonymous enum('N','Y') default 'Y' comment '是否匿名,默认匿名',
     interface_id varchar(255) comment '接口表外键',
     user_id varchar(255) comment '评论人id',
-    constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id), #所属接口id
+    constraint fk_interface_id foreign key (interface_id) references T_PROJECT_INTERFACE(id)  on delete cascade, #所属接口id
     constraint fk_user_id foreign key (user_id) references T_USER(id) #所属接口id
 )
