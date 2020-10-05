@@ -22,8 +22,16 @@ class ProblemInterfaceWebsocketHandler:TextWebSocketHandler() {
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
         super.afterConnectionEstablished(session)
-        session.uri?.query
         onlineUsers[session.id] = session
+        session.uri?.query?.split("=")?.let {  lst ->
+            if (lst.size > 1) {
+
+            } else {
+                //参数错误关闭
+                session.close(CloseStatus(400))
+            }
+        } ?: session.close(CloseStatus(400))
+
     }
 
 

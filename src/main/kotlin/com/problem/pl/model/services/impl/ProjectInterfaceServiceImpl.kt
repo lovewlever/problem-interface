@@ -78,7 +78,7 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                         this.projectId = projectEntity.id
                         this.projectName = projectEntity.projectName
                         this.projectInterfaceId = interfaceId
-                        this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_CREATE
+                        this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_MODIFY
                         this.tporOperateContent = "修改接口=>${requestParams.interfaceTitle}"
                         this.tporTimestamp = UniversalCommon.generateTimestamp()
                         this.userId = uid
