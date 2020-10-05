@@ -138,10 +138,10 @@ object JwtCommon {
         } else {
             //logger.warn("[JWTHelper]-JWT解析出claims为空");
         }
-        return retMap?.let { Gson().toJson(retMap) } ?: null
+        return retMap?.let { Gson().toJson(retMap) }
     }
 
-    @JvmStatic
+    /*@JvmStatic
     fun main(args: Array<String>) {
         Thread( Runnable {
             val jsonWebKey = generateJWT("123", "Judy",
@@ -153,7 +153,7 @@ object JwtCommon {
             println(validateLogin(jsonWebKey))
         }).start()
 
-    }
+    }*/
 
 
 }

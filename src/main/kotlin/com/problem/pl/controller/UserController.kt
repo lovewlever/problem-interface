@@ -87,9 +87,3 @@ class UserController {
     }
 
 }
-
-fun main() {
-    val pagingCalculation = UniversalCommon.pagingCalculation(2, 30, 500)
-    print("65:F7:B1:0F:1E:D9:C3:8B:A4:F9:AC:E4:95:DA:25:EC".replace(":","").toLowerCase())
-
-}

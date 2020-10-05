@@ -8,10 +8,10 @@ import java.net.URLConnection
 
 object HttpConnectCommon {
 
-    fun interfaceRequest(url: String): String {
+    fun interfaceRequest(urlStr: String): String {
         val sb = StringBuilder()
         try {
-            val str = url
+            val str = urlStr
             //2:声明url这个对象，用于接收一个连接的字符串
             val url = URL(str)
             //3:获取连接

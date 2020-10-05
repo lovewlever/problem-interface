@@ -5,8 +5,6 @@ import java.awt.Color
 import java.awt.Font
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
-import java.io.FileNotFoundException
-import java.io.IOException
 import java.io.OutputStream
 import java.util.Random
 
@@ -64,14 +62,12 @@ class VerifyCode {
     //获取算术的运算结果
     val value: Int
         get() {
-            var value = 0
-            when (this.op) {
-                "+" -> value = this.no1 + this.no2
-                "-" -> value = this.no1 - this.no2
-                "x" -> value = this.no1 * this.no2
-                else -> value = 0
+            return when (op) {
+                "+" -> no1 + no2
+                "-" -> no1 - no2
+                "x" -> no1 * no2
+                else -> 0
             }
-            return value
         }
 
     //获取随机颜色
@@ -94,7 +90,6 @@ class VerifyCode {
 
     //method：获取随机操作符号
     private fun randomOperator(): String {
-        val index = random.nextInt(3)
         return operator[2] + ""
     }
 

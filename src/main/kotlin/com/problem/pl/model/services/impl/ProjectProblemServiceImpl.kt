@@ -97,7 +97,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                     }
                     if (operates.isNotEmpty()) {
                         //存储操作记录
-                        val insertOperateNum = projectOperateRecordMapper.insertProjectOperateRecords(operates)
+                        projectOperateRecordMapper.insertProjectOperateRecords(operates)
                     }
                     //存储WS消息
                     // TODO 2020-09-15 暂放
