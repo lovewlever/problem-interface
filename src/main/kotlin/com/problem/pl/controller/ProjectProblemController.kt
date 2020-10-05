@@ -104,7 +104,9 @@ class ProjectProblemController {
                             request: HttpServletRequest): ResultPro<Int> {
 
         return projectProblemService.insertProjectProblems(
-                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),entities)
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
+                entities)
         /*val br = BufferedReader(InputStreamReader(request.inputStream))
         val sb = StringBuilder()
         var str: String?
@@ -122,6 +124,7 @@ class ProjectProblemController {
                                 request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
         return projectProblemService.chooseOrCancelProblem(
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
                 problemId,operatingType)
     }
 
@@ -134,7 +137,9 @@ class ProjectProblemController {
                                     @RequestParam("schedule") schedule: Int,
                                     request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
         return projectProblemService.updateModifyProblemProgress(
-                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),problemId,schedule)
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
+                problemId,schedule)
     }
 
 

@@ -13,7 +13,7 @@ interface ProjectProblemService {
 
     fun querySystemDevicesList(): ResultPro<TProjectSystemDevicesEntity>
 
-    fun insertProjectProblems(uid: String,problems: MutableList<RequestSaveProblemEntity>): ResultPro<Int>
+    fun insertProjectProblems(uid: String, userName: String, problems: MutableList<RequestSaveProblemEntity>): ResultPro<Int>
 
     /**
      * 查询我选中未修改完的问题
@@ -39,13 +39,13 @@ interface ProjectProblemService {
     /**
      * 选择问题修改
      */
-    fun chooseOrCancelProblem(uid: String,problemId: String,operatingType: String): ResultPro<TProjectProblemEntity>
+    fun chooseOrCancelProblem(uid: String, userName: String, problemId: String,operatingType: String): ResultPro<TProjectProblemEntity>
 
 
     /**
      * 修改问题进度
      */
-    fun updateModifyProblemProgress(uid: String, problemId: String,schedule: Int): ResultPro<TProjectProblemEntity>
+    fun updateModifyProblemProgress(uid: String, userName: String, problemId: String,schedule: Int): ResultPro<TProjectProblemEntity>
 
     /**
      * 转让问题给某个用户

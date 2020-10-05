@@ -10,6 +10,7 @@ import com.problem.pl.model.entities.TProjectProblemEntity
 import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import com.problem.pl.model.services.ProjectProblemService
 import com.problem.pl.model.services.UserService
+import com.problem.pl.websocket.ProblemInterfaceWebsocketHandler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.interceptor.TransactionAspectSupport
@@ -55,7 +56,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
      * 3.存储发送ws消息记录（用户对项目提交了新问题）
      */
     @Transactional
-    override fun insertProjectProblems(uid: String, problems: MutableList<RequestSaveProblemEntity>): ResultPro<Int> {
+    override fun insertProjectProblems(uid: String, userName: String, problems: MutableList<RequestSaveProblemEntity>): ResultPro<Int> {
         try {
             if (problems.isNotEmpty()) {
                 //查询项目
@@ -99,9 +100,8 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                         //存储操作记录
                         projectOperateRecordMapper.insertProjectOperateRecords(operates)
                     }
-                    //存储WS消息
-                    // TODO 2020-09-15 暂放
-
+                    //发送全局消息
+                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}添加了新问题")
 
                     return ResultCommon.generateResult(msg = "问题保存成功：${insertProblemNum} 条")
                 } ?: let {
@@ -174,41 +174,50 @@ class ProjectProblemServiceImpl: ProjectProblemService {
      * 选择问题修改
      */
     @Transactional
-    override fun chooseOrCancelProblem(uid: String, problemId: String,operatingType: String): ResultPro<TProjectProblemEntity> {
+    override fun chooseOrCancelProblem(uid: String, userName: String, problemId: String,operatingType: String): ResultPro<TProjectProblemEntity> {
         try {
 
-            // TODO 2020-09-23 未完成：ws消息；添加操作记录
+            // TODO 2020-09-23 未完成：添加操作记录
             projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
-                if (operatingType == "Selected") {
-                    problemEntity.chooseProblemTUserEntity?.let {  // 如果已选择的用户是不是null 则已经有人选了
-                        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "已经有人选择该问题")
-                    } ?: let {
-                        val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
-                            this.userIdForChoose = uid
-                            this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
-                        })
-                        return if (updateNum > 0) {
-                            ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
-                        } else {
-                            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "选择失败，请重试！")
+                when (operatingType) {
+                    "Selected" -> {
+                        problemEntity.chooseProblemTUserEntity?.let {  // 如果已选择的用户是不是null 则已经有人选了
+                            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "已经有人选择该问题")
+                        } ?: let {
+                            val updateNum = projectProblemMapper.updateChooseProblem(problemEntity.apply {
+                                this.userIdForChoose = uid
+                                this.ppChooseTimestamp = UniversalCommon.generateTimestamp()
+                            })
+                            return if (updateNum > 0) {
+                                //发送全局消息 xx放弃修改问题
+                                ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}选择修改问题：${problemEntity.ppContent}")
+                                ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                            } else {
+                                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "选择失败，请重试！")
+                            }
                         }
                     }
-                } else if (operatingType == "Cancel") {
-                    return if (problemEntity.userIdForChoose == uid) {
-                        val updateNum = projectProblemMapper.updateCancelChooseProblem(problemEntity.apply {
-                            this.userIdForChoose = null
-                            this.ppChooseTimestamp = 0
-                        })
-                        if (updateNum > 0) {
-                            ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                    "Cancel" -> {
+                        return if (problemEntity.userIdForChoose == uid) {
+                            val updateNum = projectProblemMapper.updateCancelChooseProblem(problemEntity.apply {
+                                this.userIdForChoose = null
+                                this.ppChooseTimestamp = 0
+                            })
+                            if (updateNum > 0) {
+                                //发送全局消息 xx放弃修改问题
+                                ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}放弃修改问题：${problemEntity.ppContent}")
+
+                                ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))
+                            } else {
+                                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "取消失败，请重试！")
+                            }
                         } else {
-                            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "取消失败，请重试！")
+                            ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "此问题不是你修改中的问题！无法取消")
                         }
-                    } else {
-                        ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "此问题不是你修改中的问题！无法取消")
                     }
-                } else {
-                    return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "参数错误：请传入Selected或Cancel")
+                    else -> {
+                        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "参数错误：请传入Selected或Cancel")
+                    }
                 }
 
             } ?: let {
@@ -226,7 +235,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
      * 100为已完成
      */
     @Transactional
-    override fun updateModifyProblemProgress(uid: String, problemId: String, schedule: Int): ResultPro<TProjectProblemEntity> {
+    override fun updateModifyProblemProgress(uid: String, userName: String, problemId: String, schedule: Int): ResultPro<TProjectProblemEntity> {
         try {
             projectProblemMapper.queryProblemById(problemId)?.let { problemEntity ->
                 //判断修改此问题的人是不是本人
@@ -260,10 +269,9 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                     this.projectProblemId = problemEntity.id
                 })
 
-                //存储WS消息
-                // TODO 2020-09-17 暂放
-
                 return if (updateNum > 0) {
+                    //发送全局消息 通知修改进度
+                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}修改问题进度到：${schedule}")
                     ResultCommon.generateResult(data = problemEntity)
                 } else {
                     ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "进度更新失败，请重试！")
@@ -316,8 +324,8 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                 this.projectProblemId = problemEntity.id
             })
 
-            //发送ws消息
-            // TODO 2020-09-23 发送ws消息，暂放
+            //发送全局消息
+            ProblemInterfaceWebsocketHandler.sendSingleMessageByUserId(toUserEntity.id, "${selfUserEntity}转让了一个问题给你")
 
             return if (updateNum > 0 && oreUpdateNum > 0) {
                 ResultCommon.generateResult(data = projectProblemMapper.queryProblemById(problemId))

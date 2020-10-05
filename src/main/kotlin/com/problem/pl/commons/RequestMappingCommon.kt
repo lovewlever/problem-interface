@@ -7,6 +7,7 @@ object RequestMappingCommon {
 
     const val REQUEST_ATTRIBUTE_KEY_USER_ID = "uid"
     const val REQUEST_ATTRIBUTE_KEY_TOKEN = "token"
+    const val REQUEST_ATTRIBUTE_KEY_USER_NAME = "userName"
 
     //用户相关
     const val MAPPING_USER = "/usr"

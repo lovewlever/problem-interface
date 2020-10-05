@@ -29,6 +29,8 @@ class LoginVerificationInterceptor: HandlerInterceptorAdapter() {
             JwtCommon.validateLogin(header)?.let {
                 request.setAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID,
                         JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userId").asString)
+                request.setAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME,
+                        JsonParser.parseString(JwtCommon.validateLogin(header)).asJsonObject.get("userName").asString)
                 return true
             } ?: let {
                 response.writer.write(
