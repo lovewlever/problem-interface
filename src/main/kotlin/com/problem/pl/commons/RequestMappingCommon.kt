@@ -29,6 +29,8 @@ object RequestMappingCommon {
     //通用相关
     const val MAPPING_UNIVERSAL = "/uni"
     const val MAPPING_UNIVERSAL_VERIFY_TOKEN = "/verifyToken"
+    const val MAPPING_UNIVERSAL_SEND_GLOBAL_WS_MSG = "/sendGlobalWsMessage"
+    const val MAPPING_UNIVERSAL_SEND_WS_MSG_TO_UID = "/sendWsMessageToUid"
 
 
     //项目问题相关

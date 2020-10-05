@@ -101,7 +101,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
                         projectOperateRecordMapper.insertProjectOperateRecords(operates)
                     }
                     //发送全局消息
-                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}添加了新问题")
+                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}添加${problems.size}个新问题")
 
                     return ResultCommon.generateResult(msg = "问题保存成功：${insertProblemNum} 条")
                 } ?: let {
@@ -271,7 +271,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
 
                 return if (updateNum > 0) {
                     //发送全局消息 通知修改进度
-                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}修改问题进度到：${schedule}")
+                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("$userName 修改问题 ${problemEntity.ppContent} 的进度到：${schedule}")
                     ResultCommon.generateResult(data = problemEntity)
                 } else {
                     ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "进度更新失败，请重试！")

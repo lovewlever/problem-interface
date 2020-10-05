@@ -9,6 +9,7 @@ import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectInterfaceEntity
 import com.problem.pl.model.entities.TProjectOperateRecorderEntity
 import com.problem.pl.model.services.ProjectInterfaceService
+import com.problem.pl.websocket.ProblemInterfaceWebsocketHandler
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -86,6 +87,8 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
                 })
 
                 return if (updateInterface > 0 && insertOperateNum > 0) {
+                    //发送Websocket全局消息
+                    ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userInfoEntity.uNickname}更新了接口：${this.piName}")
                     log.debug("saveProjectInterface-更新接口成功")
                     ResultCommon.generateResult()
                 } else {
@@ -126,6 +129,7 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
             log.debug("saveProjectInterface-插入项目操作记录返回影响数量：${insertOperateNum}")
 
             return if (insertNum > 0 && insertOperateNum > 0) {
+                ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userInfoEntity.uNickname}添加了新接口：${requestParams.interfaceTitle}")
                 log.debug("saveProjectInterface-保存成功")
                 ResultCommon.generateResult()
             } else {
