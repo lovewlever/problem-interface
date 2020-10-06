@@ -52,13 +52,14 @@ class ProblemInterfaceWebsocketHandler: TextWebSocketHandler() {
 
     override fun handleMessage(session: WebSocketSession, message: WebSocketMessage<*>) {
         super.handleMessage(session, message)
-        println("handleMessage:${message.payload}")
-        session.sendMessage(message)
     }
 
     override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
         super.handleTextMessage(session, message)
-        println("handleTextMessage")
+        if (message.payload == "HeartBeat") {
+            log.debug("HeartBeat:${session.uri?.query}")
+            session.sendMessage(TextMessage("HeartbeatSuccess"))
+        }
     }
 
 
