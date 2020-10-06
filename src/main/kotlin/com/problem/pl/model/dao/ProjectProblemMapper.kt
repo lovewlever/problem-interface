@@ -67,4 +67,9 @@ interface ProjectProblemMapper {
      */
     fun updateModifyProblemProgress(problemEntity: TProjectProblemEntity): Int
 
+    /**
+     * 编辑 修改某个问题
+     */
+    fun updateEditProblem(problemEntity: TProjectProblemEntity): Int
+
 }

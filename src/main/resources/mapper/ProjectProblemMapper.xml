@@ -128,4 +128,11 @@
     <update id="updateModifyProblemProgress" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
         update T_PROJECT_PROBLEM set pp_complete_schedule = #{ppCompleteSchedule} , pp_complete_timestamp = #{ppCompleteTimestamp} where id = #{id}
     </update>
+
+    <!--编辑修改问题-->
+    <update id="updateEditProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
+        UPDATE T_PROJECT_PROBLEM SET pp_module_page = #{ppModulePage},
+                                     pp_content = #{ppContent},
+                                     system_devices_id = #{systemDevicesId} WHERE id = #{id}
+    </update>
 </mapper>

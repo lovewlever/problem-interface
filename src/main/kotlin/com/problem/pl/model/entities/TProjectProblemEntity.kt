@@ -36,7 +36,12 @@ open class TProjectProblemEntity {
     var addProblemTUserEntity: TUserEntity? = null
     
     var refTProjectSystemDevicesEntity: TProjectSystemDevicesEntity? = null
-    
+
+
+    override fun toString(): String {
+        return "TProjectProblemEntity(id='$id', ppChooseTimestamp=$ppChooseTimestamp, ppCompleteTimestamp=$ppCompleteTimestamp, ppAddTimestamp=$ppAddTimestamp, ppCompleteSchedule=$ppCompleteSchedule, ppModulePage='$ppModulePage', ppContent='$ppContent', ppTransferFlow='$ppTransferFlow', projectId=$projectId, userIdForChoose=$userIdForChoose, userIdForAdd=$userIdForAdd, systemDevicesId=$systemDevicesId, refTProjectEntity=$refTProjectEntity, chooseProblemTUserEntity=$chooseProblemTUserEntity, addProblemTUserEntity=$addProblemTUserEntity, refTProjectSystemDevicesEntity=$refTProjectSystemDevicesEntity)"
+    }
+
 
 }
 

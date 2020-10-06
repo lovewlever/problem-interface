@@ -45,6 +45,7 @@ object RequestMappingCommon {
     const val MAPPING_PPC_UPDATE_MODIFY_PROBLEM_PROGRESS = "/updateProblemProgress" //修改问题进度 100为完成
     const val MAPPING_PPC_QUERY_MINE_COMPLETED_OR_NOT_COMPLETED_PROBLEMS = "/queryMineCompletedOrNotProblems" //查询我的 选中未修改完或者已修改完成的问题
     const val MAPPING_PPC_UPDATE_TRANSFER_ISSUES = "/updateTransferIssues" //转让某个问题给用户
+    const val MAPPING_PPC_UPDATE_EDIT_MODIFY_PROBLEM = "/updateEditProblem" // 编辑修改某个问题
 
     //项目接口相关
     const val MAPPING_PIF = "/pif"

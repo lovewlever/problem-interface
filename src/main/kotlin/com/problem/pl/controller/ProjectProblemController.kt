@@ -156,6 +156,23 @@ class ProjectProblemController {
                 problemId)
     }
 
+    /**
+     * 编辑修改某个问题
+     */
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_UPDATE_EDIT_MODIFY_PROBLEM)
+    fun updateEditModifyProblem(@RequestParam("problemId") problemId: String,
+                                @RequestParam("problemModulePage") problemModulePage: String,
+                                @RequestParam("problemContent") problemContent: String,
+                                @RequestParam("systemDevicesId") systemDevicesId: String,
+                                request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+        return projectProblemService.updateEditModifyProblem(request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
+                request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
+                problemId,
+                problemModulePage,
+                problemContent,
+                systemDevicesId)
+    }
+
 }
 
 

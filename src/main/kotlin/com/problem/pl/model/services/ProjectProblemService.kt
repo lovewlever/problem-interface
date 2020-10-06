@@ -51,4 +51,14 @@ interface ProjectProblemService {
      * 转让问题给某个用户
      */
     fun updateTransferIssues(uid: String,toUserId: String,problemId: String): ResultPro<TProjectProblemEntity>
+
+    /**
+     * 编辑修改问题
+     */
+    fun updateEditModifyProblem(uid: String,
+                                userName: String,
+                                problemId: String,
+                                problemModulePage: String,
+                                problemContent: String,
+                                systemDevicesId: String): ResultPro<TProjectProblemEntity>
 }

@@ -11,6 +11,7 @@ import com.problem.pl.model.entities.TProjectSystemDevicesEntity
 import com.problem.pl.model.services.ProjectProblemService
 import com.problem.pl.model.services.UserService
 import com.problem.pl.websocket.ProblemInterfaceWebsocketHandler
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.interceptor.TransactionAspectSupport
@@ -22,6 +23,8 @@ import javax.annotation.Resource
  */
 @Service("projectProblemService")
 class ProjectProblemServiceImpl: ProjectProblemService {
+
+    private val log = LoggerFactory.getLogger(ProjectProblemServiceImpl::class.java)
 
     @Resource
     lateinit var userMapper: UserMapper
@@ -337,5 +340,52 @@ class ProjectProblemServiceImpl: ProjectProblemService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
+    }
+
+    /**
+     * 编辑修改问题
+     */
+    @Transactional
+    override fun updateEditModifyProblem(uid: String, userName: String, problemId: String, problemModulePage: String, problemContent: String, systemDevicesId: String): ResultPro<TProjectProblemEntity> {
+        log.debug("updateEditModifyProblem-参数：uid:${uid}==userName:${userName}==problemId:${problemId}==problemModulePage:${problemModulePage}==problemContent:${problemContent}==systemDevicesId:${systemDevicesId}")
+        try {
+            val problemEntity = projectProblemMapper.queryProblemById(problemId)
+                    ?: return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "该问题不存在或已删除，请确认！")
+            log.error("updateEditModifyProblem-根据ID查询到的问题:${problemEntity}")
+            problemEntity.apply {
+                this.ppModulePage = problemModulePage
+                this.ppContent = problemContent
+                this.systemDevicesId = systemDevicesId
+            }
+
+            val insertNum = projectProblemMapper.updateEditProblem(problemEntity)
+
+            //更新操作记录
+            val oreUpdateNum = projectOperateRecordMapper.insertProjectOperateRecord(TProjectOperateRecorderEntity().apply {
+                this.id = UniversalCommon.generateDBId()
+                this.userId = uid
+                this.tporOperateType = TProjectOperateRecorderEntity.OPERATE_TYPE_MODIFY
+                this.tporOperateContent = "${userName}重新编辑了问题:${problemEntity.ppContent}"
+                this.tporTimestamp = UniversalCommon.generateTimestamp()
+                this.projectId = problemEntity.projectId
+                this.projectName = problemEntity.refTProjectEntity?.projectName ?: ""
+                this.projectProblemId = problemEntity.id
+            })
+
+            return if (insertNum > 0 && oreUpdateNum > 0) {
+                //发送全局WS消息
+                ProblemInterfaceWebsocketHandler.sendGlobalMessage("${userName}重新编辑了问题:${problemEntity.ppContent}")
+                ResultCommon.generateResult()
+            } else {
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "更新失败，请重试！")
+            }
+
+        } catch (e: Exception) {
+            log.error("updateEditModifyProblem-error:", e)
+            //回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
+        }
+        TODO("Not yet implemented")
     }
 }
