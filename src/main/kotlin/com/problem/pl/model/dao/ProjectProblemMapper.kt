@@ -72,4 +72,8 @@ interface ProjectProblemMapper {
      */
     fun updateEditProblem(problemEntity: TProjectProblemEntity): Int
 
+    /**
+     * 查询要导出的问题
+     */
+    fun exportProblemToTxt(type: Int): MutableList<TProjectProblemEntity>
 }

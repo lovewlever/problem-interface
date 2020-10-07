@@ -61,4 +61,10 @@ interface ProjectProblemService {
                                 problemModulePage: String,
                                 problemContent: String,
                                 systemDevicesId: String): ResultPro<TProjectProblemEntity>
+
+
+    /**
+     * 查询要导出的问题
+     */
+    fun exportProblemToTxt(type: Int,fileId: String): String
 }

@@ -105,6 +105,17 @@
         order by tpp.pp_add_timestamp desc limit #{pageCount}
     </select>
 
+    <!--查询要导出的问题-->
+    <select id="exportProblemToTxt" parameterType="java.lang.Integer" resultMap="userResultMap">
+        SELECT pp_module_page,pp_content FROM T_PROJECT_PROBLEM WHERE 1 = 1
+        <if test="type == 0"> /*查询已完成的问题*/
+            AND pp_complete_schedule > 99
+        </if>
+        <if test="type == 1">/*查询未完成的问题*/
+            AND pp_complete_schedule &lt; 100
+        </if>
+    </select>
+
     <!--选择问题修改-->
     <update id="updateChooseProblem" parameterType="com.problem.pl.model.entities.TProjectProblemEntity">
         update T_PROJECT_PROBLEM set pp_choose_timestamp = #{ppChooseTimestamp} ,user_id_for_choose = #{userIdForChoose} where id = #{id}

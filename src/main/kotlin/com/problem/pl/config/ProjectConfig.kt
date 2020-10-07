@@ -31,6 +31,7 @@ class ProjectConfig: WebMvcConfigurer, WebSocketConfigurer{
         registry.addInterceptor(LoginVerificationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("${RequestMappingCommon.MAPPING_USER}/**")
+                .excludePathPatterns("${RequestMappingCommon.MAPPING_PPC}/exportProblemToTxt")
 
         super.addInterceptors(registry)
     }

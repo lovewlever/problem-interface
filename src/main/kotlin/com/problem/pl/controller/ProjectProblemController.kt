@@ -2,6 +2,7 @@ package com.problem.pl.controller
 
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.commons.ResultCommon
+import com.problem.pl.commons.UniversalCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectEntity
 import com.problem.pl.model.entities.TProjectProblemEntity
@@ -12,8 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.io.*
+import java.net.URLEncoder
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 
 /**
  * 项目问题记录控制器
@@ -45,7 +53,7 @@ class ProjectProblemController {
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_PROJECT_LABEL_FOR_PROBLEM_BY_PAGINATION)
     fun queryProjectToLabelsByPagination(@RequestParam("page") page: Int,
                                          @RequestParam("pageCountSize") pageCountSize: Int) =
-            projectService.queryProjectToLabelsByPagination(page,pageCountSize)
+            projectService.queryProjectToLabelsByPagination(page, pageCountSize)
 
     /**
      * 查询系统设备列表
@@ -62,7 +70,7 @@ class ProjectProblemController {
     fun queryProjectProblemsListByProjectId(@RequestParam("projectId") projectId: String,
                                             @RequestParam("page") page: Int,
                                             @RequestParam("pageCountSize") pageCountSize: Int): ResultPro<TProjectProblemEntity> =
-            projectProblemService.queryProjectProblemsListByProjectId(projectId,page,pageCountSize)
+            projectProblemService.queryProjectProblemsListByProjectId(projectId, page, pageCountSize)
 
 
     /**
@@ -70,19 +78,19 @@ class ProjectProblemController {
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PPC_QUERY_MINE_COMPLETED_OR_NOT_COMPLETED_PROBLEMS)
     fun queryMineCompletedOrNotCompletedProblems(@RequestParam("findType") findType: String,
-                                                @RequestParam("page") page: Int,
-                                                @RequestParam("pageCountSize") pageCountSize: Int,
-                                                request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
+                                                 @RequestParam("page") page: Int,
+                                                 @RequestParam("pageCountSize") pageCountSize: Int,
+                                                 request: HttpServletRequest): ResultPro<TProjectProblemEntity> {
         val uid = request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString()
         return when (findType) {
             "NotCompleted" -> {
-                projectProblemService.queryMineNotCompletedProblems(uid,page,pageCountSize)
+                projectProblemService.queryMineNotCompletedProblems(uid, page, pageCountSize)
             }
             "Completed" -> {
-                projectProblemService.queryMineCompletedProblems(uid,page,pageCountSize)
+                projectProblemService.queryMineCompletedProblems(uid, page, pageCountSize)
             }
             else -> {
-                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "findType参数错误")
+                ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL, msg = "findType参数错误")
             }
         }
     }
@@ -125,7 +133,7 @@ class ProjectProblemController {
         return projectProblemService.chooseOrCancelProblem(
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
-                problemId,operatingType)
+                problemId, operatingType)
     }
 
     /**
@@ -139,7 +147,7 @@ class ProjectProblemController {
         return projectProblemService.updateModifyProblemProgress(
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_ID).toString(),
                 request.getAttribute(RequestMappingCommon.REQUEST_ATTRIBUTE_KEY_USER_NAME).toString(),
-                problemId,schedule)
+                problemId, schedule)
     }
 
 
@@ -171,6 +179,55 @@ class ProjectProblemController {
                 problemModulePage,
                 problemContent,
                 systemDevicesId)
+    }
+
+    /**
+     * 导出问题为Txt文件
+     * [type]0: 导出已完成问题，1：导出未完成问题，2：导出全部问题
+     */
+    @RequestMapping("/exportProblemToTxt")
+    fun exportProblemToTxt(@RequestParam("type") type: Int = 1,
+                           @RequestParam("fileId") fileId: String, response: HttpServletResponse) {
+        val path = projectProblemService.exportProblemToTxt(type, fileId)
+        val filename = "${UniversalCommon.generateTimestamp()}.txt"
+        val file = File(path)
+        if (file.exists()) {
+            response.setHeader("content-type", "application/octet-stream")
+            response.contentType = "application/octet-stream"
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"))
+            //文件下载
+            val buffer = ByteArray(1024)
+            var fis: FileInputStream? = null
+            var bis: BufferedInputStream? = null
+            try {
+                fis = FileInputStream(file)
+                bis = BufferedInputStream(fis)
+                val os: OutputStream = response.outputStream
+                var i = bis.read(buffer)
+                while (i != -1) {
+                    os.write(buffer, 0, i)
+                    i = bis.read(buffer)
+                }
+
+            } catch (e: Exception) {
+
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
     }
 
 }
