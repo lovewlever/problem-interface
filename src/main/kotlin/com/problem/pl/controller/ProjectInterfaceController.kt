@@ -1,6 +1,6 @@
 package com.problem.pl.controller
 
-import com.problem.pl.commons.HttpConnectCommon
+import com.problem.pl.commons.OkHttpCli
 import com.problem.pl.commons.RequestMappingCommon
 import com.problem.pl.model.entities.ResultPro
 import com.problem.pl.model.entities.TProjectInterfaceEntity
@@ -20,6 +20,9 @@ class ProjectInterfaceController {
 
     @Resource
     lateinit var projectInterfaceService: ProjectInterfaceService
+
+    @Resource
+    private lateinit var okHttpCli: OkHttpCli
 
     /**
      * 新增一个接口
@@ -54,7 +57,7 @@ class ProjectInterfaceController {
      */
     @RequestMapping(RequestMappingCommon.MAPPING_PIF_REQUEST_INTERFACE)
     fun requestInterfaceAndReturn(@RequestParam("url") url: String): String {
-        return HttpConnectCommon.interfaceRequest(url)
+        return okHttpCli.doGet(url)
     }
 }
 

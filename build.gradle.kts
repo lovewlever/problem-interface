@@ -30,6 +30,7 @@ dependencies {
     implementation(group= "eu.bitwalker", name= "UserAgentUtils", version= "1.21")
     implementation(group= "org.springframework.boot", name= "spring-boot-starter-websocket", version= "2.3.3.RELEASE")
     implementation(group= "cn.afterturn", name= "easypoi-spring-boot-starter", version= "4.2.0")
+    implementation(group= "com.squareup.okhttp3", name= "okhttp", version= "4.9.0")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
