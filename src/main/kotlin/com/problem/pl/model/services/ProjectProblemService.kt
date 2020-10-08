@@ -66,5 +66,5 @@ interface ProjectProblemService {
     /**
      * 查询要导出的问题
      */
-    fun exportProblemToTxt(type: Int,fileId: String): String
+    fun exportProblemToTxt(type: String,fileId: String, projectId: String): String
 }

@@ -389,13 +389,12 @@ class ProjectProblemServiceImpl: ProjectProblemService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL, msg = "${e.message}")
         }
-        TODO("Not yet implemented")
     }
 
     /**
      * 查询问题并保存为Txt文件，交给Controller下载给客户端
      */
-    override fun exportProblemToTxt(type: Int, fileId: String): String {
+    override fun exportProblemToTxt(type: String, fileId: String, projectId: String): String {
         var bw: BufferedWriter? = null
         val path = "${ResourceUtils.getURL("classpath:").path}resources/export/"
         val filePath = "${path}${fileId}.txt"
@@ -408,7 +407,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
 
             log.debug("exportProblemToTxt-Path:${path}")
             bw = BufferedWriter(FileWriter(filePath))
-            projectProblemMapper.exportProblemToTxt(type).forEachIndexed { index, tProjectProblemEntity ->
+            projectProblemMapper.exportProblemToTxt(type, projectId).forEachIndexed { index, tProjectProblemEntity ->
                 val sb = StringBuilder().apply {
                     append(index + 1).append(". ")
                             .append(tProjectProblemEntity.ppModulePage).append(if (tProjectProblemEntity.ppModulePage == "") "" else "-")

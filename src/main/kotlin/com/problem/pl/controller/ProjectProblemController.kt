@@ -183,12 +183,14 @@ class ProjectProblemController {
 
     /**
      * 导出问题为Txt文件
-     * [type]0: 导出已完成问题，1：导出未完成问题，2：导出全部问题
+     * [type]complete: 导出已完成问题，undone：导出未完成问题，all：导出全部问题
      */
-    @RequestMapping("/exportProblemToTxt")
-    fun exportProblemToTxt(@RequestParam("type") type: Int = 1,
-                           @RequestParam("fileId") fileId: String, response: HttpServletResponse) {
-        val path = projectProblemService.exportProblemToTxt(type, fileId)
+    @RequestMapping(RequestMappingCommon.MAPPING_PPC_EXPORT_PROBLEM_DOC)
+    fun exportProblemToTxt(@RequestParam("type") type: String,
+                           @RequestParam("projectId") projectId: String,
+                           @RequestParam("fileId") fileId: String,
+                           response: HttpServletResponse) {
+        val path = projectProblemService.exportProblemToTxt(type, fileId, projectId)
         val filename = "${UniversalCommon.generateTimestamp()}.txt"
         val file = File(path)
         if (file.exists()) {
