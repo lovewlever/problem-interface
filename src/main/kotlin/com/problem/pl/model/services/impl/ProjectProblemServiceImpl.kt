@@ -396,7 +396,7 @@ class ProjectProblemServiceImpl: ProjectProblemService {
      */
     override fun exportProblemToTxt(type: String, fileId: String, projectId: String): String {
         var bw: BufferedWriter? = null
-        val path = "${ResourceUtils.getURL("classpath:").path}resources/export/"
+        val path = "${UniversalCommon.getResourcesPath()}/export/"
         val filePath = "${path}${fileId}.txt"
         try {
             File(path).apply {

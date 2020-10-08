@@ -1,5 +1,7 @@
 package com.problem.pl.model.services.impl
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil
+import cn.afterturn.easypoi.word.WordExportUtil
 import com.problem.pl.commons.GsonCommon
 import com.problem.pl.commons.ResultCommon
 import com.problem.pl.commons.UniversalCommon
@@ -181,5 +183,12 @@ class ProjectInterfaceServiceImpl: ProjectInterfaceService {
         } catch (e: Exception) {
             ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_FAIL,msg = "${e.message}")
         }
+    }
+
+    /**
+     * 导出接口文档（Word）
+     */
+    override fun exportInterfaceToWord(interfaceId: String) {
+
     }
 }

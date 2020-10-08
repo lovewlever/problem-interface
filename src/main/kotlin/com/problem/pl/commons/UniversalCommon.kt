@@ -1,12 +1,16 @@
 package com.problem.pl.commons
 
 import com.problem.pl.model.entities.PageE
+import org.springframework.util.ResourceUtils
+import java.io.*
 import java.net.InetAddress
+import java.net.URLEncoder
 import java.net.UnknownHostException
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 object UniversalCommon {
@@ -78,5 +82,52 @@ object UniversalCommon {
             ipAddress = ""
         }
         return ipAddress
+    }
+
+    fun getResourcesPath(): String =
+            "${ResourceUtils.getURL("classpath:").path}resources"
+
+    /**
+     * 返回文件流给客户端
+     */
+    fun downloadFileToClient(response: HttpServletResponse,fileName: String,filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            response.setHeader("content-type", "application/octet-stream")
+            response.contentType = "application/octet-stream"
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"))
+            //文件下载
+            val buffer = ByteArray(1024)
+            var fis: FileInputStream? = null
+            var bis: BufferedInputStream? = null
+            try {
+                fis = FileInputStream(file)
+                bis = BufferedInputStream(fis)
+                val os: OutputStream = response.outputStream
+                var i = bis.read(buffer)
+                while (i != -1) {
+                    os.write(buffer, 0, i)
+                    i = bis.read(buffer)
+                }
+
+            } catch (e: Exception) {
+
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
     }
 }

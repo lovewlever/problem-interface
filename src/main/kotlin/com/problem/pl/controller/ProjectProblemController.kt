@@ -192,44 +192,7 @@ class ProjectProblemController {
                            response: HttpServletResponse) {
         val path = projectProblemService.exportProblemToTxt(type, fileId, projectId)
         val filename = "${UniversalCommon.generateTimestamp()}.txt"
-        val file = File(path)
-        if (file.exists()) {
-            response.setHeader("content-type", "application/octet-stream")
-            response.contentType = "application/octet-stream"
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"))
-            //文件下载
-            val buffer = ByteArray(1024)
-            var fis: FileInputStream? = null
-            var bis: BufferedInputStream? = null
-            try {
-                fis = FileInputStream(file)
-                bis = BufferedInputStream(fis)
-                val os: OutputStream = response.outputStream
-                var i = bis.read(buffer)
-                while (i != -1) {
-                    os.write(buffer, 0, i)
-                    i = bis.read(buffer)
-                }
-
-            } catch (e: Exception) {
-
-            } finally {
-                if (bis != null) {
-                    try {
-                        bis.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-                if (fis != null) {
-                    try {
-                        fis.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }
+        UniversalCommon.downloadFileToClient(response,filename,path)
     }
 
 }

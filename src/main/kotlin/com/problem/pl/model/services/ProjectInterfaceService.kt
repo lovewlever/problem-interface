@@ -24,4 +24,7 @@ interface ProjectInterfaceService {
      * 根据id查询接口详情
      */
     fun queryProjectInterfaceById(interfaceId: String): ResultPro<TProjectInterfaceEntity>
+
+
+    fun exportInterfaceToWord(interfaceId: String)
 }
