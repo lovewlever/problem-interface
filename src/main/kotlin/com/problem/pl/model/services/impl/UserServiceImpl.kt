@@ -68,8 +68,9 @@ class UserServiceImpl : UserService {
             //保存登录记录
             userMapper.updateLastLoginInfo(tUserEntity)
             return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_SUCCESS, msg = "登录成功！",data = tUserEntity)
+        } else {
+            return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "密码错误！")
         }
-        return ResultCommon.generateResult(code = ResultCommon.RESULT_CODE_NOT_REGISTER, msg = "账号未注册！")
     }
 
     @Throws
